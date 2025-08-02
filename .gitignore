@@ -1,0 +1,9 @@
+node_modules
+dist
+dist-electron
+*.log
+.env
+.vscode
+.DS_Store
+*.tsbuildinfo
+package-lock.json

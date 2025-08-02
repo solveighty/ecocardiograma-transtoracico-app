@@ -1,0 +1,31 @@
+{
+  "appId": "com.ecocardiograma.transtoracico",
+  "productName": "Ecocardiograma Transtorácico App",
+  "directories": {
+    "output": "release/${version}"
+  },
+  "files": [
+    "dist",
+    "dist-electron"
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "x64"
+        ]
+      }
+    ]
+  },
+  "mac": {
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "target": [
+      "AppImage"
+    ]
+  }
+}

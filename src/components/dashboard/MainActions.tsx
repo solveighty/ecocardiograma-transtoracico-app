@@ -1,0 +1,40 @@
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { FolderOpen, FileText, Calendar } from "lucide-react";
+
+export default function MainActions() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <FolderOpen className="h-5 w-5 text-blue-600" />
+            <span>Historial de Pacientes</span>
+          </CardTitle>
+          <CardDescription>Ver y gestionar el historial de exámenes realizados</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="outline" className="w-full bg-transparent">
+            <FileText className="h-4 w-4 mr-2" />
+            Ver Historial
+          </Button>
+        </CardContent>
+      </Card>
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Calendar className="h-5 w-5 text-orange-600" />
+            <span>Agenda del Día</span>
+          </CardTitle>
+          <CardDescription>Revisar citas y exámenes programados para hoy</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="outline" className="w-full bg-transparent">
+            <Calendar className="h-4 w-4 mr-2" />
+            Ver Agenda
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

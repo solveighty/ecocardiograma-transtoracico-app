@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import cardiologistPP from "@/assets/cardiologist_pp.jpg";
 import { User } from "lucide-react";
 
 interface DoctorInfoCardProps {
@@ -19,7 +20,7 @@ export default function DoctorInfoCard({ doctorName, avatarFallback }: DoctorInf
       <CardContent>
         <div className="flex items-center space-x-4">
           <Avatar className="h-16 w-16">
-            <AvatarImage src="/placeholder-user.jpg" alt="Doctor" />
+            <AvatarImage src={cardiologistPP} alt="Doctor" />
             <AvatarFallback className="text-lg">{avatarFallback}</AvatarFallback>
           </Avatar>
           <div>

@@ -55,11 +55,19 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                 id="edad"
                 type="number"
                 value={patientData.edad}
-                onChange={(e) => handleInputChange("edad", e.target.value)}
+                onChange={(e) => {
+                  let value = e.target.value;
+                  if (value.length > 2) value = value.slice(0, 2);
+                  const match = value.match(/^\d{0,2}$/);
+                  if (match) {
+                    handleInputChange("edad", value);
+                  }
+                }}
                 placeholder="0"
                 className="flex-1"
                 min="0"
-                max="120"
+                max="99"
+                maxLength={2}
                 required
               />
               <span className="text-sm text-gray-500">años</span>
@@ -86,9 +94,19 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
             <Input
               id="ci"
               value={patientData.ci}
-              onChange={(e) => handleInputChange("ci", e.target.value)}
+              onChange={(e) => {
+                let value = e.target.value;
+                if (value.length > 10) value = value.slice(0, 10);
+                // Solo permitir hasta 10 caracteres
+                const match = value.match(/^\d{0,10}$/);
+                if (match) {
+                  handleInputChange("ci", value);
+                }
+              }}
               placeholder="Cédula de identidad"
               className="mt-1"
+              maxLength={10}
+              minLength={10}
               required
             />
           </div>
@@ -123,6 +141,9 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                   onSelect={(date) => handleDateChange("fechaNacimiento", date)}
                   disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                   initialFocus
+                  captionLayout="dropdown"
+                  fromYear={1900}
+                  toYear={new Date().getFullYear()}
                 />
               </PopoverContent>
             </Popover>

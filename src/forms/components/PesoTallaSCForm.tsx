@@ -18,12 +18,22 @@ export default function PesoTallaSCForm({ patientData, handleInputChange }: Prop
           <Input
             id="peso"
             type="number"
-            step="0.1"
+            step="0.01"
             value={patientData.peso}
-            onChange={(e) => handleInputChange("peso", e.target.value)}
-            placeholder="0.0"
+            onChange={(e) => {
+              let value = e.target.value;
+              // Permitir solo hasta 3 dígitos antes del punto y 2 decimales
+              if (value.length > 6) value = value.slice(0, 6);
+              // Validar formato: hasta 3 dígitos, punto y 2 decimales
+              const match = value.match(/^(\d{0,3})(\.(\d{0,2})?)?$/);
+              if (match) {
+                handleInputChange("peso", value);
+              }
+            }}
+            placeholder="0.00"
             className="flex-1"
             min="0"
+            maxLength={6}
             required
           />
           <span className="text-sm text-gray-500">kg</span>
@@ -38,10 +48,19 @@ export default function PesoTallaSCForm({ patientData, handleInputChange }: Prop
             id="talla"
             type="number"
             value={patientData.talla}
-            onChange={(e) => handleInputChange("talla", e.target.value)}
+            onChange={(e) => {
+              let value = e.target.value;
+              // Permitir solo hasta 3 dígitos
+              if (value.length > 3) value = value.slice(0, 3);
+              const match = value.match(/^\d{0,3}$/);
+              if (match) {
+                handleInputChange("talla", value);
+              }
+            }}
             placeholder="0"
             className="flex-1"
             min="0"
+            maxLength={3}
             required
           />
           <span className="text-sm text-gray-500">cm</span>

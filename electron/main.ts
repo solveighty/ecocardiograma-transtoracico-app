@@ -1,6 +1,7 @@
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
+
 // Handler para guardar paciente en archivo JSON
 ipcMain.handle('guardar-paciente', async (_event, data) => {
   try {
@@ -26,7 +27,7 @@ if (process.platform === 'win32') {
 }
 
 // Check if the app is packaged or in development
-const isDev = process.env.NODE_ENV !== 'production';
+const isDev = !app.isPackaged;
 
 // Add special macOS handling
 if (process.platform === 'darwin') {
@@ -67,7 +68,21 @@ async function createWindow() {
     mainWindow.webContents.openDevTools();
   } else {
     // In production mode, load the built index.html
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    const indexHtml = path.join(__dirname, '../dist/index.html');
+    
+    try {
+      await mainWindow.loadFile(indexHtml);
+    } catch (error) {
+      console.error('Error al cargar el archivo:', error);
+      
+      // Fallback: intentar cargar desde process.resourcesPath
+      try {
+        const fallbackPath = path.join(process.resourcesPath, 'app', 'dist', 'index.html');
+        await mainWindow.loadFile(fallbackPath);
+      } catch (fallbackError) {
+        console.error('Error con ruta alternativa:', fallbackError);
+      }
+    }
   }
 }
 

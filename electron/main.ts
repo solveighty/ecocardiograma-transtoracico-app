@@ -28,6 +28,7 @@ async function createWindow() {
     icon: path.join(__dirname, '../../public/icon.png'),
     width: 1024,
     height: 768,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,

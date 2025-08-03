@@ -1,4 +1,10 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FolderOpen, FileText, Calendar, Pencil } from "lucide-react";
 
@@ -8,25 +14,12 @@ export default function MainActions() {
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
-            <FolderOpen className="h-5 w-5 text-blue-600" />
-            <span>Historial de Pacientes</span>
-          </CardTitle>
-          <CardDescription>Ver y gestionar el historial de exámenes realizados</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Button variant="outline" className="w-full bg-transparent">
-            <FileText className="h-4 w-4 mr-2" />
-            Ver Historial
-          </Button>
-        </CardContent>
-      </Card>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
             <Pencil className="h-5 w-5 text-green-600" />
-            <span>Agendar Paciente</span>
+            <span>Llenar Ecocardiograma Transtorácico</span>
           </CardTitle>
-          <CardDescription>Agendar cita para un nuevo paciente</CardDescription>
+          <CardDescription>
+            Llena el formulario para el ecocardiograma
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Button variant="outline" className="w-full bg-transparent">
@@ -38,10 +31,30 @@ export default function MainActions() {
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
+            <FolderOpen className="h-5 w-5 text-blue-600" />
+            <span>Historial de Pacientes</span>
+          </CardTitle>
+          <CardDescription>
+            Ver y gestionar el historial de exámenes realizados
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="outline" className="w-full bg-transparent">
+            <FileText className="h-4 w-4 mr-2" />
+            Ver Historial
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
             <Calendar className="h-5 w-5 text-orange-600" />
             <span>Agenda del Día</span>
           </CardTitle>
-          <CardDescription>Revisar citas y exámenes programados para hoy</CardDescription>
+          <CardDescription>
+            Revisar citas y exámenes programados para hoy
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Button variant="outline" className="w-full bg-transparent">

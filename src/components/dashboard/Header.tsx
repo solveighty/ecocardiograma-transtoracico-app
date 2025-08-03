@@ -2,6 +2,7 @@ import { Heart, Search, Bell, User, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import cardiologistPP from "@/assets/cardiologist_pp.jpg";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,10 +15,9 @@ import {
 interface HeaderProps {
   doctorName: string;
   doctorEmail: string;
-  avatarFallback: string;
 }
 
-export default function Header({ doctorName, doctorEmail, avatarFallback }: HeaderProps) {
+export default function Header({ doctorName, doctorEmail }: HeaderProps) {
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="flex items-center justify-between px-6 py-4">
@@ -42,8 +42,8 @@ export default function Header({ doctorName, doctorEmail, avatarFallback }: Head
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder-user.jpg" alt="Doctor" />
-                  <AvatarFallback>{avatarFallback}</AvatarFallback>
+                  <AvatarImage src={cardiologistPP} alt="Doctor" />
+                  <AvatarFallback>?</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

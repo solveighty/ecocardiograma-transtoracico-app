@@ -97,10 +97,15 @@ export default function PatientForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Datos del paciente:", patientData);
-    // Aquí puedes agregar la lógica para guardar los datos
+    // @ts-ignore
+    const result = await window.electronAPI.guardarPaciente(patientData);
+    if (result.success) {
+      alert("Datos guardados correctamente en: " + result.filePath);
+    } else {
+      alert("Error al guardar: " + result.error);
+    }
   };
 
   return (

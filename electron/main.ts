@@ -1,5 +1,18 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import * as path from 'path';
+import * as fs from 'fs';
+// Handler para guardar paciente en archivo JSON
+ipcMain.handle('guardar-paciente', async (_event, data) => {
+  try {
+    const dir = path.join(app.getPath('userData'), 'datos_pacientes');
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const filePath = path.join(dir, `${data.ci}.json`);
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+    return { success: true, filePath };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+});
 import './electron-env';
 
 // Disable GPU Acceleration for Windows 7

@@ -12,5 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // From renderer to main
   sendMessage: (message: string) => {
     ipcRenderer.send('message-from-renderer', message);
-  }
+  },
+  // Guardar paciente en archivo JSON
+  guardarPaciente: (data: any) => ipcRenderer.invoke('guardar-paciente', data)
 });

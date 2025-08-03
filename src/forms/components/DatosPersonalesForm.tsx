@@ -37,7 +37,11 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
             <Input
               id="nombresApellidos"
               value={patientData.nombresApellidos}
-              onChange={(e) => handleInputChange("nombresApellidos", e.target.value)}
+              onChange={(e) => {
+                // Solo permitir letras, espacios y tildes
+                let value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s']/g, "");
+                handleInputChange("nombresApellidos", value);
+              }}
               placeholder="Ingrese nombres y apellidos completos"
               className="mt-1"
               required
@@ -55,20 +59,13 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                 id="edad"
                 type="number"
                 value={patientData.edad}
-                onChange={(e) => {
-                  let value = e.target.value;
-                  if (value.length > 2) value = value.slice(0, 2);
-                  const match = value.match(/^\d{0,2}$/);
-                  if (match) {
-                    handleInputChange("edad", value);
-                  }
-                }}
+                readOnly
                 placeholder="0"
-                className="flex-1"
+                className="flex-1 bg-gray-50 cursor-not-allowed"
                 min="0"
                 max="99"
                 maxLength={2}
-                required
+                tabIndex={-1}
               />
               <span className="text-sm text-gray-500">años</span>
             </div>

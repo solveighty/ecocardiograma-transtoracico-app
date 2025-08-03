@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FolderOpen, FileText, Calendar } from "lucide-react";
+import { FolderOpen, FileText, Calendar, Pencil } from "lucide-react";
 
 export default function MainActions() {
   return (
@@ -17,6 +17,21 @@ export default function MainActions() {
           <Button variant="outline" className="w-full bg-transparent">
             <FileText className="h-4 w-4 mr-2" />
             Ver Historial
+          </Button>
+        </CardContent>
+      </Card>
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2">
+            <Pencil className="h-5 w-5 text-green-600" />
+            <span>Agendar Paciente</span>
+          </CardTitle>
+          <CardDescription>Agendar cita para un nuevo paciente</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="outline" className="w-full bg-transparent">
+            <Pencil className="h-4 w-4 mr-2" />
+            Ver Agenda
           </Button>
         </CardContent>
       </Card>

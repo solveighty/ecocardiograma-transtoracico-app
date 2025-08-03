@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { User } from "lucide-react";
-import DatosPersonalesForm from "./components/DatosPersonalesForm";
-import PesoTallaSCForm from "./components/PesoTallaSCForm";
-import DatosExamenForm from "./components/DatosExamenForm";
-import BotonesAccionForm from "./components/BotonesAccionForm";
+import DatosPersonalesForm from "./components/personal-data/DatosPersonalesForm";
+import PesoTallaSCForm from "./components/personal-data/PesoTallaSCForm";
+import DatosExamenForm from "./components/personal-data/DatosExamenForm";
+import BotonesAccionForm from "./components/personal-data/BotonesAccionForm";
 
 export interface PatientData {
   nombresApellidos: string;

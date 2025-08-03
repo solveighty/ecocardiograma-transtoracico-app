@@ -5,10 +5,13 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { FolderOpen, FileText, Calendar, Pencil } from "lucide-react";
 
-export default function MainActions() {
+function MainActions() {
+  const navigate = useNavigate();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -22,12 +25,17 @@ export default function MainActions() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button variant="outline" className="w-full bg-transparent">
+          <Button
+            variant="outline"
+            className="w-full bg-transparent"
+            onClick={() => navigate("/ecocardiograma")}
+          >
             <Pencil className="h-4 w-4 mr-2" />
-            Ver Agenda
+            Llenar Formulario
           </Button>
         </CardContent>
       </Card>
+
       <Card className="hover:shadow-lg transition-shadow cursor-pointer">
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
@@ -66,3 +74,5 @@ export default function MainActions() {
     </div>
   );
 }
+
+export default MainActions;

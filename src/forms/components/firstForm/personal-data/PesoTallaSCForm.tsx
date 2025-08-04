@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import type { PatientData } from "../../personal-data";
+import type { PatientData } from "@/forms/types/firstForm/PatientData";
 interface Props {
   patientData: PatientData;
   handleInputChange: (field: keyof PatientData, value: string) => void;

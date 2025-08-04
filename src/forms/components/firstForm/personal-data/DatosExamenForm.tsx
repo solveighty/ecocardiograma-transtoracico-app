@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart } from "lucide-react";
 
-import type { PatientData } from "../../personal-data";
+import type { PatientData } from "@/forms/types/firstForm/PatientData";
 interface Props {
   patientData: PatientData;
   handleInputChange: (field: keyof PatientData, value: string) => void;

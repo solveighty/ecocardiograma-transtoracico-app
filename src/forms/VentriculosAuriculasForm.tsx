@@ -2,9 +2,10 @@ import type { VentriculosAuriculasData } from "./types/thirdForm/VentriculosAuri
 
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import InputWithUnit from "./components/secondForm/medidas-vi/InputWithUnit";
-import SectionGroup from "./components/secondForm/medidas-vi/SectionGroup";
-import ReadOnlyWithUnit from "./components/secondForm/medidas-vi/ReadOnlyWithUnit";
+import VentriculoIzquierdoSection from "./components/thirdForm/ventriculos-auriculas/VentriculoIzquierdoSection";
+import VentriculoDerechoSection from "./components/thirdForm/ventriculos-auriculas/VentriculoDerechoSection";
+import AuriculaIzquierdaSection from "./components/thirdForm/ventriculos-auriculas/AuriculaIzquierdaSection";
+import AuriculaDerechaSection from "./components/thirdForm/ventriculos-auriculas/AuriculaDerechaSection";
 import {
   calcMasaVI,
   calcIMVI,
@@ -61,42 +62,28 @@ const VentriculosAuriculasForm: React.FC<Props> = ({ data, setData, onNext, onBa
         <CardDescription>Ingrese los parámetros de ventrículos y aurículas</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <SectionGroup title="Ventrículo Izquierdo">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <ReadOnlyWithUnit label="Masa" value={masa} unit="gr" />
-            <ReadOnlyWithUnit label="IMVI" value={imvi} unit="gr/m²" />
-            <ReadOnlyWithUnit label="GRP" value={grp} unit="" />
-            <InputWithUnit id="mapse" label="MAPSE" value={data.mapse} onChange={v => handleChange("mapse", v)} unit="mm" />
-            <InputWithUnit id="dpdt" label="dP/dt" value={data.dpdt} onChange={v => handleChange("dpdt", v)} unit="mmHg/seg" />
-          </div>
-        </SectionGroup>
-        <SectionGroup title="Ventrículo Derecho">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <InputWithUnit id="basal" label="Basal (diástole)" value={data.basal} onChange={v => handleChange("basal", v)} unit="mm" />
-            <InputWithUnit id="basalSistolico" label="Basal (sístole)" value={data.basalSistolico} onChange={v => handleChange("basalSistolico", v)} unit="mm" />
-            <ReadOnlyWithUnit label="CAF" value={caf} unit="%" />
-            <InputWithUnit id="medio" label="Medio" value={data.medio} onChange={v => handleChange("medio", v)} unit="mm" />
-            <ReadOnlyWithUnit label="IE" value={ie} unit="" />
-            <InputWithUnit id="long" label="Long" value={data.long} onChange={v => handleChange("long", v)} unit="mm" />
-            <ReadOnlyWithUnit label="Relación VD/VI" value={relacionVdVi} unit="" />
-            <InputWithUnit id="tapse" label="TAPSE" value={data.tapse} onChange={v => handleChange("tapse", v)} unit="mm" />
-          </div>
-        </SectionGroup>
-        <SectionGroup title="Aurícula Izquierda">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <InputWithUnit id="dai" label="DAI" value={data.dai} onChange={v => handleChange("dai", v)} unit="mm" />
-            <InputWithUnit id="areaAi" label="Área 4C" value={data.areaAi} onChange={v => handleChange("areaAi", v)} unit="cm²" />
-            <InputWithUnit id="areaAi2C" label="Área 2C" value={data.areaAi2C} onChange={v => handleChange("areaAi2C", v)} unit="cm²" />
-            <ReadOnlyWithUnit label="Vol" value={data.volAi} unit="ml" />
-            <ReadOnlyWithUnit label="Vol. Index" value={data.volIndexAi} unit="ml/m²" />
-          </div>
-        </SectionGroup>
-        <SectionGroup title="Aurícula Derecha">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <InputWithUnit id="dmAd" label="Dm" value={data.dmAd} onChange={v => handleChange("dmAd", v)} unit="mm" />
-            <InputWithUnit id="areaAd" label="Área" value={data.areaAd} onChange={v => handleChange("areaAd", v)} unit="cm²" />
-          </div>
-        </SectionGroup>
+        <VentriculoIzquierdoSection
+          data={data}
+          masa={masa}
+          imvi={imvi}
+          grp={grp}
+          handleChange={handleChange}
+        />
+        <VentriculoDerechoSection
+          data={data}
+          caf={caf}
+          ie={ie}
+          relacionVdVi={relacionVdVi}
+          handleChange={handleChange}
+        />
+        <AuriculaIzquierdaSection
+          data={data}
+          handleChange={handleChange}
+        />
+        <AuriculaDerechaSection
+          data={data}
+          handleChange={handleChange}
+        />
         <div className="flex justify-between mt-6">
           <button type="button" className="btn btn-secondary" onClick={onBack}>
             Volver

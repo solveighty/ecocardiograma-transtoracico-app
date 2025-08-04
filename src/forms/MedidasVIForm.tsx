@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import InputWithUnit from "./components/secondForm/medidas-vi/InputWithUnit";
-import ReadOnlyWithUnit from "./components/secondForm/medidas-vi/ReadOnlyWithUnit";
-import SectionGroup from "./components/secondForm/medidas-vi/SectionGroup";
+import InputWithUnit from "./components/options/InputWithUnit";
+import ReadOnlyWithUnit from "./components/options/ReadOnlyWithUnit";
+import SectionGroup from "./components/options/SectionGroup";
 import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from "./services/secondForm/medidasVI";
 import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 interface Props {

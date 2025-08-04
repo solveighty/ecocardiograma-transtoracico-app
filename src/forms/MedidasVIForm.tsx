@@ -1,25 +1,10 @@
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import InputWithUnit from "./components/medidas-vi/InputWithUnit";
-import ReadOnlyWithUnit from "./components/medidas-vi/ReadOnlyWithUnit";
-import SectionGroup from "./components/medidas-vi/SectionGroup";
-import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from "./services/medidasVI";
-
-export interface MedidasVIData {
-  // DIÁMETROS
-  ddfvi: string; // Diámetro Diastólico Final VI (mm)
-  dsfvi: string; // Diámetro Sistólico Final VI (mm)
-  gdsept: string; // Grosor Septo Interventricular (mm)
-  gdpil: string; // Grosor Pared Inferior (mm)
-  rao: string; // Radio aórtico (mm)
-  // VOLÚMENES (lineales)
-  vdfLineal: string; // Volumen Diastólico Final (ml)
-  vsfLineal: string; // Volumen Sistólico Final (ml)
-  // PLANIMETRÍA (Simpson)
-  vdfSimpson: string; // Volumen Diastólico Final (ml)
-  vsfSimpson: string; // Volumen Sistólico Final (ml)
-}
-
+import InputWithUnit from "./components/secondForm/medidas-vi/InputWithUnit";
+import ReadOnlyWithUnit from "./components/secondForm/medidas-vi/ReadOnlyWithUnit";
+import SectionGroup from "./components/secondForm/medidas-vi/SectionGroup";
+import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from "./services/secondForm/medidasVI";
+import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 interface Props {
   medidasVIData: MedidasVIData;
   setMedidasVIData: React.Dispatch<React.SetStateAction<MedidasVIData>>;

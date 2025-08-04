@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 import { User } from "lucide-react";
 
-import DatosPersonalesForm from "./components/personal-data/DatosPersonalesForm";
-import PesoTallaSCForm from "./components/personal-data/PesoTallaSCForm";
-import DatosExamenForm from "./components/personal-data/DatosExamenForm";
-import BotonesAccionForm from "./components/personal-data/BotonesAccionForm";
-import MedidasVIForm, { MedidasVIData } from "./MedidasVIForm";
+import DatosPersonalesForm from "./components/firstForm/personal-data/DatosPersonalesForm";
+import PesoTallaSCForm from "./components/firstForm/personal-data/PesoTallaSCForm";
+import DatosExamenForm from "./components/firstForm/personal-data/DatosExamenForm";
+import BotonesAccionForm from "./components/firstForm/personal-data/BotonesAccionForm";
+import MedidasVIForm from "./MedidasVIForm";
 import VentriculosAuriculasForm from "./VentriculosAuriculasForm";
+import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 import {
   calcMasaVI,
   calcIMVI,
@@ -19,23 +20,10 @@ import {
   calcRelacionVDVI,
   calcVolAI,
   calcVolIndex
-} from "./services/ventriculosAuriculasCalculos";
-import { calcularSuperficieCorporal, calcularEdad } from "./services/personalData";
+} from "./services/thirdForm/ventriculosAuriculasCalculos";
+import { calcularSuperficieCorporal, calcularEdad } from "./services/firstForm/personalData";
 
-export interface PatientData {
-  nombresApellidos: string;
-  edad: string;
-  sexo: string;
-  ci: string;
-  fechaNacimiento: Date | undefined;
-  peso: string;
-  talla: string;
-  superficieCorporal: string;
-  ventana: string;
-  ritmo: string;
-  frecuenciaCardiaca: string;
-  fechaExamen: Date | undefined;
-}
+import { PatientData } from "./types/firstForm/PatientData";
 
 export default function PatientForm() {
   const navigate = useNavigate();
@@ -165,20 +153,20 @@ export default function PatientForm() {
     }));
   }, [ventriculosAuriculasData.ddfvi, ventriculosAuriculasData.gdsept, ventriculosAuriculasData.gdpil, ventriculosAuriculasData.superficieCorporal]);
 
-  const handleInputChange = (field: keyof PatientData, value: string) => {
+  const handleInputChange = (field: string | number | symbol, value: string) => {
     setPatientData((prev) => ({
       ...prev,
-      [field]: value,
+      [field as keyof PatientData]: value,
     }));
   };
 
   const handleDateChange = (
-    field: keyof PatientData,
+    field: string | number | symbol,
     date: Date | undefined
   ) => {
     setPatientData((prev) => ({
       ...prev,
-      [field]: date,
+      [field as keyof PatientData]: date,
     }));
   };
 

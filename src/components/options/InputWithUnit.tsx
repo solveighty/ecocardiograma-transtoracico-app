@@ -10,6 +10,8 @@ interface InputWithUnitProps {
   unit: string;
   placeholder?: string;
   min?: string | number;
+  max?: string | number;
+  required?: boolean;
   readOnly?: boolean;
 }
 
@@ -21,6 +23,8 @@ const InputWithUnit: React.FC<InputWithUnitProps> = ({
   unit,
   placeholder = "0",
   min = 0,
+  max,
+  required = false,
   readOnly = false,
 }) => (
   <div>
@@ -34,6 +38,8 @@ const InputWithUnit: React.FC<InputWithUnitProps> = ({
         value={value}
         onChange={e => onChange(e.target.value)}
         min={min}
+        max={max}
+        required={required}
         readOnly={readOnly}
         disabled={readOnly}
       />

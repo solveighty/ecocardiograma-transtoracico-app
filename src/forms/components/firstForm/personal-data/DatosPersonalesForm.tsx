@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import ReadOnlyWithUnit from "../../../../components/options/ReadOnlyWithUnit";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -54,21 +55,7 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
             <Label htmlFor="edad" className="text-sm font-medium">
               Edad: <span className="text-red-500">*</span>
             </Label>
-            <div className="flex items-center gap-2 mt-1">
-              <Input
-                id="edad"
-                type="number"
-                value={patientData.edad}
-                readOnly
-                placeholder="0"
-                className="flex-1 bg-gray-50 cursor-not-allowed"
-                min="0"
-                max="99"
-                maxLength={2}
-                tabIndex={-1}
-              />
-              <span className="text-sm text-gray-500">años</span>
-            </div>
+            <ReadOnlyWithUnit label="" value={patientData.edad} unit="años" />
           </div>
           <div>
             <Label htmlFor="sexo" className="text-sm font-medium">

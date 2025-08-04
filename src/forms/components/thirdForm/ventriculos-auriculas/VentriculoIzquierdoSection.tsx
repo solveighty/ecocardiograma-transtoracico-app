@@ -1,7 +1,7 @@
 import React from "react";
-import SectionGroup from "../../options/SectionGroup";
-import ReadOnlyWithUnit from "../../options/ReadOnlyWithUnit";
-import InputWithUnit from "../../options/InputWithUnit";
+import SectionGroup from "../../../../components/options/SectionGroup";
+import ReadOnlyWithUnit from "../../../../components/options/ReadOnlyWithUnit";
+import InputWithUnit from "../../../../components/options/InputWithUnit";
 import type { VentriculosAuriculasData } from "../../../types/thirdForm/VentriculosAuriculasData";
 
 interface Props {

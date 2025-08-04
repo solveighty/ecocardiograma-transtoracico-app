@@ -1,6 +1,6 @@
 import React from "react";
-import SectionGroup from "../../options/SectionGroup";
-import InputWithUnit from "../../options/InputWithUnit";
+import SectionGroup from "../../../../components/options/SectionGroup";
+import InputWithUnit from "../../../../components/options/InputWithUnit";
 import type { MedidasVIData } from "../../../types/secondForm/MedidasVIData";
 
 interface Props {

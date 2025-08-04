@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import InputWithUnit from "../../../../components/options/InputWithUnit";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart } from "lucide-react";
@@ -59,20 +59,16 @@ export default function DatosExamenForm({ patientData, handleInputChange }: Prop
             <Label htmlFor="fc" className="text-sm font-medium">
               FC (Frecuencia Cardíaca): <span className="text-red-500">*</span>
             </Label>
-            <div className="flex items-center gap-2 mt-1">
-              <Input
-                id="fc"
-                type="number"
-                value={patientData.frecuenciaCardiaca}
-                onChange={(e) => handleInputChange("frecuenciaCardiaca", e.target.value)}
-                placeholder="0"
-                className="flex-1"
-                min="0"
-                max="300"
-                required
-              />
-              <span className="text-sm text-gray-500">lpm</span>
-            </div>
+            <InputWithUnit
+              id="fc"
+              label=""
+              value={patientData.frecuenciaCardiaca}
+              onChange={(v: string) => handleInputChange("frecuenciaCardiaca", v)}
+              unit="lpm"
+              min={0}
+              max={300}
+              required
+            />
           </div>
         </div>
       </CardContent>

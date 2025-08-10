@@ -1,6 +1,8 @@
 import React from 'react';
 import SectionGroup from '@/components/options/SectionGroup';
 import InputWithUnit from '@/components/options/InputWithUnit';
+import PresenciaSelect from '../../ui/PresenciaSelect';
+import RegurgitacionSelect from '../../ui/RegurgitacionSelect';
 import ReadOnlyWithUnit from '@/components/options/ReadOnlyWithUnit';
 import { AortaData } from '../../../types/fourthForm/ValvulasData';
 
@@ -19,8 +21,8 @@ const AortaSection: React.FC<Props> = ({ data, onChange, gpMax }) => (
       <InputWithUnit id="ao-avac" label="AVAC / AVA" value={data.avac} onChange={v => onChange('avac', v)} unit="cm²" />
       <InputWithUnit id="ao-thp" label="THP" value={data.thp} onChange={v => onChange('thp', v)} unit="ms" />
       <InputWithUnit id="ao-vc" label="VC" value={data.vc} onChange={v => onChange('vc', v)} unit="mm" />
-      <InputWithUnit id="ao-reg" label="Reg (grado)" value={data.reg} onChange={v => onChange('reg', v)} unit="" />
-      <InputWithUnit id="ao-fhdr" label="Flujo holodiastólico reverso" value={data.flujoHolodiastolicoReverso} onChange={v => onChange('flujoHolodiastolicoReverso', v)} unit="" />
+  <RegurgitacionSelect id="ao-reg" value={data.reg} onChange={v => onChange('reg', v)} />
+  <PresenciaSelect id="ao-fhdr" label="Flujo holodiastólico reverso" value={data.flujoHolodiastolicoReverso} onChange={v => onChange('flujoHolodiastolicoReverso', v)} />
     </div>
   </SectionGroup>
 );

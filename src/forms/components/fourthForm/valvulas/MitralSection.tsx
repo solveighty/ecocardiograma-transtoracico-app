@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionGroup from '@/components/options/SectionGroup';
 import InputWithUnit from '@/components/options/InputWithUnit';
+import RegurgitacionSelect from '../../ui/RegurgitacionSelect';
 import ReadOnlyWithUnit from '@/components/options/ReadOnlyWithUnit';
 import { MitralData } from '../../../types/fourthForm/ValvulasData';
 
@@ -27,7 +28,7 @@ const MitralSection: React.FC<Props> = ({ data, onChange, relEA, gradMax, avmFro
       <InputWithUnit id="mitral-ore" label="ORE (ERO)" value={data.ore} onChange={v => onChange('ore', v)} unit="cm²" />
       <ReadOnlyWithUnit label="VR (Reg Vol)" value={vrCalc} unit="ml" />
       <InputWithUnit id="mitral-vc" label="VC" value={data.vc} onChange={v => onChange('vc', v)} unit="mm" />
-      <InputWithUnit id="mitral-reg" label="Reg (grado)" value={data.reg} onChange={v => onChange('reg', v)} unit="" />
+  <RegurgitacionSelect id="mitral-reg" value={data.reg} onChange={v => onChange('reg', v)} />
       <InputWithUnit id="mitral-avm" label="AVM (planimetría)" value={data.avm} onChange={v => onChange('avm', v)} unit="cm²" />
       <InputWithUnit id="mitral-vmax" label="Vmax" value={data.vmax} onChange={v => onChange('vmax', v)} unit="cm/s" />
       <ReadOnlyWithUnit label="Grad. Max" value={gradMax} unit="mmHg" />

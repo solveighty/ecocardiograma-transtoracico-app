@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionGroup from '@/components/options/SectionGroup';
 import InputWithUnit from '@/components/options/InputWithUnit';
+import RegurgitacionSelect from '../../ui/RegurgitacionSelect';
 import ReadOnlyWithUnit from '@/components/options/ReadOnlyWithUnit';
 import { TricuspideData } from '../../../types/fourthForm/ValvulasData';
 
@@ -27,7 +28,7 @@ const TricuspideSection: React.FC<Props> = ({ data, onChange, relEA, grpMax, psv
       <InputWithUnit id="tric-thp" label="THP" value={data.thp} onChange={v => onChange('thp', v)} unit="ms" />
       <InputWithUnit id="tric-avt" label="AVT" value={data.avt} onChange={v => onChange('avt', v)} unit="cm²" />
       <InputWithUnit id="tric-vc" label="VC" value={data.vc} onChange={v => onChange('vc', v)} unit="mm" />
-      <InputWithUnit id="tric-reg" label="Reg (grado)" value={data.reg} onChange={v => onChange('reg', v)} unit="" />
+  <RegurgitacionSelect id="tric-reg" value={data.reg} onChange={v => onChange('reg', v)} />
     </div>
   </SectionGroup>
 );

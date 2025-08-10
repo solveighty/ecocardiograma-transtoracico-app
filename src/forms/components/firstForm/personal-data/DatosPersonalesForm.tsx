@@ -1,11 +1,27 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import ReadOnlyWithUnit from "../../../../components/options/ReadOnlyWithUnit";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon, User } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -18,7 +34,11 @@ interface Props {
   handleDateChange: (field: keyof PatientData, date: Date | undefined) => void;
 }
 
-export default function DatosPersonalesForm({ patientData, handleInputChange, handleDateChange }: Props) {
+export default function DatosPersonalesForm({
+  patientData,
+  handleInputChange,
+  handleDateChange,
+}: Props) {
   return (
     <Card className="mb-6">
       <CardHeader>
@@ -40,7 +60,10 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
               value={patientData.nombresApellidos}
               onChange={(e) => {
                 // Solo permitir letras, espacios y tildes
-                let value = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s']/g, "");
+                let value = e.target.value.replace(
+                  /[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s']/g,
+                  ""
+                );
                 handleInputChange("nombresApellidos", value);
               }}
               placeholder="Ingrese nombres y apellidos completos"
@@ -61,7 +84,10 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
             <Label htmlFor="sexo" className="text-sm font-medium">
               Sexo: <span className="text-red-500">*</span>
             </Label>
-            <Select value={patientData.sexo} onValueChange={(value) => handleInputChange("sexo", value)}>
+            <Select
+              value={patientData.sexo}
+              onValueChange={(value) => handleInputChange("sexo", value)}
+            >
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Seleccionar" />
               </SelectTrigger>
@@ -112,7 +138,9 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {patientData.fechaNacimiento ? (
-                    format(patientData.fechaNacimiento, "dd/MM/yyyy", { locale: es })
+                    format(patientData.fechaNacimiento, "dd/MM/yyyy", {
+                      locale: es,
+                    })
                   ) : (
                     <span>Seleccionar fecha</span>
                   )}
@@ -123,7 +151,9 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                   mode="single"
                   selected={patientData.fechaNacimiento}
                   onSelect={(date) => handleDateChange("fechaNacimiento", date)}
-                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                  disabled={(date) =>
+                    date > new Date() || date < new Date("1900-01-01")
+                  }
                   initialFocus
                   captionLayout="dropdown"
                   fromYear={1900}
@@ -147,7 +177,9 @@ export default function DatosPersonalesForm({ patientData, handleInputChange, ha
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {patientData.fechaExamen ? (
-                    format(patientData.fechaExamen, "dd/MM/yyyy", { locale: es })
+                    format(patientData.fechaExamen, "dd/MM/yyyy", {
+                      locale: es,
+                    })
                   ) : (
                     <span>Seleccionar fecha</span>
                   )}

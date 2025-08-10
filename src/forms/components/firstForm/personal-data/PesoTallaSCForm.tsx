@@ -8,7 +8,10 @@ interface Props {
   handleInputChange: (field: keyof PatientData, value: string) => void;
 }
 
-export default function PesoTallaSCForm({ patientData, handleInputChange }: Props) {
+export default function PesoTallaSCForm({
+  patientData,
+  handleInputChange,
+}: Props) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
@@ -47,8 +50,14 @@ export default function PesoTallaSCForm({ patientData, handleInputChange }: Prop
         <Label htmlFor="sc" className="text-sm font-medium">
           SC (Superficie Corporal):
         </Label>
-        <ReadOnlyWithUnit label="" value={patientData.superficieCorporal} unit="m²" />
-        <p className="text-xs text-gray-500 mt-1">Se calcula automáticamente con peso y talla</p>
+        <ReadOnlyWithUnit
+          label=""
+          value={patientData.superficieCorporal}
+          unit="m²"
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          Se calcula automáticamente con peso y talla
+        </p>
       </div>
     </div>
   );

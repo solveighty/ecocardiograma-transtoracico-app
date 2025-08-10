@@ -4,6 +4,7 @@ import { User } from "lucide-react";
 import { StepDatosPersonales } from "./steps/StepDatosPersonales";
 import { StepMedidasVI } from "./steps/StepMedidasVI";
 import { StepVentriculosAuriculas } from "./steps/StepVentriculosAuriculas";
+import { StepValvulas } from "./steps/StepValvulas";
 import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 import { usePatientFormSteps } from "./hooks/usePatientFormSteps";
 import { useSyncVentriculosAuriculasData } from "./hooks/useSyncVentriculosAuriculasData";
@@ -12,6 +13,8 @@ import { useAutoEdad } from "./hooks/useAutoEdad";
 import { useAutoMasaImviGrp } from "./hooks/useAutoMasaImviGrp";
 import { PatientData } from "./types/firstForm/PatientData";
 import { getInitialPatientData, getInitialMedidasVIData, getInitialVentriculosAuriculasData } from "./services/initialFormStates";
+import { getInitialValvulasData } from "./ValvulasForm";
+import type { ValvulasData } from "./types/fourthForm/ValvulasData";
 
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
@@ -20,6 +23,7 @@ export default function PatientForm() {
   const [ventriculosAuriculasData, setVentriculosAuriculasData] = useState(
     getInitialVentriculosAuriculasData(getInitialMedidasVIData(), getInitialPatientData())
   );
+  const [valvulasData, setValvulasData] = useState<ValvulasData>(getInitialValvulasData());
 
   useSyncVentriculosAuriculasData(medidasVIData, patientData, setVentriculosAuriculasData);
   useAutoSuperficieCorporal(patientData, setPatientData, setVentriculosAuriculasData);
@@ -75,6 +79,14 @@ export default function PatientForm() {
           <StepVentriculosAuriculas
             data={ventriculosAuriculasData}
             setData={setVentriculosAuriculasData}
+            handleNext={handleNext}
+            handleBack={handleBack}
+          />
+        )}
+        {step === 4 && (
+          <StepValvulas
+            data={valvulasData}
+            setData={setValvulasData}
             handleNext={handleNext}
             handleBack={handleBack}
           />

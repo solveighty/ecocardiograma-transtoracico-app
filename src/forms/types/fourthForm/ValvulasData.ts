@@ -26,6 +26,7 @@ export interface TricuspideData {
   vmax: string;
   grpMax: string;
   psvd: string;
+  rap: string;
   thp: string;
   avt: string;
   vc: string;

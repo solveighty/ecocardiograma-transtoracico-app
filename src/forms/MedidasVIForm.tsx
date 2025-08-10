@@ -1,10 +1,21 @@
-import FormNavigationButtons from './components/ui/FormNavigationButtons';
+import FormNavigationButtons from "./components/ui/FormNavigationButtons";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import DiametrosSection from "./components/secondForm/medidas-vi/DiametrosSection";
 import VolumenesLinealesSection from "./components/secondForm/medidas-vi/VolumenesLinealesSection";
 import PlanimetriaSimpsonSection from "./components/secondForm/medidas-vi/PlanimetriaSimpsonSection";
-import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from "./services/secondForm/medidasVI";
+import {
+  calcVL,
+  calcFETeich,
+  calcFA,
+  calcFE_Simpson,
+} from "./services/secondForm/medidasVI";
 import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 interface Props {
   medidasVIData: MedidasVIData;
@@ -13,7 +24,12 @@ interface Props {
   onBack: () => void;
 }
 
-const MedidasVIForm: React.FC<Props> = ({ medidasVIData, setMedidasVIData, onNext, onBack }) => {
+const MedidasVIForm: React.FC<Props> = ({
+  medidasVIData,
+  setMedidasVIData,
+  onNext,
+  onBack,
+}) => {
   // No side effects needed for calculations, as they are derived in render
   const handleChange = (field: keyof MedidasVIData, value: string) => {
     setMedidasVIData((prev) => ({ ...prev, [field]: value }));
@@ -23,7 +39,9 @@ const MedidasVIForm: React.FC<Props> = ({ medidasVIData, setMedidasVIData, onNex
     <Card className="mb-6">
       <CardHeader>
         <CardTitle>Medidas VI y Volúmenes</CardTitle>
-        <CardDescription>Ingrese los diámetros, volúmenes y planimetría del VI</CardDescription>
+        <CardDescription>
+          Ingrese los diámetros, volúmenes y planimetría del VI
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <DiametrosSection

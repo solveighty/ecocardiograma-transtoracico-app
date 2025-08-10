@@ -1,11 +1,17 @@
-import React from 'react';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+import React from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export const PRESENCIA_OPTIONS = [
-  { value: 'ausente', label: 'Ausente' },
-  { value: 'presente', label: 'Presente' },
-  { value: 'no_evaluado', label: 'No evaluado' },
+  { value: "ausente", label: "Ausente" },
+  { value: "presente", label: "Presente" },
+  { value: "no_evaluado", label: "No evaluado" },
 ];
 
 interface Props {
@@ -16,16 +22,24 @@ interface Props {
   required?: boolean;
 }
 
-const PresenciaSelect: React.FC<Props> = ({ id, label = 'Presencia', value, onChange, required }) => (
+const PresenciaSelect: React.FC<Props> = ({
+  id,
+  label = "Presencia",
+  value,
+  onChange,
+  required,
+}) => (
   <div>
     <Label htmlFor={id}>{label}</Label>
     <Select value={value} onValueChange={onChange} required={required}>
-      <SelectTrigger id={id} className="w-full mt-1" >
+      <SelectTrigger id={id} className="w-full mt-1">
         <SelectValue placeholder="Seleccione" />
       </SelectTrigger>
       <SelectContent>
-        {PRESENCIA_OPTIONS.map(opt => (
-          <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+        {PRESENCIA_OPTIONS.map((opt) => (
+          <SelectItem key={opt.value} value={opt.value}>
+            {opt.label}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>

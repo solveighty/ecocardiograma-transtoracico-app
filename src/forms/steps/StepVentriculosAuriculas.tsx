@@ -1,6 +1,11 @@
 import VentriculosAuriculasForm from "../VentriculosAuriculasForm";
 
-export function StepVentriculosAuriculas({ data, setData, handleNext, handleBack }: any) {
+export function StepVentriculosAuriculas({
+  data,
+  setData,
+  handleNext,
+  handleBack,
+}: any) {
   return (
     <VentriculosAuriculasForm
       data={data}

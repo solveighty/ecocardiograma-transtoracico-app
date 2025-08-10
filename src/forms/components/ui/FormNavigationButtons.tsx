@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface Props {
   onBack: () => void;
@@ -11,13 +11,17 @@ interface Props {
 const FormNavigationButtons: React.FC<Props> = ({
   onBack,
   onNext,
-  backLabel = 'Volver',
-  nextLabel = 'Siguiente',
-  className = '',
+  backLabel = "Volver",
+  nextLabel = "Siguiente",
+  className = "",
 }) => (
   <div className={`flex justify-between mt-6 ${className}`}>
-    <button type="button" className="btn btn-secondary" onClick={onBack}>{backLabel}</button>
-    <button type="button" className="btn btn-primary" onClick={onNext}>{nextLabel}</button>
+    <button type="button" className="btn btn-secondary" onClick={onBack}>
+      {backLabel}
+    </button>
+    <button type="button" className="btn btn-primary" onClick={onNext}>
+      {nextLabel}
+    </button>
   </div>
 );
 

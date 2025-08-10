@@ -4,10 +4,20 @@ import DatosExamenForm from "../components/firstForm/personal-data/DatosExamenFo
 import BotonesAccionForm from "../components/firstForm/personal-data/BotonesAccionForm";
 import { useNavigate } from "react-router-dom";
 
-export function StepDatosPersonales({ patientData, handleInputChange, handleDateChange, handleNext }: any) {
+export function StepDatosPersonales({
+  patientData,
+  handleInputChange,
+  handleDateChange,
+  handleNext,
+}: any) {
   const navigate = useNavigate();
   return (
-    <form onSubmit={e => { e.preventDefault(); handleNext(); }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleNext();
+      }}
+    >
       <DatosPersonalesForm
         patientData={patientData}
         handleInputChange={handleInputChange}
@@ -23,7 +33,9 @@ export function StepDatosPersonales({ patientData, handleInputChange, handleDate
       />
       <div className="flex justify-between mt-6">
         <BotonesAccionForm onCancel={() => navigate("/")} />
-        <button type="submit" className="btn btn-primary">Siguiente</button>
+        <button type="submit" className="btn btn-primary">
+          Siguiente
+        </button>
       </div>
     </form>
   );

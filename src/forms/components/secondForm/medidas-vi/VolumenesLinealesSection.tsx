@@ -12,14 +12,44 @@ interface Props {
   calcFA: (ddfvi: string, dsfvi: string) => string;
 }
 
-const VolumenesLinealesSection: React.FC<Props> = ({ medidasVIData, handleChange, calcVL, calcFETeich, calcFA }) => (
+const VolumenesLinealesSection: React.FC<Props> = ({
+  medidasVIData,
+  handleChange,
+  calcVL,
+  calcFETeich,
+  calcFA,
+}) => (
   <SectionGroup title="Volúmenes (lineales)">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <InputWithUnit id="vdfLineal" label="VDF" value={medidasVIData.vdfLineal} onChange={(v: string) => handleChange("vdfLineal", v)} unit="ml" />
-      <InputWithUnit id="vsfLineal" label="VSF" value={medidasVIData.vsfLineal} onChange={(v: string) => handleChange("vsfLineal", v)} unit="ml" />
-      <ReadOnlyWithUnit label="VL" value={calcVL(medidasVIData.vdfLineal, medidasVIData.vsfLineal)} unit="ml" />
-      <ReadOnlyWithUnit label="FE Teich" value={calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi)} unit="%" />
-      <ReadOnlyWithUnit label="FA" value={calcFA(medidasVIData.ddfvi, medidasVIData.dsfvi)} unit="%" />
+      <InputWithUnit
+        id="vdfLineal"
+        label="VDF"
+        value={medidasVIData.vdfLineal}
+        onChange={(v: string) => handleChange("vdfLineal", v)}
+        unit="ml"
+      />
+      <InputWithUnit
+        id="vsfLineal"
+        label="VSF"
+        value={medidasVIData.vsfLineal}
+        onChange={(v: string) => handleChange("vsfLineal", v)}
+        unit="ml"
+      />
+      <ReadOnlyWithUnit
+        label="VL"
+        value={calcVL(medidasVIData.vdfLineal, medidasVIData.vsfLineal)}
+        unit="ml"
+      />
+      <ReadOnlyWithUnit
+        label="FE Teich (de diámetros)"
+        value={calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi)}
+        unit="%"
+      />
+      <ReadOnlyWithUnit
+        label="FA"
+        value={calcFA(medidasVIData.ddfvi, medidasVIData.dsfvi)}
+        unit="%"
+      />
     </div>
   </SectionGroup>
 );

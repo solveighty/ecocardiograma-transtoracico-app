@@ -1,3 +1,4 @@
+import FormNavigationButtons from './components/ui/FormNavigationButtons';
 import type { VentriculosAuriculasData } from "./types/thirdForm/VentriculosAuriculasData";
 
 import React from "react";
@@ -84,14 +85,7 @@ const VentriculosAuriculasForm: React.FC<Props> = ({ data, setData, onNext, onBa
           data={data}
           handleChange={handleChange}
         />
-        <div className="flex justify-between mt-6">
-          <button type="button" className="btn btn-secondary" onClick={onBack}>
-            Volver
-          </button>
-          <button type="button" className="btn btn-primary" onClick={onNext}>
-            Siguiente
-          </button>
-        </div>
+        <FormNavigationButtons onBack={onBack} onNext={onNext} />
       </CardContent>
     </Card>
   );

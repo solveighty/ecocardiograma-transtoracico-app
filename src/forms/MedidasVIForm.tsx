@@ -1,3 +1,4 @@
+import FormNavigationButtons from './components/ui/FormNavigationButtons';
 import React from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import DiametrosSection from "./components/secondForm/medidas-vi/DiametrosSection";
@@ -42,14 +43,7 @@ const MedidasVIForm: React.FC<Props> = ({ medidasVIData, setMedidasVIData, onNex
           calcVL={calcVL}
           calcFE_Simpson={calcFE_Simpson}
         />
-        <div className="flex justify-between mt-6">
-          <button type="button" className="btn btn-secondary" onClick={onBack}>
-            Volver
-          </button>
-          <button type="button" className="btn btn-primary" onClick={onNext}>
-            Siguiente
-          </button>
-        </div>
+        <FormNavigationButtons onBack={onBack} onNext={onNext} />
       </CardContent>
     </Card>
   );

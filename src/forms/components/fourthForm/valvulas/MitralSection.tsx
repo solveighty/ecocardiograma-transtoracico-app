@@ -46,6 +46,9 @@ const MitralSection: React.FC<Props> = ({ data, onChange, relEA, gradMax, avmFro
         <InputWithUnit id="mitral-ny" label="Nyquist (Va)" value={data.ny} onChange={v => onChange('ny', v)} unit="cm/s" />
         <ReadOnlyWithUnit label="ERO (PISA)" value={eroFromPISA} unit="cm²" />
         <ReadOnlyWithUnit label="AVM (PHT)" value={avmFromPHT} unit="cm²" />
+        <div className="md:col-span-3 text-xs text-muted-foreground">
+          PISA: radio en cm y Va/Vmax en cm/s. Un radio ≥ 0.9 cm suele indicar IM al menos moderada.
+        </div>
         {showDiscrepancy && (
           <div className="md:col-span-3 text-xs text-yellow-700">
             Advertencia: ERO manual ({data.ore} cm²) y ERO (PISA) ({eroFromPISA} cm²) difieren notablemente. Revise medición PISA/Vmax o priorice un método para el informe. El VR mostrado usa ORE manual si está disponible.

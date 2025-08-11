@@ -102,10 +102,19 @@ export default function ValvulasForm({ data, setData, onNext, onBack }: Props) {
   const handleTricuspide = (field: keyof TricuspideData, value: string) =>
     setData((prev) => ({
       ...prev,
-      tricuspide: { ...prev.tricuspide, [field]: value },
+      tricuspide: {
+        ...prev.tricuspide,
+        [field]: (field === 'thp' || field === 'avt') && (value === '0' || value === '0.0' || value === '0,0') ? '' : value,
+      },
     }));
   const handleAorta = (field: keyof AortaData, value: string) =>
-    setData((prev) => ({ ...prev, aorta: { ...prev.aorta, [field]: value } }));
+    setData((prev) => ({
+      ...prev,
+      aorta: {
+        ...prev.aorta,
+        [field]: field === 'thp' && (value === '0' || value === '0.0' || value === '0,0') ? '' : value,
+      },
+    }));
   const handlePulmonar = (field: keyof PulmonarData, value: string) =>
     setData((prev) => ({
       ...prev,
@@ -196,6 +205,15 @@ export default function ValvulasForm({ data, setData, onNext, onBack }: Props) {
                     aorta: { gpMax: gpMax_Ao },
                     pulmonar: { gpMax: gpMax_Pulm },
                   },
+                  advertencias: (() => {
+                    const eManual = parseFloat(data.mitral.ore);
+                    const ePisa = parseFloat(ero_fromPISA);
+                    const notes: string[] = [];
+                    if (!isNaN(eManual) && !isNaN(ePisa) && Math.abs(eManual - ePisa) > Math.max(0.2, ((eManual + ePisa) / 2) * 0.5)) {
+                      notes.push('Discrepancia relevante entre ERO manual y ERO por PISA');
+                    }
+                    return notes;
+                  })(),
                   timestamp: new Date().toISOString(),
                 };
                 const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });

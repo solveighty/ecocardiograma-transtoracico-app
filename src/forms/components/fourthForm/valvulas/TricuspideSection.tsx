@@ -59,7 +59,7 @@ const TricuspideSection: React.FC<Props> = ({
       <ReadOnlyWithUnit label="PSVD / RVSP" value={psvd} unit="mmHg" />
       <InputWithUnit
         id="tric-thp"
-        label="THP"
+        label="PHT"
         value={data.thp}
         onChange={(v) => onChange("thp", v)}
         unit="ms"
@@ -71,6 +71,11 @@ const TricuspideSection: React.FC<Props> = ({
         onChange={(v) => onChange("avt", v)}
         unit="cm²"
       />
+      {((data.thp === '0' || data.avt === '0') && (
+        <div className="md:col-span-3 text-xs text-muted-foreground">
+          Nota: valores "0" en PHT o AVT se interpretan como no evaluados.
+        </div>
+      )) as any}
       <InputWithUnit
         id="tric-vc"
         label="VC"

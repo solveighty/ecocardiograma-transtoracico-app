@@ -105,6 +105,14 @@ const VentriculosAuriculasForm: React.FC<Props> = ({
                     volAi: data.volAi,
                     volIndexAi: data.volIndexAi,
                   },
+                  advertencias: (() => {
+                    const notes: string[] = [];
+                    // FE discrepancy cannot be computed here directly; shown in Medidas VI export
+                    if ((data.tiempoDPDT ?? '') === '') {
+                      notes.push('tiempoDPDT no registrado (opcional).');
+                    }
+                    return notes;
+                  })(),
                   timestamp: new Date().toISOString(),
                 };
                 const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });

@@ -39,7 +39,7 @@ const AortaSection: React.FC<Props> = ({ data, onChange, gpMax }) => (
       />
       <InputWithUnit
         id="ao-thp"
-        label="THP"
+        label="PHT"
         value={data.thp}
         onChange={(v) => onChange("thp", v)}
         unit="ms"

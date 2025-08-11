@@ -66,10 +66,29 @@ const MedidasVIForm: React.FC<Props> = ({
                     calculados: {
                       VL_lineal: calcVL(medidasVIData.vdfLineal, medidasVIData.vsfLineal),
                       FE_Teich: calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi),
+                      FE_lineal: (() => {
+                        const vdf = parseFloat(medidasVIData.vdfLineal);
+                        const vsf = parseFloat(medidasVIData.vsfLineal);
+                        if (!isNaN(vdf) && !isNaN(vsf) && vdf > 0) {
+                          return (((vdf - vsf) / vdf) * 100).toFixed(2);
+                        }
+                        return "";
+                      })(),
                       FA: calcFA(medidasVIData.ddfvi, medidasVIData.dsfvi),
                       VL_Simpson: calcVL(medidasVIData.vdfSimpson, medidasVIData.vsfSimpson),
                       FE_Simpson: calcFE_Simpson(medidasVIData.vdfSimpson, medidasVIData.vsfSimpson),
                     },
+                    advertencias: (() => {
+                      const teich = parseFloat(calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi));
+                      const vdf = parseFloat(medidasVIData.vdfLineal);
+                      const vsf = parseFloat(medidasVIData.vsfLineal);
+                      const vol = !isNaN(vdf) && !isNaN(vsf) && vdf > 0 ? (((vdf - vsf) / vdf) * 100) : NaN;
+                      const notes: string[] = [];
+                      if (!isNaN(teich) && !isNaN(vol) && Math.abs(teich - vol) > 1) {
+                        notes.push('FE Teich vs FE de volúmenes difieren > 1 pp');
+                      }
+                      return notes;
+                    })(),
                     timestamp: new Date().toISOString(),
                   };
                   const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });

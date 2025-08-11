@@ -7,6 +7,16 @@ export function calcVL(vdf: string, vsf: string): string {
   return "";
 }
 
+// FE a partir de volúmenes (genérico): FE = ((VDF − VSF) / VDF) × 100
+export function calcFE_Vol(vdf: string, vsf: string): string {
+  const vdfNum = parseFloat(vdf);
+  const vsfNum = parseFloat(vsf);
+  if (!isNaN(vdfNum) && !isNaN(vsfNum) && vdfNum > 0) {
+    return (((vdfNum - vsfNum) / vdfNum) * 100).toFixed(2);
+  }
+  return "";
+}
+
 // FE Teichholz: FE = ((VDF − VSF) / VDF) × 100
 // VDF = 7.0 × DDFVI³ / (2.4 + DDFVI), VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
 // DDFVI y DSFVI en mm, convertir a cm

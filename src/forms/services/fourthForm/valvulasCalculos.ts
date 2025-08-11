@@ -27,7 +27,8 @@ export function calcAVMFromPHT(phtMs?: string): string {
 }
 
 // ERO por PISA: (2π r^2 Va) / Vmax_regurg
-// r en cm, Va (Nyquist) en cm/s, Vmax_reg en cm/s -> resultado cm²
+// Unidades esperadas: r en cm, Va (Nyquist) en cm/s, Vmax_reg en cm/s -> resultado en cm²
+// Nota: si se usan Va o Vmax en m/s, conviértalos a cm/s (1 m/s = 100 cm/s) antes de aplicar esta función.
 export function calcERO_PISA(radioCm?: string, nyquistCmSeg?: string, vmaxRegCmSeg?: string): string {
   const r = toNumber(radioCm);
   const va = toNumber(nyquistCmSeg);

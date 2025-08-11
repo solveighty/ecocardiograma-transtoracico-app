@@ -21,6 +21,7 @@ import {
   calcIE,
   calcRelacionVDVI,
 } from "./services/thirdForm/ventriculosAuriculasCalculos";
+import { useLeftAtriumVolume } from "./hooks/useLeftAtriumVolume";
 
 interface Props {
   data: VentriculosAuriculasData;
@@ -28,8 +29,6 @@ interface Props {
   onNext: () => void;
   onBack: () => void;
 }
-
-import { useEffect } from "react";
 
 const VentriculosAuriculasForm: React.FC<Props> = ({
   data,
@@ -59,23 +58,7 @@ const VentriculosAuriculasForm: React.FC<Props> = ({
   const caf = calcCAF(data.basal, data.basalSistolico); // requiere basal sistólico
   const relacionVdVi = calcRelacionVDVI(data.basal, data.ddfvi);
   // Volumen AI y Vol Index calculados y sincronizados en el estado
-  useEffect(() => {
-    // Usar área 4C y 2C, longitud en cm
-    const area4C = parseFloat(data.areaAi);
-    const area2C = parseFloat(data.areaAi2C);
-    const longCm = parseFloat(data.long) / 10; // mm a cm
-    let volAi = "";
-    if (!isNaN(area4C) && !isNaN(area2C) && !isNaN(longCm) && longCm > 0) {
-      volAi = ((0.85 * area4C * area2C) / longCm).toFixed(1);
-    }
-    let volIndexAi = "";
-    const sc = parseFloat(data.superficieCorporal);
-    if (volAi && !isNaN(sc) && sc > 0) {
-      volIndexAi = (parseFloat(volAi) / sc).toFixed(1);
-    }
-    setData((prev) => ({ ...prev, volAi, volIndexAi }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.areaAi, data.areaAi2C, data.long, data.superficieCorporal]);
+  useLeftAtriumVolume(data, setData);
 
   return (
     <Card className="mb-6">

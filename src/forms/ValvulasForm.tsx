@@ -27,57 +27,6 @@ import {
   calcVR,
 } from "./services/fourthForm/valvulasCalculos";
 
-const initialMitral: MitralData = {
-  ondaE: "",
-  itv: "",
-  ondaA: "",
-  ore: "",
-  relEA: "",
-  vr: "",
-  durA: "",
-  vc: "",
-  tde: "",
-  thp: "",
-  reg: "",
-  avm: "",
-  vmax: "",
-  gradMax: "",
-  radio: "",
-  gradMed: "",
-  ny: "",
-};
-const initialTricuspide: TricuspideData = {
-  ondaE: "",
-  ondaA: "",
-  relEA: "",
-  reg: "",
-  vmax: "",
-  grpMax: "",
-  psvd: "",
-  rap: "3",
-  thp: "",
-  avt: "",
-  vc: "",
-};
-const initialAorta: AortaData = {
-  vmax: "",
-  gpMax: "",
-  gradMed: "",
-  avac: "",
-  reg: "",
-  thp: "",
-  vc: "",
-  flujoHolodiastolicoReverso: "",
-};
-const initialPulmonar: PulmonarData = {
-  vmax: "",
-  gpMax: "",
-  tam: "",
-  reg: "",
-  pmap: "",
-  pdvd: "",
-  vc: "",
-};
 
 interface Props {
   data: ValvulasData;
@@ -85,13 +34,6 @@ interface Props {
   onNext: () => void;
   onBack: () => void;
 }
-
-export const getInitialValvulasData = (): ValvulasData => ({
-  mitral: initialMitral,
-  tricuspide: initialTricuspide,
-  aorta: initialAorta,
-  pulmonar: initialPulmonar,
-});
 
 export default function ValvulasForm({ data, setData, onNext, onBack }: Props) {
   const handleMitral = (field: keyof MitralData, value: string) =>

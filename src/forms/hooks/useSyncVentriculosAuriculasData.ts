@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { MedidasVIData } from "../types/secondForm/MedidasVIData";
+import type { PatientData } from "../types/firstForm/PatientData";
+import type { VentriculosAuriculasData } from "../types/thirdForm/VentriculosAuriculasData";
 
 export function useSyncVentriculosAuriculasData(
   medidasVIData: MedidasVIData,
-  patientData: any,
-  setVentriculosAuriculasData: (updater: any) => void
+  patientData: PatientData,
+  setVentriculosAuriculasData: React.Dispatch<React.SetStateAction<VentriculosAuriculasData>>
 ) {
   useEffect(() => {
     setVentriculosAuriculasData((prev: any) => ({

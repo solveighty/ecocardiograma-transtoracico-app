@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { User } from "lucide-react";
 import { StepDatosPersonales } from "./steps/StepDatosPersonales";
 import { StepMedidasVI } from "./steps/StepMedidasVI";
@@ -13,11 +13,10 @@ import { useAutoSuperficieCorporal } from "./hooks/useAutoSuperficieCorporal";
 import { useAutoEdad } from "./hooks/useAutoEdad";
 import { useAutoMasaImviGrp } from "./hooks/useAutoMasaImviGrp";
 import { PatientData } from "./types/firstForm/PatientData";
-import { getInitialPatientData, getInitialMedidasVIData, getInitialVentriculosAuriculasData } from "./services/initialFormStates";
-import { getInitialValvulasData } from "./ValvulasForm";
-import { getInitialDopplerVasosVenasData } from "./DopplerTisularVasosVenasForm";
+import { getInitialPatientData, getInitialMedidasVIData, getInitialVentriculosAuriculasData, getInitialValvulasData, getInitialDopplerVasosVenasData } from "./services/initialFormStates";
 import type { DopplerVasosVenasData } from "./types/fifthForm/DopplerTisularData";
 import type { ValvulasData } from "./types/fourthForm/ValvulasData";
+import { useRapFromVci } from "./hooks/useRapFromVci";
 
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
@@ -34,27 +33,7 @@ export default function PatientForm() {
   useAutoEdad(patientData, setPatientData);
   useAutoMasaImviGrp(ventriculosAuriculasData, setVentriculosAuriculasData);
 
-  // Auto-estimar RAP desde VCI (DT y colapso) y sincronizar con Tricúspide
-  useEffect(() => {
-    const toNum = (v?: string) => {
-      const n = parseFloat((v ?? '').toString().replace(',', '.'));
-      return Number.isFinite(n) ? n : undefined;
-    };
-    const dt = toNum(dtvvData?.vci?.dt);
-    const col = toNum(dtvvData?.vci?.colapso);
-    if (dt === undefined || col === undefined) return;
-    // Criterios ASE habituales
-    // IVC < 21 mm y colapso > 50% => RAP 3 mmHg
-    // IVC > 21 mm y colapso < 50% => RAP 15 mmHg
-    // Intermedio => RAP 8 mmHg
-    let rapSuggested = 8;
-    if (dt < 21 && col >= 50) rapSuggested = 3;
-    else if (dt > 21 && col < 50) rapSuggested = 15;
-    setValvulasData(prev => ({
-      ...prev,
-      tricuspide: { ...prev.tricuspide, rap: String(rapSuggested) }
-    }));
-  }, [dtvvData?.vci?.dt, dtvvData?.vci?.colapso]);
+  useRapFromVci(dtvvData, setValvulasData);
 
   const handleInputChange = (field: string | number | symbol, value: string) => {
     setPatientData((prev) => ({

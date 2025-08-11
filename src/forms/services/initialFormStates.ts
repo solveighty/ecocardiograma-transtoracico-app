@@ -1,5 +1,8 @@
 import { PatientData } from "../types/firstForm/PatientData";
 import { MedidasVIData } from "../types/secondForm/MedidasVIData";
+import type { ValvulasData } from "../types/fourthForm/ValvulasData";
+import type { DopplerVasosVenasData } from "../types/fifthForm/DopplerTisularData";
+import type { VentriculosAuriculasData } from "../types/thirdForm/VentriculosAuriculasData";
 
 export function getInitialPatientData(): PatientData {
   return {
@@ -32,7 +35,10 @@ export function getInitialMedidasVIData(): MedidasVIData {
   };
 }
 
-export function getInitialVentriculosAuriculasData(medidasVIData: MedidasVIData, patientData: PatientData) {
+export function getInitialVentriculosAuriculasData(
+  medidasVIData: MedidasVIData,
+  patientData: PatientData
+): VentriculosAuriculasData {
   return {
     // Ventrículo Izquierdo
     ddfvi: medidasVIData.ddfvi,
@@ -64,5 +70,94 @@ export function getInitialVentriculosAuriculasData(medidasVIData: MedidasVIData,
     // Aurícula Derecha
     dmAd: "",
     areaAd: "",
+  };
+}
+
+// Centralized initial states for Valvulas
+export function getInitialValvulasData(): ValvulasData {
+  return {
+    mitral: {
+      ondaE: "",
+      itv: "",
+      ondaA: "",
+      ore: "",
+      relEA: "",
+      vr: "",
+      durA: "",
+      vc: "",
+      tde: "",
+      thp: "",
+      reg: "",
+      avm: "",
+      vmax: "",
+      gradMax: "",
+      radio: "",
+      gradMed: "",
+      ny: "",
+    },
+    tricuspide: {
+      ondaE: "",
+      ondaA: "",
+      relEA: "",
+      reg: "",
+      vmax: "",
+      grpMax: "",
+      psvd: "",
+      rap: "3",
+      thp: "",
+      avt: "",
+      vc: "",
+    },
+    aorta: {
+      vmax: "",
+      gpMax: "",
+      gradMed: "",
+      avac: "",
+      reg: "",
+      thp: "",
+      vc: "",
+      flujoHolodiastolicoReverso: "",
+    },
+    pulmonar: {
+      vmax: "",
+      gpMax: "",
+      tam: "",
+      reg: "",
+      pmap: "",
+      pdvd: "",
+      vc: "",
+    },
+  };
+}
+
+// Centralized initial states for Doppler Tisular / Vasos / Venas
+export function getInitialDopplerVasosVenasData(): DopplerVasosVenasData {
+  return {
+    tisularMitral: {
+      ePrime: "",
+      aPrime: "",
+      sPrime: "",
+      triv: "",
+    },
+    tisularTricuspide: {
+      ePrime: "",
+      aPrime: "",
+      sPrime: "",
+    },
+    grandesVasosAorta: {
+      rao: "",
+      anillo: "",
+      unionST: "",
+      cayado: "",
+      aoDesc: "",
+      aoAbd: "",
+    },
+    vci: { dt: "", colapso: "" },
+    venasPulmonares: {
+      ondaS: "",
+      ondaD: "",
+      ondaARev: "",
+      durAr: "",
+    },
   };
 }

@@ -22,41 +22,6 @@ import GV_AortaSection from "./components/fifthForm/dtvv/GV_AortaSection";
 import VCISection from "./components/fifthForm/dtvv/VCISection";
 import VenasPulmonaresSection from "./components/fifthForm/dtvv/VenasPulmonaresSection";
 
-const initialTisularMitral: TisularMitralData = {
-  ePrime: "",
-  aPrime: "",
-  sPrime: "",
-  triv: "",
-};
-const initialTisularTricuspide: TisularTricuspideData = {
-  ePrime: "",
-  aPrime: "",
-  sPrime: "",
-};
-const initialGV_Aorta: GrandesVasosAortaData = {
-  rao: "",
-  anillo: "",
-  unionST: "",
-  cayado: "",
-  aoDesc: "",
-  aoAbd: "",
-};
-const initialVCI: VCIData = { dt: "", colapso: "" };
-const initialVenasPulmonares: VenasPulmonaresData = {
-  ondaS: "",
-  ondaD: "",
-  ondaARev: "",
-  durAr: "",
-};
-
-export const getInitialDopplerVasosVenasData = (): DopplerVasosVenasData => ({
-  tisularMitral: initialTisularMitral,
-  tisularTricuspide: initialTisularTricuspide,
-  grandesVasosAorta: initialGV_Aorta,
-  vci: initialVCI,
-  venasPulmonares: initialVenasPulmonares,
-});
-
 interface Props {
   data: DopplerVasosVenasData;
   setData: React.Dispatch<React.SetStateAction<DopplerVasosVenasData>>;

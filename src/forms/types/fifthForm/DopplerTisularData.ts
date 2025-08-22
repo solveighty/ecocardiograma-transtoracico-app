@@ -34,10 +34,24 @@ export interface VenasPulmonaresData {
   durAr: string; // m/s o ms según medición del usuario
 }
 
+export interface ModoMColorData {
+  // VP onda E en cm/s (medida manual en Doppler color tisular)
+  vpOndaE: string;
+}
+
+export interface HallazgosCualitativosData {
+  // Campos de texto libre (manual)
+  pericardio: string; // derrame, engrosamiento, etc.
+  tabiqueIA: string;  // DSA, aneurisma, FOP, etc.
+  otros: string;      // observaciones complementarias
+}
+
 export interface DopplerVasosVenasData {
   tisularMitral: TisularMitralData;
   tisularTricuspide: TisularTricuspideData;
   grandesVasosAorta: GrandesVasosAortaData;
   vci: VCIData;
   venasPulmonares: VenasPulmonaresData;
+  modoMColor: ModoMColorData;
+  hallazgos: HallazgosCualitativosData;
 }

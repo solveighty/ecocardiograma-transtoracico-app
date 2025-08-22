@@ -21,6 +21,8 @@ import TisularTricuspideSection from "./components/fifthForm/dtvv/TisularTricusp
 import GV_AortaSection from "./components/fifthForm/dtvv/GV_AortaSection";
 import VCISection from "./components/fifthForm/dtvv/VCISection";
 import VenasPulmonaresSection from "./components/fifthForm/dtvv/VenasPulmonaresSection";
+import ModoMColorSection from "./components/fifthForm/dtvv/ModoMColorSection";
+import HallazgosSection from "./components/fifthForm/dtvv/HallazgosSection";
 
 interface Props {
   data: DopplerVasosVenasData;
@@ -59,6 +61,10 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
       ...prev,
       venasPulmonares: { ...prev.venasPulmonares, [field]: value },
     }));
+  const handleModoM = (field: keyof DopplerVasosVenasData["modoMColor"], value: string) =>
+    setData((prev) => ({ ...prev, modoMColor: { ...prev.modoMColor, [field]: value } }));
+  const handleHall = (field: keyof DopplerVasosVenasData["hallazgos"], value: string) =>
+    setData((prev) => ({ ...prev, hallazgos: { ...prev.hallazgos, [field]: value } }));
 
   const relEe = useMemo(
     () => calcRelEePrime(mitralE, data.tisularMitral.ePrime),
@@ -68,6 +74,15 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
     () => calcRelSD(data.venasPulmonares.ondaS, data.venasPulmonares.ondaD),
     [data.venasPulmonares.ondaS, data.venasPulmonares.ondaD]
   );
+
+  // Interpretación simple de VP onda E (opcional)
+  const vpInterpretacion = useMemo(() => {
+    const n = parseFloat((data?.modoMColor?.vpOndaE ?? '').toString().replace(',', '.'));
+    if (!Number.isFinite(n)) return '';
+    if (n < 45) return 'Sugerente de relajación anormal (baja propagación)';
+    if (n <= 65) return 'Dentro de referencia (aprox. 45–65 cm/s)';
+    return 'Elevada (considere contexto clínico)';
+  }, [data?.modoMColor?.vpOndaE]);
 
   return (
     <Card className="mb-6">
@@ -125,6 +140,15 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
           data={data.venasPulmonares}
           onChange={handleVP}
           relSD={relSD}
+        />
+        <ModoMColorSection
+          data={data.modoMColor}
+          onChange={handleModoM}
+          interpretacion={vpInterpretacion}
+        />
+        <HallazgosSection
+          data={data.hallazgos}
+          onChange={handleHall}
         />
         <FormNavigationButtons onBack={onBack} onNext={onNext} />
       </CardContent>

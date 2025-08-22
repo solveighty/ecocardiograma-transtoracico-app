@@ -159,5 +159,7 @@ export function getInitialDopplerVasosVenasData(): DopplerVasosVenasData {
       ondaARev: "",
       durAr: "",
     },
+  modoMColor: { vpOndaE: "" },
+  hallazgos: { pericardio: "", tabiqueIA: "", otros: "" },
   };
 }

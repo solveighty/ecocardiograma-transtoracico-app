@@ -2,16 +2,19 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
 
-// Handler para guardar paciente en archivo JSON
+// Handler para guardar paciente en archivo JSON (limpio, sin exportar Word)
 ipcMain.handle('guardar-paciente', async (_event, data) => {
   try {
     const dir = path.join(app.getPath('userData'), 'datos_pacientes');
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    const filePath = path.join(dir, `${data.ci}.json`);
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+
+    const ts = new Date().toISOString().replace(/[:.]/g, '-');
+    const filePath = path.join(dir, `paciente-${ts}.json`);
+    fs.writeFileSync(filePath, JSON.stringify(data ?? {}, null, 2), 'utf-8');
+
     return { success: true, filePath };
   } catch (err: any) {
-    return { success: false, error: err.message };
+    return { success: false, error: err?.message || String(err) };
   }
 });
 import './electron-env';

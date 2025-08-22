@@ -28,7 +28,6 @@ interface Props {
   data: DopplerVasosVenasData;
   setData: React.Dispatch<React.SetStateAction<DopplerVasosVenasData>>;
   mitralE: string; // Viene del formulario de Válvulas
-  onNext: () => void;
   onBack: () => void;
 }
 
@@ -36,7 +35,6 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
   data,
   setData,
   mitralE,
-  onNext,
   onBack,
 }) => {
   const handleTM = (field: keyof TisularMitralData, value: string) =>
@@ -150,7 +148,11 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
           data={data.hallazgos}
           onChange={handleHall}
         />
-        <FormNavigationButtons onBack={onBack} onNext={onNext} />
+        <FormNavigationButtons
+          onBack={onBack}
+          isLast
+          onFinish={() => { /* Crear resumen: acción futura, sin exportación */ }}
+        />
       </CardContent>
     </Card>
   );

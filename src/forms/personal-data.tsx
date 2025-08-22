@@ -18,6 +18,7 @@ import type { DopplerVasosVenasData } from "./types/fifthForm/DopplerTisularData
 import type { ValvulasData } from "./types/fourthForm/ValvulasData";
 import { useRapFromVci } from "./hooks/useRapFromVci";
 
+
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
   const [patientData, setPatientData] = useState<PatientData>(getInitialPatientData());
@@ -51,6 +52,8 @@ export default function PatientForm() {
       [field as keyof PatientData]: date,
     }));
   };
+
+  // Export removed: the "Crear resumen" button won't trigger file generation for now
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">

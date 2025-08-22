@@ -4,7 +4,6 @@ export function StepDopplerTisular({
   data,
   setData,
   mitralE,
-  handleNext,
   handleBack,
 }: any) {
   return (
@@ -12,7 +11,6 @@ export function StepDopplerTisular({
       data={data}
       setData={setData}
       mitralE={mitralE}
-      onNext={handleNext}
       onBack={handleBack}
     />
   );

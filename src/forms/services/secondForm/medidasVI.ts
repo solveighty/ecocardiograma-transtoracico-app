@@ -1,3 +1,6 @@
+// Diferencia de volúmenes (VL)
+// Fórmula: VL = VDF − VSF
+// Unidades esperadas: VDF y VSF en ml -> resultado en ml
 export function calcVL(vdf: string, vsf: string): string {
   const vdfNum = parseFloat(vdf);
   const vsfNum = parseFloat(vsf);
@@ -7,7 +10,9 @@ export function calcVL(vdf: string, vsf: string): string {
   return "";
 }
 
-// FE a partir de volúmenes (genérico): FE = ((VDF − VSF) / VDF) × 100
+// Fracción de eyección a partir de volúmenes (genérico)
+// Fórmula: FE = ((VDF − VSF) / VDF) × 100
+// Unidades esperadas: VDF y VSF en ml -> resultado en %
 export function calcFE_Vol(vdf: string, vsf: string): string {
   const vdfNum = parseFloat(vdf);
   const vsfNum = parseFloat(vsf);
@@ -17,9 +22,12 @@ export function calcFE_Vol(vdf: string, vsf: string): string {
   return "";
 }
 
-// FE Teichholz: FE = ((VDF − VSF) / VDF) × 100
-// VDF = 7.0 × DDFVI³ / (2.4 + DDFVI), VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
-// DDFVI y DSFVI en mm, convertir a cm
+// Fracción de eyección por Teichholz
+// Fórmulas:
+//  - FE = ((VDF − VSF) / VDF) × 100
+//  - VDF = 7.0 × DDFVI³ / (2.4 + DDFVI)
+//  - VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
+// Unidades: DDFVI y DSFVI en mm (se convierten aquí a cm). Volúmenes en ml. Resultado FE en %.
 export function calcFETeich(ddfvi: string, dsfvi: string): string {
   const d = parseFloat(ddfvi) / 10; // mm a cm
   const s = parseFloat(dsfvi) / 10;
@@ -33,6 +41,9 @@ export function calcFETeich(ddfvi: string, dsfvi: string): string {
   return "";
 }
 
+// Fracción de acortamiento (FA)
+// Fórmula: FA = ((DDFVI − DSFVI) / DDFVI) × 100
+// Unidades: DDFVI y DSFVI en mm -> resultado en %
 export function calcFA(ddfvi: string, dsfvi: string): string {
   const d = parseFloat(ddfvi);
   const s = parseFloat(dsfvi);
@@ -42,6 +53,9 @@ export function calcFA(ddfvi: string, dsfvi: string): string {
   return "";
 }
 
+// Fracción de eyección por Simpson biplano
+// Fórmula: FE = ((VDF − VSF) / VDF) × 100
+// Unidades esperadas: VDF y VSF en ml -> resultado en %
 export function calcFE_Simpson(vdf: string, vsf: string): string {
   const vdfNum = parseFloat(vdf);
   const vsfNum = parseFloat(vsf);

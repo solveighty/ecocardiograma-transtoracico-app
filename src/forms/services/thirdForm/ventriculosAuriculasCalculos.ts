@@ -1,9 +1,12 @@
+// Utilidad: convierte string con coma o punto a número; devuelve 0 si no es válido
 function toNum(val: string) {
   const n = parseFloat(val.replace(",", "."));
   return isNaN(n) ? 0 : n;
 }
 
-// Masa VI = 0.8 × {1.04 × [(DDFVI + GDSept + GDPIL)^3 − (DDFVI)^3]} + 0.6
+// Masa ventricular izquierda (g)
+// Fórmula: Masa VI = 0.8 × {1.04 × [(DDFVI + GDSept + GDPIL)^3 − (DDFVI)^3]} + 0.6
+// Unidades: DDFVI, GDSept y GDPIL en cm (se convierten desde mm aquí). Resultado en gramos.
 type MasaVIParams = { ddfvi: string; gdsept: string; gdpil: string };
 export function calcMasaVI({ ddfvi, gdsept, gdpil }: MasaVIParams): string {
   const d = toNum(ddfvi) / 10; // mm a cm
@@ -14,7 +17,9 @@ export function calcMasaVI({ ddfvi, gdsept, gdpil }: MasaVIParams): string {
   return masa > 0 ? masa.toFixed(1) : "";
 }
 
-// IMVI = Masa VI / SC
+// Índice de masa ventricular izquierda (g/m²)
+// Fórmula: IMVI = Masa VI / SC
+// Unidades: Masa en g, SC en m². Resultado en g/m².
 type IMVIParams = { masaVI: string; superficieCorporal: string };
 export function calcIMVI({ masaVI, superficieCorporal }: IMVIParams): string {
   const masa = toNum(masaVI);
@@ -24,8 +29,9 @@ export function calcIMVI({ masaVI, superficieCorporal }: IMVIParams): string {
   return imvi > 0 ? imvi.toFixed(1) : "";
 }
 
-// GRP = (GDSept + GDPIL) / DDFVI
-// Todos los valores deben estar en la misma unidad (mm recomendado)
+// Grosor relativo de pared (adimensional)
+// Fórmula: GRP = (GDSept + GDPIL) / DDFVI
+// Unidades: misma unidad para numerador y denominador (se normaliza a mm aquí).
 export function calcGRP(gdsept: string, gdpil: string, ddfvi: string): string {
   // Convertir a mm si vienen en cm (si el valor es < 10 asumimos cm)
   const s = toNum(gdsept) < 10 ? toNum(gdsept) * 10 : toNum(gdsept);
@@ -36,7 +42,9 @@ export function calcGRP(gdsept: string, gdpil: string, ddfvi: string): string {
   return grp > 0 ? grp.toFixed(2) : "";
 }
 
-// CAF = ((VDdiastólico − VDsistólico) / VDdiastólico) × 100
+// Cambio fraccional del área del VD (CAF, %)
+// Fórmula: CAF = ((VDdiastólico − VDsistólico) / VDdiastólico) × 100
+// Unidades: áreas en cm² (o la misma unidad). Resultado en %.
 export function calcCAF(vdDiast: string, vdSist: string): string {
   const d = toNum(vdDiast);
   const s = toNum(vdSist);
@@ -45,7 +53,8 @@ export function calcCAF(vdDiast: string, vdSist: string): string {
   return caf.toFixed(1);
 }
 
-// IE = Diámetro basal / Longitud
+// Índice de esfericidad del VD (adimensional)
+// Fórmula: IE = Diámetro basal / Longitud
 export function calcIE(basal: string, long: string): string {
   const b = toNum(basal);
   const l = toNum(long);
@@ -54,7 +63,8 @@ export function calcIE(basal: string, long: string): string {
   return ie > 0 ? ie.toFixed(2) : "";
 }
 
-// Relación VD/VI = Basal VD / Basal VI
+// Relación de diámetros VD/VI (adimensional)
+// Fórmula: Relación VD/VI = Basal VD / Basal VI
 export function calcRelacionVDVI(basalVD: string, basalVI: string): string {
   const vd = toNum(basalVD);
   const vi = toNum(basalVI);
@@ -63,7 +73,9 @@ export function calcRelacionVDVI(basalVD: string, basalVI: string): string {
   return rel > 0 ? rel.toFixed(2) : "";
 }
 
-// Volumen AI = 0.85 × Área4C × Área2C / Longitud
+// Volumen de aurícula izquierda (ml) por método área-longitud biplano
+// Fórmula: Vol AI = 0.85 × Área4C × Área2C / Longitud
+// Unidades: áreas en cm², longitud en cm. Resultado en ml.
 export function calcVolAI(area4C: string, area2C: string, long: string): string {
   const a4 = toNum(area4C);
   const a2 = toNum(area2C);
@@ -73,7 +85,9 @@ export function calcVolAI(area4C: string, area2C: string, long: string): string 
   return vol > 0 ? vol.toFixed(1) : "";
 }
 
-// Volumen Index = Volumen / SC
+// Índice de volumen AI (ml/m²)
+// Fórmula: Volumen Index = Volumen / SC
+// Unidades: volumen en ml, SC en m². Resultado en ml/m².
 export function calcVolIndex(volumen: string, superficieCorporal: string): string {
   const v = toNum(volumen);
   const sc = toNum(superficieCorporal);

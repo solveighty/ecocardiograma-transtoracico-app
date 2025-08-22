@@ -1,9 +1,12 @@
+// Utilidad: parsea string con coma o punto a número; devuelve undefined si no es válido
 export function toNumber(v?: string): number | undefined {
   const n = parseFloat((v ?? "").toString().replace(",", "."));
   return Number.isFinite(n) ? n : undefined;
 }
 
-// E/A ratio
+// Relación E/A (adimensional)
+// Fórmula: RelEA = E / A
+// Unidades: velocidades en cm/s (o misma unidad). Resultado adimensional.
 export function calcRelEA(e?: string, a?: string): string {
   const ev = toNumber(e);
   const av = toNumber(a);
@@ -11,7 +14,8 @@ export function calcRelEA(e?: string, a?: string): string {
   return (ev / av).toFixed(2);
 }
 
-// Gradiente pico (mmHg) usando V en cm/s: Grad = 4 * (V[m/s])^2
+// Gradiente pico (mmHg) a partir de velocidad
+// Fórmula: Grad = 4 × (V[m/s])² = 4 × (V[cm/s]/100)²
 export function calcGradPicoFromVmaxCm(vmaxCm?: string): string {
   const v = toNumber(vmaxCm);
   if (v === undefined) return "";
@@ -19,16 +23,19 @@ export function calcGradPicoFromVmaxCm(vmaxCm?: string): string {
   return (4 * vms * vms).toFixed(1);
 }
 
-// AVM por PHT (cm²)
+// Área valvular mitral por PHT (cm²)
+// Fórmula: AVM = 220 / PHT
+// Unidades: PHT en ms. Resultado en cm².
 export function calcAVMFromPHT(phtMs?: string): string {
   const pht = toNumber(phtMs);
   if (pht === undefined || pht === 0) return "";
   return (220 / pht).toFixed(2);
 }
 
-// ERO por PISA: (2π r^2 Va) / Vmax_regurg
-// Unidades esperadas: r en cm, Va (Nyquist) en cm/s, Vmax_reg en cm/s -> resultado en cm²
-// Nota: si se usan Va o Vmax en m/s, conviértalos a cm/s (1 m/s = 100 cm/s) antes de aplicar esta función.
+// Orificio regurgitante efectivo (ERO) por PISA (cm²)
+// Fórmula: ERO = (2π r² × Va) / Vmax_regurg
+// Unidades: r en cm, Va en cm/s, Vmax en cm/s. Resultado en cm².
+// Nota: si Va o Vmax están en m/s, conviértalos a cm/s (×100) antes.
 export function calcERO_PISA(radioCm?: string, nyquistCmSeg?: string, vmaxRegCmSeg?: string): string {
   const r = toNumber(radioCm);
   const va = toNumber(nyquistCmSeg);
@@ -38,7 +45,8 @@ export function calcERO_PISA(radioCm?: string, nyquistCmSeg?: string, vmaxRegCmS
   return ero.toFixed(2);
 }
 
-// Volumen regurgitante (ml): ERO (cm²) * VTI_regurg (cm)
+// Volumen regurgitante (ml)
+// Fórmula: VR = ERO (cm²) × VTI_regurg (cm)
 export function calcVR(eroCm2?: string, vtiCm?: string): string {
   const ero = toNumber(eroCm2);
   const vti = toNumber(vtiCm);
@@ -46,7 +54,9 @@ export function calcVR(eroCm2?: string, vtiCm?: string): string {
   return (ero * vti).toFixed(1);
 }
 
-// PSVD/RVSP (mmHg) por TR: 4 * V_TR[m/s]^2 + RAP
+// PSVD / RVSP (mmHg) a partir de insuficiencia tricuspídea
+// Fórmula: PSVD = 4 × (V_TR[m/s])² + RAP
+// Unidades: V_TR en cm/s (se convierte a m/s aquí), RAP en mmHg. Resultado en mmHg.
 export function calcPSVD(vtrCm?: string, rapMmHg?: string): string {
   const v = toNumber(vtrCm);
   if (v === undefined) return "";

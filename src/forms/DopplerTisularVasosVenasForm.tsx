@@ -94,37 +94,6 @@ const DopplerTisularVasosVenasForm: React.FC<Props> = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {import.meta.env.DEV && (
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={() => {
-                const snapshot = {
-                  form: 'Doppler Tisular / Vasos / Venas',
-                  inputs: { ...data, mitralE },
-                  calculados: {
-                    relEePrime: relEe,
-                    relSD,
-                  },
-                  timestamp: new Date().toISOString(),
-                };
-                const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const ts = new Date().toISOString().replace(/[:.]/g, '-');
-                a.href = url;
-                a.download = `echocardio-dtvv-${ts}.json`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-              }}
-            >
-              Exportar JSON (dev)
-            </button>
-          </div>
-        )}
         <TisularMitralSection
           data={data.tisularMitral}
           onChange={handleTM}

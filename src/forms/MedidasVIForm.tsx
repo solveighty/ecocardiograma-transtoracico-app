@@ -44,69 +44,6 @@ const MedidasVIForm: React.FC<Props> = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-          {import.meta.env.DEV && (
-            <div className="flex justify-end">
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={() => {
-                  const snapshot = {
-                    form: 'Medidas VI',
-                    inputs: {
-                      ddfvi: medidasVIData.ddfvi,
-                      dsfvi: medidasVIData.dsfvi,
-                      gdsept: medidasVIData.gdsept,
-                      gdpil: medidasVIData.gdpil,
-                      rao: medidasVIData.rao,
-                      vdfLineal: medidasVIData.vdfLineal,
-                      vsfLineal: medidasVIData.vsfLineal,
-                      vdfSimpson: medidasVIData.vdfSimpson,
-                      vsfSimpson: medidasVIData.vsfSimpson,
-                    },
-                    calculados: {
-                      VL_lineal: calcVL(medidasVIData.vdfLineal, medidasVIData.vsfLineal),
-                      FE_Teich: calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi),
-                      FE_lineal: (() => {
-                        const vdf = parseFloat(medidasVIData.vdfLineal);
-                        const vsf = parseFloat(medidasVIData.vsfLineal);
-                        if (!isNaN(vdf) && !isNaN(vsf) && vdf > 0) {
-                          return (((vdf - vsf) / vdf) * 100).toFixed(2);
-                        }
-                        return "";
-                      })(),
-                      FA: calcFA(medidasVIData.ddfvi, medidasVIData.dsfvi),
-                      VL_Simpson: calcVL(medidasVIData.vdfSimpson, medidasVIData.vsfSimpson),
-                      FE_Simpson: calcFE_Simpson(medidasVIData.vdfSimpson, medidasVIData.vsfSimpson),
-                    },
-                    advertencias: (() => {
-                      const teich = parseFloat(calcFETeich(medidasVIData.ddfvi, medidasVIData.dsfvi));
-                      const vdf = parseFloat(medidasVIData.vdfLineal);
-                      const vsf = parseFloat(medidasVIData.vsfLineal);
-                      const vol = !isNaN(vdf) && !isNaN(vsf) && vdf > 0 ? (((vdf - vsf) / vdf) * 100) : NaN;
-                      const notes: string[] = [];
-                      if (!isNaN(teich) && !isNaN(vol) && Math.abs(teich - vol) > 1) {
-                        notes.push('FE Teich vs FE de volúmenes difieren > 1 pp');
-                      }
-                      return notes;
-                    })(),
-                    timestamp: new Date().toISOString(),
-                  };
-                  const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-                  const url = URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  const ts = new Date().toISOString().replace(/[:.]/g, '-');
-                  a.href = url;
-                  a.download = `echocardio-medidas-vi-${ts}.json`;
-                  document.body.appendChild(a);
-                  a.click();
-                  a.remove();
-                  URL.revokeObjectURL(url);
-                }}
-              >
-                Exportar JSON (dev)
-              </button>
-            </div>
-          )}
         <DiametrosSection
           medidasVIData={medidasVIData}
           handleChange={handleChange}

@@ -69,51 +69,6 @@ const VentriculosAuriculasForm: React.FC<Props> = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {import.meta.env.DEV && (
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={() => {
-                const snapshot = {
-                  form: 'Ventrículos y Aurículas',
-                  inputs: { ...data },
-                  calculados: {
-                    masa,
-                    imvi,
-                    grp,
-                    ie,
-                    caf,
-                    relacionVdVi,
-                    volAi: data.volAi,
-                    volIndexAi: data.volIndexAi,
-                  },
-                  advertencias: (() => {
-                    const notes: string[] = [];
-                    // FE discrepancy cannot be computed here directly; shown in Medidas VI export
-                    if ((data.tiempoDPDT ?? '') === '') {
-                      notes.push('tiempoDPDT no registrado (opcional).');
-                    }
-                    return notes;
-                  })(),
-                  timestamp: new Date().toISOString(),
-                };
-                const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const ts = new Date().toISOString().replace(/[:.]/g, '-');
-                a.href = url;
-                a.download = `echocardio-ventriculos-auriculas-${ts}.json`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-              }}
-            >
-              Exportar JSON (dev)
-            </button>
-          </div>
-        )}
         <VentriculoIzquierdoSection
           data={data}
           masa={masa}

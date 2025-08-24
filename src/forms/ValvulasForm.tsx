@@ -117,63 +117,6 @@ export default function ValvulasForm({ data, setData, onNext, onBack }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        {import.meta.env.DEV && (
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="btn btn-outline"
-              onClick={() => {
-                const snapshot = {
-                  form: 'Válvulas',
-                  inputs: {
-                    mitral: data.mitral,
-                    tricuspide: { ...data.tricuspide },
-                    aorta: data.aorta,
-                    pulmonar: data.pulmonar,
-                  },
-                  calculados: {
-                    mitral: {
-                      relEA: relEA_Mitral,
-                      gradMax: gradMax_Mitral,
-                      avm_fromPHT,
-                      ero_fromPISA,
-                      vr: vr_calc,
-                    },
-                    tricuspide: {
-                      relEA: relEA_Tric,
-                      grpMax: grpMax_Tric,
-                      psvd: psvd_Tric,
-                    },
-                    aorta: { gpMax: gpMax_Ao },
-                    pulmonar: { gpMax: gpMax_Pulm },
-                  },
-                  advertencias: (() => {
-                    const eManual = parseFloat(data.mitral.ore);
-                    const ePisa = parseFloat(ero_fromPISA);
-                    const notes: string[] = [];
-                    if (!isNaN(eManual) && !isNaN(ePisa) && Math.abs(eManual - ePisa) > Math.max(0.2, ((eManual + ePisa) / 2) * 0.5)) {
-                      notes.push('Discrepancia relevante entre ERO manual y ERO por PISA');
-                    }
-                    return notes;
-                  })(),
-                  timestamp: new Date().toISOString(),
-                };
-                const blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const ts = new Date().toISOString().replace(/[:.]/g, '-');
-                a.href = url;
-                a.download = `echocardio-valvulas-${ts}.json`;
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-                URL.revokeObjectURL(url);
-              }}
-            >
-              Exportar JSON (dev)
-            </button>
-          </div>
-        )}
         <MitralSection
           data={data.mitral}
           onChange={handleMitral}

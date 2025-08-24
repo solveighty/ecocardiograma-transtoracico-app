@@ -6,8 +6,9 @@ import { VentriculosAuriculasData } from '../types/thirdForm/VentriculosAuricula
 import { ValvulasData } from '../types/fourthForm/ValvulasData';
 import { DopplerVasosVenasData } from '../types/fifthForm/DopplerTisularData';
 import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from './secondForm/medidasVI';
-import { calcMasaVI, calcIMVI } from './thirdForm/ventriculosAuriculasCalculos';
+import { calcMasaVI, calcIMVI, calcIE, calcRelacionVDVI } from './thirdForm/ventriculosAuriculasCalculos';
 import { calcRelEePrime, calcRelSD } from './fifthForm/calculos';
+import { calcRelEA, calcGradPicoFromVmaxCm, calcPSVD, calcVR } from './fourthForm/valvulasCalculos';
 
 // Interfaz para el objeto de datos que se enviará al template
 interface ReportData {
@@ -196,6 +197,22 @@ export function compileReportData(
     return '';
   })();
   
+  // Calcular IE y relación VD/VI
+  const ie = calcIE(ventriculosAuriculasData.basal, ventriculosAuriculasData.long);
+  const relacionVdVi = calcRelacionVDVI(ventriculosAuriculasData.basal, ventriculosAuriculasData.medidaVI);
+  
+  // Cálculos de válvulas automáticos
+  const mitral_relEA = calcRelEA(valvulasData.mitral.ondaE, valvulasData.mitral.ondaA);
+  const mitral_gradMax = calcGradPicoFromVmaxCm(valvulasData.mitral.vmax);
+  const mitral_vr = calcVR(valvulasData.mitral.ore, valvulasData.mitral.itv);
+  
+  const tricuspide_relEA = calcRelEA(valvulasData.tricuspide.ondaE, valvulasData.tricuspide.ondaA);
+  const tricuspide_grpMax = calcGradPicoFromVmaxCm(valvulasData.tricuspide.vmax);
+  const tricuspide_psvd = calcPSVD(valvulasData.tricuspide.vmax, valvulasData.tricuspide.rap);
+  
+  const aorta_gpMax = calcGradPicoFromVmaxCm(valvulasData.aorta.vmax);
+  const pulmonar_gpMax = calcGradPicoFromVmaxCm(valvulasData.pulmonar.vmax);
+  
   const relEePrime = calcRelEePrime(valvulasData.mitral.ondaE, dopplerData.tisularMitral.ePrime);
   const relSD = calcRelSD(dopplerData.venasPulmonares.ondaS, dopplerData.venasPulmonares.ondaD);
 
@@ -240,8 +257,8 @@ export function compileReportData(
     medio: ventriculosAuriculasData.medio,
     long: ventriculosAuriculasData.long,
     caf,
-    ie: ventriculosAuriculasData.ie,
-    relacionVdVi: ventriculosAuriculasData.relacionVdVi,
+    ie: ie,
+    relacionVdVi: relacionVdVi,
     tapse: ventriculosAuriculasData.tapse,
     dai: ventriculosAuriculasData.dai,
     areaAi: ventriculosAuriculasData.areaAi,
@@ -255,8 +272,8 @@ export function compileReportData(
     mitral_itv: valvulasData.mitral.itv,
     mitral_ondaA: valvulasData.mitral.ondaA,
     mitral_ore: valvulasData.mitral.ore,
-    mitral_relEA: valvulasData.mitral.relEA,
-    mitral_vr: valvulasData.mitral.vr,
+    mitral_relEA: mitral_relEA,
+    mitral_vr: mitral_vr,
     mitral_durA: valvulasData.mitral.durA,
     mitral_vc: valvulasData.mitral.vc,
     mitral_tde: valvulasData.mitral.tde,
@@ -264,7 +281,7 @@ export function compileReportData(
     mitral_reg: valvulasData.mitral.reg,
     mitral_avm: valvulasData.mitral.avm,
     mitral_vmax: valvulasData.mitral.vmax,
-    mitral_gradMax: valvulasData.mitral.gradMax,
+    mitral_gradMax: mitral_gradMax,
     mitral_radio: valvulasData.mitral.radio,
     mitral_gradMed: valvulasData.mitral.gradMed,
     mitral_ny: valvulasData.mitral.ny,
@@ -272,18 +289,18 @@ export function compileReportData(
     // Válvulas - Tricúspide
     tricuspide_ondaE: valvulasData.tricuspide.ondaE,
     tricuspide_ondaA: valvulasData.tricuspide.ondaA,
-    tricuspide_relEA: valvulasData.tricuspide.relEA,
+    tricuspide_relEA: tricuspide_relEA,
     tricuspide_reg: valvulasData.tricuspide.reg,
     tricuspide_vmax: valvulasData.tricuspide.vmax,
-    tricuspide_grpMax: valvulasData.tricuspide.grpMax,
-    tricuspide_psvd: valvulasData.tricuspide.psvd,
+    tricuspide_grpMax: tricuspide_grpMax,
+    tricuspide_psvd: tricuspide_psvd,
     tricuspide_thp: valvulasData.tricuspide.thp,
     tricuspide_avt: valvulasData.tricuspide.avt,
     tricuspide_vc: valvulasData.tricuspide.vc,
 
     // Válvulas - Aorta
     aorta_vmax: valvulasData.aorta.vmax,
-    aorta_gpMax: valvulasData.aorta.gpMax,
+    aorta_gpMax: aorta_gpMax,
     aorta_gradMed: valvulasData.aorta.gradMed,
     aorta_avac: valvulasData.aorta.avac,
     aorta_reg: valvulasData.aorta.reg,
@@ -293,7 +310,7 @@ export function compileReportData(
 
     // Válvulas - Pulmonar
     pulmonar_vmax: valvulasData.pulmonar.vmax,
-    pulmonar_gpMax: valvulasData.pulmonar.gpMax,
+    pulmonar_gpMax: pulmonar_gpMax,
     pulmonar_tam: valvulasData.pulmonar.tam,
     pulmonar_reg: valvulasData.pulmonar.reg,
     pulmonar_pmap: valvulasData.pulmonar.pmap,

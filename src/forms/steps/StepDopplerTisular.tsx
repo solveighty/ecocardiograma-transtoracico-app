@@ -5,6 +5,7 @@ export function StepDopplerTisular({
   setData,
   mitralE,
   handleBack,
+  onGenerateReport,
 }: any) {
   return (
     <DopplerTisularVasosVenasForm
@@ -12,6 +13,7 @@ export function StepDopplerTisular({
       setData={setData}
       mitralE={mitralE}
       onBack={handleBack}
+      onGenerateReport={onGenerateReport}
     />
   );
 }

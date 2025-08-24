@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { User } from "lucide-react";
 import { StepDatosPersonales } from "./steps/StepDatosPersonales";
@@ -17,6 +16,7 @@ import { getInitialPatientData, getInitialMedidasVIData, getInitialVentriculosAu
 import type { DopplerVasosVenasData } from "./types/fifthForm/DopplerTisularData";
 import type { ValvulasData } from "./types/fourthForm/ValvulasData";
 import { useRapFromVci } from "./hooks/useRapFromVci";
+import { generateWordReport } from "./services/reportExporter";
 
 
 export default function PatientForm() {
@@ -54,6 +54,38 @@ export default function PatientForm() {
   };
 
   // Export removed: the "Crear resumen" button won't trigger file generation for now
+
+  const handleGenerateReport = async () => {
+    try {
+      await generateWordReport(
+        patientData,
+        medidasVIData,
+        ventriculosAuriculasData,
+        valvulasData,
+        dtvvData
+      );
+      // Opcional: mostrar mensaje de éxito
+      alert('Informe Word generado exitosamente');
+    } catch (error) {
+      console.error('Error al generar el informe Word:', error);
+      
+      // Como respaldo, generar HTML
+      try {
+        const { generateHTMLReport } = await import('./services/reportExporter');
+        generateHTMLReport(
+          patientData,
+          medidasVIData,
+          ventriculosAuriculasData,
+          valvulasData,
+          dtvvData
+        );
+        alert('El informe Word falló, pero se generó un informe HTML como respaldo.');
+      } catch (htmlError) {
+        console.error('Error al generar el informe HTML:', htmlError);
+        alert('Error al generar el informe. Por favor, inténtelo de nuevo.');
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
@@ -106,6 +138,7 @@ export default function PatientForm() {
             mitralE={valvulasData.mitral.ondaE}
             handleNext={handleNext}
             handleBack={handleBack}
+            onGenerateReport={handleGenerateReport}
           />
         )}
       </div>

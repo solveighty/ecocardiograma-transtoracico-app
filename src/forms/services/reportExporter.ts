@@ -9,6 +9,7 @@ import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from './secondForm/medida
 import { calcMasaVI, calcIMVI, calcIE, calcRelacionVDVI } from './thirdForm/ventriculosAuriculasCalculos';
 import { calcRelEePrime, calcRelSD } from './fifthForm/calculos';
 import { calcRelEA, calcGradPicoFromVmaxCm, calcPSVD, calcVR } from './fourthForm/valvulasCalculos';
+import { generateDiagnosticTexts } from './diagnosticTexts';
 
 // Interfaz para el objeto de datos que se enviará al template
 interface ReportData {
@@ -150,6 +151,41 @@ interface ReportData {
   pericardio: string;
   tabiqueIA: string;
   otros: string;
+
+  // Diagnósticos automáticos
+  diag_diametrosVI: string;
+  diag_volumenSistolicoVI: string;
+  diag_volumenDiastolicoVI: string;
+  diag_gdsept: string;
+  diag_gdpil: string;
+  diag_funcionVI: string;
+  diag_imvi_grp: string;
+  tipoHipertrofia: string;
+  diag_disfuncionDiastolica: string;
+  diag_ai: string;
+  diag_ad: string;
+  diag_vd: string;
+  diag_valvulaMitral: string;
+  diag_dopplerMitral: string;
+  diag_vpOndaE: string;
+  diag_venasPulmonares: string;
+  diag_raizAortica: string;
+  diag_valvulaAortica: string;
+  diag_aortaToracica: string;
+  diag_aortaAbdominal: string;
+  diag_pulmonar: string;
+  diag_valvulaTricuspide: string;
+  diag_vci: string;
+  diag_tabiqueIA: string;
+  diag_pericardio: string;
+  conclusion_miocardio: string;
+  conclusion_hipertrofiaVI: string;
+  conclusion_disfuncionVI: string;
+  conclusion_disfuncionVD: string;
+  conclusion_insufTricuspide: string;
+  conclusion_insufMitral: string;
+  conclusion_insufPulmonar: string;
+  conclusion_hipertensionPulmonar: string;
 }
 
 // Función para formatear fecha
@@ -160,6 +196,31 @@ function formatDate(date: Date | undefined): string {
     month: '2-digit',
     year: 'numeric'
   });
+}
+
+// Función auxiliar para convertir string a número de forma segura
+function safeParseFloat(value: string | undefined, defaultValue: number = 0): number {
+  if (!value || value.trim() === '') return defaultValue;
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? defaultValue : parsed;
+}
+
+// Función auxiliar para formatear números de forma segura
+function safeFormat(value: string | number | undefined, decimals: number = 2): string {
+  if (value === undefined || value === null) return '';
+  
+  if (typeof value === 'string') {
+    if (!value || value.trim() === '') return '';
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? '' : parsed.toFixed(decimals);
+  }
+  return isNaN(value) ? '' : value.toFixed(decimals);
+}
+
+// Función auxiliar para obtener valores con fallback
+function safeValue(value: string | undefined, fallback: string = 'No especificado'): string {
+  if (!value || value.trim() === '') return fallback;
+  return value;
 }
 
 // Función para compilar todos los datos en el formato requerido por el template
@@ -216,6 +277,70 @@ export function compileReportData(
   const relEePrime = calcRelEePrime(valvulasData.mitral.ondaE, dopplerData.tisularMitral.ePrime);
   const relSD = calcRelSD(dopplerData.venasPulmonares.ondaS, dopplerData.venasPulmonares.ondaD);
 
+  // Crear objeto temporal con todos los datos para generar diagnósticos
+  const tempData = {
+    // Datos básicos
+    ddfvi: medidasVIData.ddfvi,
+    dsfvi: medidasVIData.dsfvi,
+    gdsept: medidasVIData.gdsept,
+    gdpil: medidasVIData.gdpil,
+    vdfSimpson: medidasVIData.vdfSimpson,
+    vsfSimpson: medidasVIData.vsfSimpson,
+    feSimpson,
+    imvi,
+    grp: ventriculosAuriculasData.grp,
+    
+    // Aurículas
+    dai: ventriculosAuriculasData.dai,
+    areaAi: ventriculosAuriculasData.areaAi,
+    volAi: ventriculosAuriculasData.volAi,
+    volIndexAi: ventriculosAuriculasData.volIndexAi,
+    dmAd: ventriculosAuriculasData.dmAd,
+    areaAd: ventriculosAuriculasData.areaAd,
+    
+    // Ventrículo derecho
+    basal: ventriculosAuriculasData.basal,
+    tapse: ventriculosAuriculasData.tapse,
+    
+    // Válvulas
+    mitral_relEA,
+    mitral_reg: valvulasData.mitral.reg,
+    relEePrime,
+    tricuspide_psvd,
+    tricuspide_reg: valvulasData.tricuspide.reg,
+    aorta_avac: valvulasData.aorta.avac,
+    aorta_vmax: valvulasData.aorta.vmax,
+    aorta_reg: valvulasData.aorta.reg,
+    pulmonar_vmax: valvulasData.pulmonar.vmax,
+    pulmonar_reg: valvulasData.pulmonar.reg,
+    pulmonar_pmap: valvulasData.pulmonar.pmap,
+    
+    // VCI
+    vci_dt: dopplerData.vci.dt,
+    vci_colapso: dopplerData.vci.colapso,
+    
+    // Grandes vasos
+    gvAorta_rao: dopplerData.grandesVasosAorta.rao,
+    gvAorta_unionST: dopplerData.grandesVasosAorta.unionST,
+    gvAorta_cayado: dopplerData.grandesVasosAorta.cayado,
+    gvAorta_aoDesc: dopplerData.grandesVasosAorta.aoDesc,
+    gvAorta_aoAbd: dopplerData.grandesVasosAorta.aoAbd,
+    
+    // Venas pulmonares
+    venasPulmonares_relSD: relSD,
+    
+    // Modo M Color
+    modoMColor_vpOndaE: dopplerData.modoMColor.vpOndaE,
+    
+    // Hallazgos
+    pericardio: dopplerData.hallazgos.pericardio,
+    tabiqueIA: dopplerData.hallazgos.tabiqueIA,
+    otros: dopplerData.hallazgos.otros
+  };
+
+  // Generar todos los textos de diagnóstico
+  const diagnosticTexts = generateDiagnosticTexts(tempData, patientData.sexo);
+
   return {
     // Datos personales
     nombresApellidos: patientData.nombresApellidos,
@@ -232,59 +357,59 @@ export function compileReportData(
     fechaExamen: formatDate(patientData.fechaExamen),
 
     // Medidas VI
-    ddfvi: medidasVIData.ddfvi,
-    dsfvi: medidasVIData.dsfvi,
-    gdsept: medidasVIData.gdsept,
-    gdpil: medidasVIData.gdpil,
-    rao: medidasVIData.rao,
-    vdfLineal: medidasVIData.vdfLineal,
-    vsfLineal: medidasVIData.vsfLineal,
+    ddfvi: safeValue(medidasVIData.ddfvi, '0'),
+    dsfvi: safeValue(medidasVIData.dsfvi, '0'),
+    gdsept: safeValue(medidasVIData.gdsept, '0'),
+    gdpil: safeValue(medidasVIData.gdpil, '0'),
+    rao: safeValue(medidasVIData.rao, '0'),
+    vdfLineal: safeValue(medidasVIData.vdfLineal, '0'),
+    vsfLineal: safeValue(medidasVIData.vsfLineal, '0'),
     vlLineal,
     feTeich,
     fa,
-    vdfSimpson: medidasVIData.vdfSimpson,
-    vsfSimpson: medidasVIData.vsfSimpson,
+    vdfSimpson: safeValue(medidasVIData.vdfSimpson, '0'),
+    vsfSimpson: safeValue(medidasVIData.vsfSimpson, '0'),
     vlSimpson,
     feSimpson,
 
     // Ventrículos y Aurículas
     masaVI,
     imvi,
-    grp: ventriculosAuriculasData.grp,
-    mapse: ventriculosAuriculasData.mapse,
-    dpdt: ventriculosAuriculasData.dpdt,
-    basal: ventriculosAuriculasData.basal,
-    medio: ventriculosAuriculasData.medio,
-    long: ventriculosAuriculasData.long,
+    grp: safeValue(ventriculosAuriculasData.grp, '0'),
+    mapse: safeValue(ventriculosAuriculasData.mapse, '0'),
+    dpdt: safeValue(ventriculosAuriculasData.dpdt, '0'),
+    basal: safeValue(ventriculosAuriculasData.basal, '0'),
+    medio: safeValue(ventriculosAuriculasData.medio, '0'),
+    long: safeValue(ventriculosAuriculasData.long, '0'),
     caf,
     ie: ie,
     relacionVdVi: relacionVdVi,
-    tapse: ventriculosAuriculasData.tapse,
-    dai: ventriculosAuriculasData.dai,
-    areaAi: ventriculosAuriculasData.areaAi,
-    volAi: ventriculosAuriculasData.volAi,
-    volIndexAi: ventriculosAuriculasData.volIndexAi,
-    dmAd: ventriculosAuriculasData.dmAd,
-    areaAd: ventriculosAuriculasData.areaAd,
+    tapse: safeValue(ventriculosAuriculasData.tapse, '0'),
+    dai: safeValue(ventriculosAuriculasData.dai, '0'),
+    areaAi: safeValue(ventriculosAuriculasData.areaAi, '0'),
+    volAi: safeValue(ventriculosAuriculasData.volAi, '0'),
+    volIndexAi: safeValue(ventriculosAuriculasData.volIndexAi, '0'),
+    dmAd: safeValue(ventriculosAuriculasData.dmAd, '0'),
+    areaAd: safeValue(ventriculosAuriculasData.areaAd, '0'),
 
     // Válvulas - Mitral
-    mitral_ondaE: valvulasData.mitral.ondaE,
-    mitral_itv: valvulasData.mitral.itv,
-    mitral_ondaA: valvulasData.mitral.ondaA,
-    mitral_ore: valvulasData.mitral.ore,
+    mitral_ondaE: safeValue(valvulasData.mitral.ondaE, '0'),
+    mitral_itv: safeValue(valvulasData.mitral.itv, '0'),
+    mitral_ondaA: safeValue(valvulasData.mitral.ondaA, '0'),
+    mitral_ore: safeValue(valvulasData.mitral.ore, '0'),
     mitral_relEA: mitral_relEA,
     mitral_vr: mitral_vr,
-    mitral_durA: valvulasData.mitral.durA,
-    mitral_vc: valvulasData.mitral.vc,
-    mitral_tde: valvulasData.mitral.tde,
-    mitral_thp: valvulasData.mitral.thp,
-    mitral_reg: valvulasData.mitral.reg,
-    mitral_avm: valvulasData.mitral.avm,
-    mitral_vmax: valvulasData.mitral.vmax,
+    mitral_durA: safeValue(valvulasData.mitral.durA, '0'),
+    mitral_vc: safeValue(valvulasData.mitral.vc, '0'),
+    mitral_tde: safeValue(valvulasData.mitral.tde, '0'),
+    mitral_thp: safeValue(valvulasData.mitral.thp, '0'),
+    mitral_reg: safeValue(valvulasData.mitral.reg, 'Sin regurgitación'),
+    mitral_avm: safeValue(valvulasData.mitral.avm, '0'),
+    mitral_vmax: safeValue(valvulasData.mitral.vmax, '0'),
     mitral_gradMax: mitral_gradMax,
-    mitral_radio: valvulasData.mitral.radio,
-    mitral_gradMed: valvulasData.mitral.gradMed,
-    mitral_ny: valvulasData.mitral.ny,
+    mitral_radio: safeValue(valvulasData.mitral.radio, '0'),
+    mitral_gradMed: safeValue(valvulasData.mitral.gradMed, '0'),
+    mitral_ny: safeValue(valvulasData.mitral.ny, '0'),
 
     // Válvulas - Tricúspide
     tricuspide_ondaE: valvulasData.tricuspide.ondaE,
@@ -299,14 +424,14 @@ export function compileReportData(
     tricuspide_vc: valvulasData.tricuspide.vc,
 
     // Válvulas - Aorta
-    aorta_vmax: valvulasData.aorta.vmax,
+    aorta_vmax: safeValue(valvulasData.aorta.vmax, '0'),
     aorta_gpMax: aorta_gpMax,
-    aorta_gradMed: valvulasData.aorta.gradMed,
-    aorta_avac: valvulasData.aorta.avac,
-    aorta_reg: valvulasData.aorta.reg,
-    aorta_thp: valvulasData.aorta.thp,
-    aorta_vc: valvulasData.aorta.vc,
-    aorta_flujoHolodiastolicoReverso: valvulasData.aorta.flujoHolodiastolicoReverso,
+    aorta_gradMed: safeValue(valvulasData.aorta.gradMed, '0'),
+    aorta_avac: safeValue(valvulasData.aorta.avac, '0'),
+    aorta_reg: safeValue(valvulasData.aorta.reg, 'Sin regurgitación'),
+    aorta_thp: safeValue(valvulasData.aorta.thp, '0'),
+    aorta_vc: safeValue(valvulasData.aorta.vc, '0'),
+    aorta_flujoHolodiastolicoReverso: safeValue(valvulasData.aorta.flujoHolodiastolicoReverso, '0'),
 
     // Válvulas - Pulmonar
     pulmonar_vmax: valvulasData.pulmonar.vmax,
@@ -338,8 +463,8 @@ export function compileReportData(
     gvAorta_aoAbd: dopplerData.grandesVasosAorta.aoAbd,
 
     // VCI
-    vci_dt: dopplerData.vci.dt,
-    vci_colapso: dopplerData.vci.colapso,
+    vci_dt: safeValue(dopplerData.vci.dt, '15'),
+    vci_colapso: safeValue(dopplerData.vci.colapso, '50'),
 
     // Venas Pulmonares
     venasPulmonares_ondaS: dopplerData.venasPulmonares.ondaS,
@@ -352,267 +477,13 @@ export function compileReportData(
     modoMColor_vpOndaE: dopplerData.modoMColor.vpOndaE,
 
     // Hallazgos
-    pericardio: dopplerData.hallazgos.pericardio,
-    tabiqueIA: dopplerData.hallazgos.tabiqueIA,
-    otros: dopplerData.hallazgos.otros,
+    pericardio: safeValue(dopplerData.hallazgos.pericardio, 'Normal'),
+    tabiqueIA: safeValue(dopplerData.hallazgos.tabiqueIA, 'Normal'),
+    otros: safeValue(dopplerData.hallazgos.otros, 'Sin hallazgos adicionales'),
+
+    // Diagnósticos automáticos
+    ...diagnosticTexts,
   };
-}
-
-// Función para generar reporte en HTML (compatible con Word)
-export function generateHTMLReport(
-  patientData: PatientData,
-  medidasVIData: MedidasVIData,
-  ventriculosAuriculasData: VentriculosAuriculasData,
-  valvulasData: ValvulasData,
-  dopplerData: DopplerVasosVenasData
-): void {
-  const reportData = compileReportData(
-    patientData,
-    medidasVIData,
-    ventriculosAuriculasData,
-    valvulasData,
-    dopplerData
-  );
-
-  const htmlContent = `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Informe de Ecocardiograma</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .header { text-align: center; margin-bottom: 30px; }
-        .section { margin-bottom: 25px; }
-        .section-title { font-weight: bold; font-size: 14px; margin-bottom: 10px; color: #2563eb; }
-        .data-row { margin-bottom: 5px; }
-        .data-label { font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #f5f5f5; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>INFORME DE ECOCARDIOGRAMA TRANSTORÁCICO</h1>
-    </div>
-
-    <div class="section">
-        <div class="section-title">DATOS PERSONALES</div>
-        <div class="data-row"><span class="data-label">Nombres y apellidos:</span> ${reportData.nombresApellidos}</div>
-        <div class="data-row"><span class="data-label">Edad:</span> ${reportData.edad} años</div>
-        <div class="data-row"><span class="data-label">Sexo:</span> ${reportData.sexo}</div>
-        <div class="data-row"><span class="data-label">CI:</span> ${reportData.ci}</div>
-        <div class="data-row"><span class="data-label">Fecha de Nacimiento:</span> ${reportData.fechaNacimiento}</div>
-        <div class="data-row"><span class="data-label">Peso:</span> ${reportData.peso} kg</div>
-        <div class="data-row"><span class="data-label">Talla:</span> ${reportData.talla} cm</div>
-        <div class="data-row"><span class="data-label">Superficie Corporal:</span> ${reportData.superficieCorporal} m²</div>
-        <div class="data-row"><span class="data-label">Ventana:</span> ${reportData.ventana}</div>
-        <div class="data-row"><span class="data-label">Ritmo:</span> ${reportData.ritmo}</div>
-        <div class="data-row"><span class="data-label">Frecuencia Cardíaca:</span> ${reportData.frecuenciaCardiaca} lpm</div>
-        <div class="data-row"><span class="data-label">Fecha del Examen:</span> ${reportData.fechaExamen}</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">MEDICIONES LINEALES Y PLANIMETRÍA</div>
-        <table>
-            <tr>
-                <th>DIÁMETROS</th>
-                <th>VOLÚMENES (LINEAL)</th>
-                <th>SIMPSON MODIFICADO</th>
-            </tr>
-            <tr>
-                <td>DDFVI: ${reportData.ddfvi} mm</td>
-                <td>VDF: ${reportData.vdfLineal} ml</td>
-                <td>VDF: ${reportData.vdfSimpson} ml</td>
-            </tr>
-            <tr>
-                <td>DSFVI: ${reportData.dsfvi} mm</td>
-                <td>VSF: ${reportData.vsfLineal} ml</td>
-                <td>VSF: ${reportData.vsfSimpson} ml</td>
-            </tr>
-            <tr>
-                <td>GDSept: ${reportData.gdsept} mm</td>
-                <td>VL: ${reportData.vlLineal} ml</td>
-                <td>VL: ${reportData.vlSimpson} ml</td>
-            </tr>
-            <tr>
-                <td>GDPIL: ${reportData.gdpil} mm</td>
-                <td>FE Teich: ${reportData.feTeich}%</td>
-                <td>FE: ${reportData.feSimpson}%</td>
-            </tr>
-            <tr>
-                <td>Rao: ${reportData.rao} mm</td>
-                <td>FA: ${reportData.fa}%</td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">VENTRÍCULOS Y AURÍCULAS</div>
-        <table>
-            <tr>
-                <th>VENTRÍCULO IZQUIERDO</th>
-                <th>VENTRÍCULO DERECHO</th>
-                <th>AURÍCULA IZQUIERDA</th>
-                <th>AURÍCULA DERECHA</th>
-            </tr>
-            <tr>
-                <td>Masa: ${reportData.masaVI} gr</td>
-                <td>Basal: ${reportData.basal} mm</td>
-                <td>DAI: ${reportData.dai} mm</td>
-                <td>Dm: ${reportData.dmAd} mm</td>
-            </tr>
-            <tr>
-                <td>IMVI: ${reportData.imvi} gr/m²</td>
-                <td>Medio: ${reportData.medio} mm</td>
-                <td>Área: ${reportData.areaAi} cm²</td>
-                <td>Área: ${reportData.areaAd} cm²</td>
-            </tr>
-            <tr>
-                <td>GRP: ${reportData.grp} cm</td>
-                <td>Long: ${reportData.long} mm</td>
-                <td>Vol: ${reportData.volAi} ml</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>MAPSE: ${reportData.mapse} mm</td>
-                <td>CAF: ${reportData.caf}%</td>
-                <td>Vol. Index: ${reportData.volIndexAi} ml/m²</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>dP/dt: ${reportData.dpdt} mmHg/seg</td>
-                <td>IE: ${reportData.ie}</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>TAPSE: ${reportData.tapse} mm</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Relación VD/VI: ${reportData.relacionVdVi}</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">VÁLVULAS</div>
-        <table>
-            <tr>
-                <th>MITRAL</th>
-                <th>TRICÚSPIDE</th>
-                <th>AÓRTICA</th>
-                <th>PULMONAR</th>
-            </tr>
-            <tr>
-                <td>Onda E: ${reportData.mitral_ondaE} cm/seg</td>
-                <td>Onda E: ${reportData.tricuspide_ondaE} cm/seg</td>
-                <td>V Max: ${reportData.aorta_vmax} cm/seg</td>
-                <td>V Max: ${reportData.pulmonar_vmax} cm/seg</td>
-            </tr>
-            <tr>
-                <td>Onda A: ${reportData.mitral_ondaA} cm/seg</td>
-                <td>Onda A: ${reportData.tricuspide_ondaA} cm/seg</td>
-                <td>GP Max: ${reportData.aorta_gpMax} mmHg</td>
-                <td>GP Max: ${reportData.pulmonar_gpMax} mmHg</td>
-            </tr>
-            <tr>
-                <td>Rel. E/A: ${reportData.mitral_relEA}</td>
-                <td>Rel. E/A: ${reportData.tricuspide_relEA}</td>
-                <td>Grad Med: ${reportData.aorta_gradMed} mmHg</td>
-                <td>TAM: ${reportData.pulmonar_tam} m/seg</td>
-            </tr>
-            <tr>
-                <td>Vmax: ${reportData.mitral_vmax} cm/seg</td>
-                <td>Vmax: ${reportData.tricuspide_vmax} cm/seg</td>
-                <td>AVAC: ${reportData.aorta_avac} cm²</td>
-                <td>Reg: ${reportData.pulmonar_reg}</td>
-            </tr>
-            <tr>
-                <td>Reg: ${reportData.mitral_reg}</td>
-                <td>Reg: ${reportData.tricuspide_reg}</td>
-                <td>Reg: ${reportData.aorta_reg}</td>
-                <td>PMAP: ${reportData.pulmonar_pmap} mmHg</td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">DOPPLER TISULAR, GRANDES VASOS Y VENAS PULMONARES</div>
-        <table>
-            <tr>
-                <th>DOPPLER TISULAR MITRAL</th>
-                <th>DOPPLER TISULAR TRICÚSPIDE</th>
-                <th>GRANDES VASOS</th>
-                <th>VENAS PULMONARES</th>
-            </tr>
-            <tr>
-                <td>Onda e': ${reportData.tisularMitral_ePrime} cm/seg</td>
-                <td>Onda e': ${reportData.tisularTricuspide_ePrime} cm/seg</td>
-                <td>Rao: ${reportData.gvAorta_rao} mm</td>
-                <td>Onda S: ${reportData.venasPulmonares_ondaS} cm/seg</td>
-            </tr>
-            <tr>
-                <td>Onda a': ${reportData.tisularMitral_aPrime} cm/seg</td>
-                <td>Onda a': ${reportData.tisularTricuspide_aPrime} cm/seg</td>
-                <td>Anillo: ${reportData.gvAorta_anillo} mm</td>
-                <td>Onda D: ${reportData.venasPulmonares_ondaD} cm/seg</td>
-            </tr>
-            <tr>
-                <td>Onda S: ${reportData.tisularMitral_sPrime} cm/seg</td>
-                <td>Onda S: ${reportData.tisularTricuspide_sPrime} cm/seg</td>
-                <td>VCI DT: ${reportData.vci_dt} mm</td>
-                <td>Rel S/D: ${reportData.venasPulmonares_relSD}</td>
-            </tr>
-            <tr>
-                <td>TRIV: ${reportData.tisularMitral_triv} ms</td>
-                <td></td>
-                <td>VCI Colapso: ${reportData.vci_colapso}%</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Rel. E/e': ${reportData.relEePrime}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="section">
-        <div class="section-title">HALLAZGOS ADICIONALES</div>
-        <div class="data-row"><span class="data-label">Pericardio:</span> ${reportData.pericardio}</div>
-        <div class="data-row"><span class="data-label">Tabique IA:</span> ${reportData.tabiqueIA}</div>
-        <div class="data-row"><span class="data-label">Otros:</span> ${reportData.otros}</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title">MODO M COLOR</div>
-        <div class="data-row"><span class="data-label">VP onda E:</span> ${reportData.modoMColor_vpOndaE} cm/seg</div>
-    </div>
-
-</body>
-</html>
-  `;
-
-  const blob = new Blob([htmlContent], { type: 'text/html' });
-  const fileName = `Informe_Ecocardiograma_${patientData.nombresApellidos.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.html`;
-  
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(link.href);
 }
 
 // Función para generar el documento Word
@@ -695,10 +566,6 @@ export async function generateWordReport(
           }
         });
       }
-      
-      // Como respaldo, generar HTML
-      console.log('Generando reporte en formato HTML como respaldo...');
-      generateHTMLReport(patientData, medidasVIData, ventriculosAuriculasData, valvulasData, dopplerData);
       
       throw new Error(errorMessage);
     }

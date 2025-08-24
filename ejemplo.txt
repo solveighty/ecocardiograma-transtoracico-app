@@ -1,47 +1,11 @@
-
-VALORES DE REFERENCIA DE LAS CAVIDADES CARDIACAS
-	MUJERES	                                                                        HOMBRES
-PARÁMETROS	NORMAL	LEVEMENTE ANORMAL	MODERADAMENTE ANORMAL	SEVERAMENTE ANORMAL	NORMAL	LEVEMENTE ANORMAL	MODERADAMENTE ANORMAL	SEVERAMENTE ANORMAL
-DDVD(mm)	20-28	29-33	34-38	≥39	20-28	29-33	34-38	≥39
-DBVD (mm)	20-28	29-33	34-38	≥39	20-28	29-33	34-38	≥39
-DMVD (mm)	27-33	34-37	38-41	≥42	27-33	34-37	38-41	≥42
-DLVD (mm)	71-79	80-85	86-91	≥92	71-79	80-85	86-91	≥92
-DDFVI(mm)	39-53	54-57	58-61	≥62	42-59	60-63	64-68	≥69
-DSFVI(mm)	28-38	-----------	-----------	-----------	28-38	-----------	-----------	-----------
-GDSep (mm)	6-9	10-12	13-15	≥16	6-10	11-13	14-16	≥17
-GDILVI(mm)	6-9	10-12	13-15	≥16	6-10	11-13	14-16	≥17
-Masa VI (grs)	67-162	163-186	187-210	≥211	88-224	225-258	259-292	≥293
-I.M.V.I (grs/m2SC)	43-95	96-108	109-121	≥122	49-115	116-131	132-148	≥149
-GRP	0,22-0,42	0,43-0,47	0,48-0,52	≥0,53	0,24-0,42	0,43-0,46	0,47-051	≥0,52
-VDF (ml)	56-104	105-117	118-130	≥131	57-155	156-178	179-201	≥202
-VSF(ml)	19-49	50-59	60-69	≥70	22-58	59-70	71-82	≥83
-VL(ml)								
-FE(%) 	≥55	45-54	30-44	<30	≥55	45-54	30-44	<30
-Fracción acortamiento (FA)	27-45	22-26	17-21	≤16	25-43	20-24	15-19	≤14
-Distancia E/S (mm)	<6 mm	-----------	-----------	-----------	<6 mm	-----------	-----------	-----------
-Dp/Dt (mmHg/seg)	1000-1200	-----------	-----------	-----------	1000-1200	-----------	-----------	-----------
-AI (mm)	27-38	39-42	43-46	≥47	30-40	41-46	47-52	≥52
-RAo(mm)	< 40				< 40			
-Área AI (cms2)	≤20	20-30	30-40	>40	≤20	20-30	30-40	>40
-Vol ind AI (ml/m2SC)	<35	29-33	34-39	≥40	<35	29-33	34-39	≥40
-Área AD (cms2)	18	----------	----------	----------	18	----------	----------	----------
-DTM  AD (mm)	29-45	46-49	50-54	≥55	29-45	46-49	50-54	≥55
-TAPSE VD (mm)	>17	-----------	-----------	-----------	>17	-----------	-----------	-----------
---------------------------------------------------------------
 TABLA DE VOLUMENES VENTRICULARES
 Diametro
-(cms)	
-Volumen
-(ml)	
-Diametro
-(cms)	
-Volumen 
-(ml)	
-Diametro
-(cms)	
-Volumen
+(cms)	Volumen
+(ml)	Diametro
+(cms)	Volumen 
+(ml)	Diametro
+(cms)	Volumen
 (ml)
-
 1.0	2	4.0	70	7.0	254
 1.1	2.6	4.1	74	7.1	265
 1.2	3.3	4.2	79	7.2	272
@@ -72,3 +36,200 @@ Volumen
 3.7	59	6.7	232	9.7	527
 3.8	62	6.8	240	9.8	539
 3.9	66	6.9	246	9.9	552
+-------------------------------
+VALORES DE REFERENCIA DE LAS CAVIDADES CARDIACAS
+	MUJERES	HOMBRES
+PARÁMETROS	NORMAL	LEVEMENTE ANORMAL	MODERADAMENTE ANORMAL	SEVERAMENTE ANORMAL	NORMAL	LEVEMENTE ANORMAL	MODERADAMENTE ANORMAL	SEVERAMENTE ANORMAL
+DDVD(mm)	20-28	29-33	34-38	≥39	20-28	29-33	34-38	≥39
+DBVD (mm)	20-28	29-33	34-38	≥39	20-28	29-33	34-38	≥39
+DMVD (mm)	27-33	34-37	38-41	≥42	27-33	34-37	38-41	≥42
+DLVD (mm)	71-79	80-85	86-91	≥92	71-79	80-85	86-91	≥92
+DDFVI(mm)	39-53	54-57	58-61	≥62	42-59	60-63	64-68	≥69
+DSFVI(mm)	28-38	-----------	-----------	-----------	28-38	-----------	-----------	-----------
+GDSep (mm)	6-9	10-12	13-15	≥16	6-10	11-13	14-16	≥17
+GDILVI(mm)	6-9	10-12	13-15	≥16	6-10	11-13	14-16	≥17
+Masa VI (grs)	67-162	163-186	187-210	≥211	88-224	225-258	259-292	≥293
+I.M.V.I (grs/m2SC)	43-95	96-108	109-121	≥122	49-115	116-131	132-148	≥149
+GRP	0,22-0,42	0,43-0,47	0,48-0,52	≥0,53	0,24-0,42	0,43-0,46	0,47-051	≥0,52
+VDF (ml)	56-104	105-117	118-130	≥131	57-155	156-178	179-201	≥202
+VSF(ml)	19-49	50-59	60-69	≥70	22-58	59-70	71-82	≥83
+VL(ml)								
+FE(%) 	≥55	45-54	30-44	<30	≥55	45-54	30-44	<30
+Fracción acortamiento (FA)	27-45	22-26	17-21	≤16	25-43	20-24	15-19	≤14
+Distancia E/S (mm)	<6 mm	-----------	-----------	-----------	<6 mm	-----------	-----------	-----------
+Dp/Dt (mmHg/seg)	1000-1200	-----------	-----------	-----------	1000-1200	-----------	-----------	-----------
+AI (mm)	27-38	39-42	43-46	≥47	30-40	41-46	47-52	≥52
+RAo(mm)	< 40				< 40			
+Área AI (cms2)	≤20	20-30	30-40	>40	≤20	20-30	30-40	>40
+Vol ind AI (ml/m2SC)	<35	29-33	34-39	≥40	<35	29-33	34-39	≥40
+Área AD (cms2)	18	----------	----------	----------	18	----------	----------	----------
+DTM  AD (mm)	29-45	46-49	50-54	≥55	29-45	46-49	50-54	≥55
+TAPSE VD (mm)	>17	-----------	-----------	-----------	>17	-----------	-----------	-----------
+----------------------------------------------------------
+EVALUACIÓN DE LA VENA CAVA INFERIOR
+VCI
+DIMENSIONES	NORMAL	DILATADA	DILATADA	DILATADA
+VCI (cm)	≤21
+Con colapso inspiratorio ≥50%	≥21
+Con colapso inspiratorio ≥50%	≥21
+Con colapso inspiratorio <50%	≥21
+Sin colapso inspiratorio
+PRESIÓN AURICULA DERECHA (PAD)	0-5 mmHg	6-10 mmHg	10-15 mmHg	15-20 mmHg
+ESTIMACIÓN DE LAS PRESIONES DE LA ARTERIA PULMONAR
+	
+PRESIÓN SISTÓLICA DEL VD (PSVD)	Gradiente de la regurgitación tricuspidea +PAD
+PRESIÓN MEDIA ARTERIA PULMONAR (PMAP) mmHg	Gradiente  Inicio  Regurgitación pulmonar + PAD
+PRESIÓN DIASTÓLICA ARTERIA PULMONAR (PDAP) mmHg	Gradiente Final Regurgitación pulmonar (RP) + PAD
+------------------------------------------------------------
+1. Normal
+
+    lv_volume_index <= 75
+
+    lvm_index es normal:
+
+        Si is_male: lvm_index <= 115
+
+        Si no: lvm_index <= 95
+
+    rwt está en el rango normal: rwt >= 0.32 y rwt <= 0.42
+
+2. Hipertrofia Fisiológica
+
+    lv_volume_index > 75
+
+    lvm_index es alto:
+
+        Si is_male: lvm_index > 115
+
+        Si no: lvm_index > 95
+
+    rwt está en el rango normal: rwt >= 0.32 y rwt <= 0.42
+
+3. Remodelación Concéntrica
+
+    lv_volume_index <= 75
+
+    lvm_index es normal:
+
+        Si is_male: lvm_index <= 115
+
+        Si no: lvm_index <= 95
+
+    rwt > 0.42
+
+4. Remodelación Excéntrica
+
+    lv_volume_index > 75
+
+    lvm_index es normal:
+
+        Si is_male: lvm_index <= 115
+
+        Si no: lvm_index <= 95
+
+    rwt < 0.32
+
+5. Hipertrofia Concéntrica
+
+    lv_volume_index <= 75
+
+    lvm_index es alto:
+
+        Si is_male: lvm_index > 115
+
+        Si no: lvm_index > 95
+
+    rwt > 0.42
+
+6. Hipertrofia Mixta
+
+    lv_volume_index > 75
+
+    lvm_index es alto:
+
+        Si is_male: lvm_index > 115
+
+        Si no: lvm_index > 95
+
+    rwt > 0.42
+
+7. Hipertrofia Dilatada
+
+    lv_volume_index > 75
+
+    lvm_index es alto:
+
+        Si is_male: lvm_index > 115
+
+        Si no: lvm_index > 95
+
+    rwt está en el rango normal: rwt >= 0.32 y rwt <= 0.42
+
+8. Hipertrofia Excéntrica
+
+    lv_volume_index > 75
+
+    lvm_index es alto:
+
+        Si is_male: lvm_index > 115
+
+        Si no: lvm_index > 95
+
+    rwt < 0.32
+
+	--------------------------------------------------
+	PARÁMETROS	VALVULA MITRAL	VALVULA TRICUSPIDE
+ONDA  E (cm/seg)	70-102	49-65
+ONDA  A (cm/seg)	43-69	33-45
+RELACIÓN  E/A	1-2	1,2-1,8
+TDE (mseg)	167-231	197-253
+TDI (mseg)	-----------------	190-252
+TRIV (mseg)
+<40 años:
+>40 años	57-81
+63-89	---------------
+--------------------------------------------------------
+FLUJO DE VENAS PULMONARES
+PARÁMETROS	VALORES NORMALES
+ONDA  S (cm/seg)	30-54
+ONDA  D (cm/seg)	34-60
+ONDA  Ar (cm/seg)	< 35
+DURACIÓN ONDA Ar (mseg)	
+RELACIÓN  S/D	≥ 1
+VP ONDA  E (cm/seg)	> 45
+--------------------------------------------------------
+PARÁMETROS	TRASTORNOS DE LA RELAJACIÓN
+(DD LEVE)	PATRÓN PSEUDONORMAL
+(DD MODERADA)	PATRÓN RESTRICTIVO
+(DD SEVERA)
+FLUJO MITRAL
+Vmax E (cm/seg)	Disminuida	Normal	Aumentada
+Vmax A(cm/seg)	Aumentada	Normal	Disminuida
+TDE (mseg)	Aumentado(>220)	Normal	Disminuido (<150)
+E/A	<1		>2
+TRIV (mseg)	Aumentado (>100)	Disminuido(60-100)	Disminuido (<60)
+FLUJO VENAS PULMONARES
+COCIENTE S/D	S>D	S ≤ D	S<<D
+ONDA Ar  (cm/seg)	< 35	> 35 con duración mayor a la onda A mitral	≥ 25
+DOPPLER COLOR
+VPE (cm/seg)	Disminuida	Disminuida	Disminuida
+DOPPLER TISULAR
+RELACIÓN E´-A´	ONDA E´ < A´		
+-------------------------------------------------------
+PARÁMETROS	LEVE	MODERADA	SEVERA
+Velocidad del jet  (m/seg)	2,6- 3,0 	3-4	>4
+Gradiente medio
+ ( mmHg)	<20* (<30)**	20-40* (30-50)**	>40 *  (>50** )
+AVAo  (cm2 )	>1,5	1,0 -1,5	<1
+AVAo  Indexada 
+(cm2 / m2 )	>0,85	0,60-0,85	<0,6
+*AHA/ACC Guidelines;  **  ESC Guidelines  
+--------------------------------------------------------
+Estenosis 
+Mitral	Leve	Moderada	Grave
+Gradiente Medio mmHg	< 5	5 - 10	>10
+Presión sistólica 
+Arteria pulmonar	< 30	30 - 50	> 50
+Área valvular
+cm²	> 1,5	1 – 1,5	< 1
+

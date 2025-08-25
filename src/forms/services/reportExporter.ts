@@ -10,6 +10,7 @@ import { calcMasaVI, calcIMVI, calcIE, calcRelacionVDVI } from './thirdForm/vent
 import { calcRelEePrime, calcRelSD } from './fifthForm/calculos';
 import { calcRelEA, calcGradPicoFromVmaxCm, calcPSVD, calcVR } from './fourthForm/valvulasCalculos';
 import { generateDiagnosticTexts } from './diagnosticTexts';
+import { validateFormData, formatValidationErrors } from './validation';
 
 // Interfaz para el objeto de datos que se enviará al template
 interface ReportData {
@@ -218,8 +219,21 @@ function safeFormat(value: string | number | undefined, decimals: number = 2): s
 }
 
 // Función auxiliar para obtener valores con fallback
-function safeValue(value: string | undefined, fallback: string = 'No especificado'): string {
+function safeValue(value: string | undefined, fallback: string = 'No evaluado'): string {
   if (!value || value.trim() === '') return fallback;
+  return value;
+}
+
+// Función auxiliar para valores opcionales que pueden no estar evaluados
+function optionalValue(value: string | undefined): string {
+  return safeValue(value, 'No evaluado');
+}
+
+// Función auxiliar para valores numéricos opcionales
+function optionalNumericValue(value: string | undefined): string {
+  if (!value || value.trim() === '' || isNaN(parseFloat(value))) {
+    return 'No evaluado';
+  }
   return value;
 }
 
@@ -376,110 +390,110 @@ export function compileReportData(
     masaVI,
     imvi,
     grp: safeValue(ventriculosAuriculasData.grp, '0'),
-    mapse: safeValue(ventriculosAuriculasData.mapse, '0'),
-    dpdt: safeValue(ventriculosAuriculasData.dpdt, '0'),
-    basal: safeValue(ventriculosAuriculasData.basal, '0'),
-    medio: safeValue(ventriculosAuriculasData.medio, '0'),
-    long: safeValue(ventriculosAuriculasData.long, '0'),
+    mapse: optionalNumericValue(ventriculosAuriculasData.mapse),
+    dpdt: optionalNumericValue(ventriculosAuriculasData.dpdt),
+    basal: optionalNumericValue(ventriculosAuriculasData.basal),
+    medio: optionalNumericValue(ventriculosAuriculasData.medio),
+    long: optionalNumericValue(ventriculosAuriculasData.long),
     caf,
     ie: ie,
     relacionVdVi: relacionVdVi,
-    tapse: safeValue(ventriculosAuriculasData.tapse, '0'),
-    dai: safeValue(ventriculosAuriculasData.dai, '0'),
-    areaAi: safeValue(ventriculosAuriculasData.areaAi, '0'),
-    volAi: safeValue(ventriculosAuriculasData.volAi, '0'),
-    volIndexAi: safeValue(ventriculosAuriculasData.volIndexAi, '0'),
-    dmAd: safeValue(ventriculosAuriculasData.dmAd, '0'),
-    areaAd: safeValue(ventriculosAuriculasData.areaAd, '0'),
+    tapse: optionalNumericValue(ventriculosAuriculasData.tapse),
+    dai: optionalNumericValue(ventriculosAuriculasData.dai),
+    areaAi: optionalNumericValue(ventriculosAuriculasData.areaAi),
+    volAi: optionalNumericValue(ventriculosAuriculasData.volAi),
+    volIndexAi: optionalNumericValue(ventriculosAuriculasData.volIndexAi),
+    dmAd: optionalNumericValue(ventriculosAuriculasData.dmAd),
+    areaAd: optionalNumericValue(ventriculosAuriculasData.areaAd),
 
     // Válvulas - Mitral
     mitral_ondaE: safeValue(valvulasData.mitral.ondaE, '0'),
-    mitral_itv: safeValue(valvulasData.mitral.itv, '0'),
+    mitral_itv: optionalNumericValue(valvulasData.mitral.itv),
     mitral_ondaA: safeValue(valvulasData.mitral.ondaA, '0'),
-    mitral_ore: safeValue(valvulasData.mitral.ore, '0'),
+    mitral_ore: optionalNumericValue(valvulasData.mitral.ore),
     mitral_relEA: mitral_relEA,
     mitral_vr: mitral_vr,
-    mitral_durA: safeValue(valvulasData.mitral.durA, '0'),
-    mitral_vc: safeValue(valvulasData.mitral.vc, '0'),
-    mitral_tde: safeValue(valvulasData.mitral.tde, '0'),
-    mitral_thp: safeValue(valvulasData.mitral.thp, '0'),
-    mitral_reg: safeValue(valvulasData.mitral.reg, 'Sin regurgitación'),
-    mitral_avm: safeValue(valvulasData.mitral.avm, '0'),
-    mitral_vmax: safeValue(valvulasData.mitral.vmax, '0'),
+    mitral_durA: optionalNumericValue(valvulasData.mitral.durA),
+    mitral_vc: optionalNumericValue(valvulasData.mitral.vc),
+    mitral_tde: optionalNumericValue(valvulasData.mitral.tde),
+    mitral_thp: optionalNumericValue(valvulasData.mitral.thp),
+    mitral_reg: optionalValue(valvulasData.mitral.reg),
+    mitral_avm: optionalNumericValue(valvulasData.mitral.avm),
+    mitral_vmax: optionalNumericValue(valvulasData.mitral.vmax),
     mitral_gradMax: mitral_gradMax,
-    mitral_radio: safeValue(valvulasData.mitral.radio, '0'),
-    mitral_gradMed: safeValue(valvulasData.mitral.gradMed, '0'),
-    mitral_ny: safeValue(valvulasData.mitral.ny, '0'),
+    mitral_radio: optionalNumericValue(valvulasData.mitral.radio),
+    mitral_gradMed: optionalNumericValue(valvulasData.mitral.gradMed),
+    mitral_ny: optionalNumericValue(valvulasData.mitral.ny),
 
     // Válvulas - Tricúspide
-    tricuspide_ondaE: valvulasData.tricuspide.ondaE,
-    tricuspide_ondaA: valvulasData.tricuspide.ondaA,
+    tricuspide_ondaE: optionalNumericValue(valvulasData.tricuspide.ondaE),
+    tricuspide_ondaA: optionalNumericValue(valvulasData.tricuspide.ondaA),
     tricuspide_relEA: tricuspide_relEA,
-    tricuspide_reg: valvulasData.tricuspide.reg,
-    tricuspide_vmax: valvulasData.tricuspide.vmax,
+    tricuspide_reg: optionalValue(valvulasData.tricuspide.reg),
+    tricuspide_vmax: optionalNumericValue(valvulasData.tricuspide.vmax),
     tricuspide_grpMax: tricuspide_grpMax,
     tricuspide_psvd: tricuspide_psvd,
-    tricuspide_thp: valvulasData.tricuspide.thp,
-    tricuspide_avt: valvulasData.tricuspide.avt,
-    tricuspide_vc: valvulasData.tricuspide.vc,
+    tricuspide_thp: optionalNumericValue(valvulasData.tricuspide.thp),
+    tricuspide_avt: optionalNumericValue(valvulasData.tricuspide.avt),
+    tricuspide_vc: optionalNumericValue(valvulasData.tricuspide.vc),
 
     // Válvulas - Aorta
-    aorta_vmax: safeValue(valvulasData.aorta.vmax, '0'),
+    aorta_vmax: optionalNumericValue(valvulasData.aorta.vmax),
     aorta_gpMax: aorta_gpMax,
-    aorta_gradMed: safeValue(valvulasData.aorta.gradMed, '0'),
-    aorta_avac: safeValue(valvulasData.aorta.avac, '0'),
-    aorta_reg: safeValue(valvulasData.aorta.reg, 'Sin regurgitación'),
-    aorta_thp: safeValue(valvulasData.aorta.thp, '0'),
-    aorta_vc: safeValue(valvulasData.aorta.vc, '0'),
-    aorta_flujoHolodiastolicoReverso: safeValue(valvulasData.aorta.flujoHolodiastolicoReverso, '0'),
+    aorta_gradMed: optionalNumericValue(valvulasData.aorta.gradMed),
+    aorta_avac: optionalNumericValue(valvulasData.aorta.avac),
+    aorta_reg: optionalValue(valvulasData.aorta.reg),
+    aorta_thp: optionalNumericValue(valvulasData.aorta.thp),
+    aorta_vc: optionalNumericValue(valvulasData.aorta.vc),
+    aorta_flujoHolodiastolicoReverso: optionalValue(valvulasData.aorta.flujoHolodiastolicoReverso),
 
     // Válvulas - Pulmonar
-    pulmonar_vmax: valvulasData.pulmonar.vmax,
+    pulmonar_vmax: optionalNumericValue(valvulasData.pulmonar.vmax),
     pulmonar_gpMax: pulmonar_gpMax,
-    pulmonar_tam: valvulasData.pulmonar.tam,
-    pulmonar_reg: valvulasData.pulmonar.reg,
-    pulmonar_pmap: valvulasData.pulmonar.pmap,
-    pulmonar_pdvd: valvulasData.pulmonar.pdvd,
-    pulmonar_vc: valvulasData.pulmonar.vc,
+    pulmonar_tam: optionalNumericValue(valvulasData.pulmonar.tam),
+    pulmonar_reg: optionalValue(valvulasData.pulmonar.reg),
+    pulmonar_pmap: optionalNumericValue(valvulasData.pulmonar.pmap),
+    pulmonar_pdvd: optionalNumericValue(valvulasData.pulmonar.pdvd),
+    pulmonar_vc: optionalNumericValue(valvulasData.pulmonar.vc),
 
     // Doppler Tisular - Mitral
     tisularMitral_ePrime: dopplerData.tisularMitral.ePrime,
-    tisularMitral_aPrime: dopplerData.tisularMitral.aPrime,
-    tisularMitral_sPrime: dopplerData.tisularMitral.sPrime,
-    tisularMitral_triv: dopplerData.tisularMitral.triv,
+    tisularMitral_aPrime: optionalNumericValue(dopplerData.tisularMitral.aPrime),
+    tisularMitral_sPrime: optionalNumericValue(dopplerData.tisularMitral.sPrime),
+    tisularMitral_triv: optionalNumericValue(dopplerData.tisularMitral.triv),
     relEePrime,
 
     // Doppler Tisular - Tricúspide
-    tisularTricuspide_ePrime: dopplerData.tisularTricuspide.ePrime,
-    tisularTricuspide_aPrime: dopplerData.tisularTricuspide.aPrime,
-    tisularTricuspide_sPrime: dopplerData.tisularTricuspide.sPrime,
+    tisularTricuspide_ePrime: optionalNumericValue(dopplerData.tisularTricuspide.ePrime),
+    tisularTricuspide_aPrime: optionalNumericValue(dopplerData.tisularTricuspide.aPrime),
+    tisularTricuspide_sPrime: optionalNumericValue(dopplerData.tisularTricuspide.sPrime),
 
-    // Grandes Vasos - Aorta
-    gvAorta_rao: dopplerData.grandesVasosAorta.rao,
-    gvAorta_anillo: dopplerData.grandesVasosAorta.anillo,
-    gvAorta_unionST: dopplerData.grandesVasosAorta.unionST,
-    gvAorta_cayado: dopplerData.grandesVasosAorta.cayado,
-    gvAorta_aoDesc: dopplerData.grandesVasosAorta.aoDesc,
-    gvAorta_aoAbd: dopplerData.grandesVasosAorta.aoAbd,
+    // Grandes Vasos - Aorta (opcionales)
+    gvAorta_rao: optionalNumericValue(dopplerData.grandesVasosAorta.rao),
+    gvAorta_anillo: optionalNumericValue(dopplerData.grandesVasosAorta.anillo),
+    gvAorta_unionST: optionalNumericValue(dopplerData.grandesVasosAorta.unionST),
+    gvAorta_cayado: optionalNumericValue(dopplerData.grandesVasosAorta.cayado),
+    gvAorta_aoDesc: optionalNumericValue(dopplerData.grandesVasosAorta.aoDesc),
+    gvAorta_aoAbd: optionalNumericValue(dopplerData.grandesVasosAorta.aoAbd),
 
-    // VCI
-    vci_dt: safeValue(dopplerData.vci.dt, '15'),
-    vci_colapso: safeValue(dopplerData.vci.colapso, '50'),
+    // VCI (opcional)
+    vci_dt: optionalNumericValue(dopplerData.vci.dt),
+    vci_colapso: optionalNumericValue(dopplerData.vci.colapso),
 
-    // Venas Pulmonares
-    venasPulmonares_ondaS: dopplerData.venasPulmonares.ondaS,
-    venasPulmonares_ondaD: dopplerData.venasPulmonares.ondaD,
-    venasPulmonares_ondaARev: dopplerData.venasPulmonares.ondaARev,
-    venasPulmonares_durAr: dopplerData.venasPulmonares.durAr,
+    // Venas Pulmonares (opcionales)
+    venasPulmonares_ondaS: optionalNumericValue(dopplerData.venasPulmonares.ondaS),
+    venasPulmonares_ondaD: optionalNumericValue(dopplerData.venasPulmonares.ondaD),
+    venasPulmonares_ondaARev: optionalNumericValue(dopplerData.venasPulmonares.ondaARev),
+    venasPulmonares_durAr: optionalNumericValue(dopplerData.venasPulmonares.durAr),
     venasPulmonares_relSD: relSD,
 
-    // Modo M Color
-    modoMColor_vpOndaE: dopplerData.modoMColor.vpOndaE,
+    // Modo M Color (opcional)
+    modoMColor_vpOndaE: optionalNumericValue(dopplerData.modoMColor.vpOndaE),
 
-    // Hallazgos
-    pericardio: safeValue(dopplerData.hallazgos.pericardio, 'Normal'),
-    tabiqueIA: safeValue(dopplerData.hallazgos.tabiqueIA, 'Normal'),
-    otros: safeValue(dopplerData.hallazgos.otros, 'Sin hallazgos adicionales'),
+    // Hallazgos (opcionales)
+    pericardio: optionalValue(dopplerData.hallazgos.pericardio),
+    tabiqueIA: optionalValue(dopplerData.hallazgos.tabiqueIA),
+    otros: optionalValue(dopplerData.hallazgos.otros),
 
     // Diagnósticos automáticos
     ...diagnosticTexts,
@@ -495,6 +509,21 @@ export async function generateWordReport(
   dopplerData: DopplerVasosVenasData
 ): Promise<void> {
   try {
+    // Validar datos obligatorios antes de exportar
+    const validationResult = validateFormData(
+      patientData,
+      medidasVIData,
+      ventriculosAuriculasData,
+      valvulasData,
+      dopplerData
+    );
+
+    if (!validationResult.isValid) {
+      const errorMessage = formatValidationErrors(validationResult.errors);
+      alert(errorMessage);
+      throw new Error('Validación fallida: Faltan campos obligatorios');
+    }
+
     // Cargar la plantilla
     const templatePath = '/informe.docx';
     const response = await fetch(templatePath);

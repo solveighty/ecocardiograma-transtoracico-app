@@ -65,25 +65,17 @@ export default function PatientForm() {
         dtvvData
       );
       // Opcional: mostrar mensaje de éxito
-      alert('Informe Word generado exitosamente');
+      alert('✅ Informe Word generado exitosamente');
     } catch (error) {
       console.error('Error al generar el informe Word:', error);
       
-      // Como respaldo, generar HTML
-      try {
-        const { generateHTMLReport } = await import('./services/reportExporter');
-        generateHTMLReport(
-          patientData,
-          medidasVIData,
-          ventriculosAuriculasData,
-          valvulasData,
-          dtvvData
-        );
-        alert('El informe Word falló, pero se generó un informe HTML como respaldo.');
-      } catch (htmlError) {
-        console.error('Error al generar el informe HTML:', htmlError);
-        alert('Error al generar el informe. Por favor, inténtelo de nuevo.');
+      // Si es un error de validación, el mensaje ya se mostró en generateWordReport
+      if (error instanceof Error && error.message.includes('Validación fallida')) {
+        return; // No mostrar mensaje adicional
       }
+      
+      // Para otros errores, mostrar mensaje genérico
+      alert('❌ Error al generar el informe. Por favor, verifique que todos los campos obligatorios estén completos e inténtelo de nuevo.');
     }
   };
 

@@ -1,0 +1,234 @@
+import { Paciente, Examen, ResumenMensual, EstadisticasDashboard } from '../types/database';
+
+declare global {
+  interface Window {
+    electronAPI: {
+      // Pacientes
+      savePaciente: (data: Paciente) => Promise<{ success: boolean; id?: number; error?: string }>;
+      updatePaciente: (id: number, data: Partial<Paciente>) => Promise<{ success: boolean; error?: string }>;
+      getPacienteById: (id: number) => Promise<{ success: boolean; data?: Paciente; error?: string }>;
+      getPacienteByCi: (ci: string) => Promise<{ success: boolean; data?: Paciente; error?: string }>;
+      getAllPacientes: () => Promise<{ success: boolean; data?: Paciente[]; error?: string }>;
+
+      // Exámenes
+      saveExamen: (pacienteId: number, estado: string, diagnostico: string, datos: any) => Promise<{ success: boolean; id?: number; error?: string }>;
+      updateExamen: (id: number, data: Partial<Examen>) => Promise<{ success: boolean; error?: string }>;
+      getExamenesPorEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
+      getExamenesPorMes: (mes: number, anio: number) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
+      getExamenesHoy: () => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
+      getResumenMensual: (anio: number) => Promise<{ success: boolean; data?: ResumenMensual[]; error?: string }>;
+      getEstadisticasDashboard: () => Promise<{ success: boolean; data?: EstadisticasDashboard; error?: string }>;
+
+      // Utilidades
+      getDbInfo: () => Promise<{ success: boolean; data?: any; error?: string }>;
+      createBackup: (backupPath: string) => Promise<{ success: boolean; error?: string }>;
+
+      // Compatibilidad
+      guardarPaciente: (data: any) => Promise<{ success: boolean; filePath?: string; error?: string }>;
+    };
+  }
+}
+
+export class DatabaseService {
+  // ===== PACIENTES =====
+  
+  static async savePaciente(data: Paciente): Promise<{ success: boolean; id?: number; error?: string }> {
+    try {
+      return await window.electronAPI.savePaciente(data);
+    } catch (error) {
+      console.error('Error saving paciente:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async updatePaciente(id: number, data: Partial<Paciente>): Promise<{ success: boolean; error?: string }> {
+    try {
+      return await window.electronAPI.updatePaciente(id, data);
+    } catch (error) {
+      console.error('Error updating paciente:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async getPacienteById(id: number): Promise<Paciente | null> {
+    try {
+      const result = await window.electronAPI.getPacienteById(id);
+      return result.success ? result.data || null : null;
+    } catch (error) {
+      console.error('Error getting paciente by id:', error);
+      return null;
+    }
+  }
+
+  static async getPacienteByCi(ci: string): Promise<Paciente | null> {
+    try {
+      const result = await window.electronAPI.getPacienteByCi(ci);
+      return result.success ? result.data || null : null;
+    } catch (error) {
+      console.error('Error getting paciente by CI:', error);
+      return null;
+    }
+  }
+
+  static async getAllPacientes(): Promise<Paciente[]> {
+    try {
+      const result = await window.electronAPI.getAllPacientes();
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting all pacientes:', error);
+      return [];
+    }
+  }
+
+  // ===== EXÁMENES =====
+
+  static async saveExamen(pacienteId: number, estado: string, diagnostico: string, datos: any): Promise<{ success: boolean; id?: number; error?: string }> {
+    try {
+      return await window.electronAPI.saveExamen(pacienteId, estado, diagnostico, datos);
+    } catch (error) {
+      console.error('Error saving examen:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async updateExamen(id: number, data: Partial<Examen>): Promise<{ success: boolean; error?: string }> {
+    try {
+      return await window.electronAPI.updateExamen(id, data);
+    } catch (error) {
+      console.error('Error updating examen:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async getExamenesPorEstado(estado: string): Promise<Examen[]> {
+    try {
+      const result = await window.electronAPI.getExamenesPorEstado(estado);
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting examenes por estado:', error);
+      return [];
+    }
+  }
+
+  static async getExamenesPendientes(): Promise<Examen[]> {
+    return this.getExamenesPorEstado('pendiente');
+  }
+
+  static async getExamenesCompletados(): Promise<Examen[]> {
+    return this.getExamenesPorEstado('completado');
+  }
+
+  static async getExamenesPorMes(mes: number, anio: number): Promise<Examen[]> {
+    try {
+      const result = await window.electronAPI.getExamenesPorMes(mes, anio);
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting examenes por mes:', error);
+      return [];
+    }
+  }
+
+  static async getExamenesHoy(): Promise<Examen[]> {
+    try {
+      const result = await window.electronAPI.getExamenesHoy();
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting examenes hoy:', error);
+      return [];
+    }
+  }
+
+  static async getResumenMensual(anio: number): Promise<ResumenMensual[]> {
+    try {
+      const result = await window.electronAPI.getResumenMensual(anio);
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting resumen mensual:', error);
+      return [];
+    }
+  }
+
+  static async getEstadisticasDashboard(): Promise<EstadisticasDashboard> {
+    try {
+      const result = await window.electronAPI.getEstadisticasDashboard();
+      if (result.success && result.data) {
+        return result.data;
+      }
+      return {
+        examenesHoy: 0,
+        examenesPendientes: 0,
+        examenesCompletados: 0,
+        pacientesAtendidos: 0
+      };
+    } catch (error) {
+      console.error('Error getting estadisticas dashboard:', error);
+      return {
+        examenesHoy: 0,
+        examenesPendientes: 0,
+        examenesCompletados: 0,
+        pacientesAtendidos: 0
+      };
+    }
+  }
+
+  // ===== UTILIDADES =====
+
+  static async getDbInfo() {
+    try {
+      const result = await window.electronAPI.getDbInfo();
+      return result.success ? result.data : null;
+    } catch (error) {
+      console.error('Error getting db info:', error);
+      return null;
+    }
+  }
+
+  static async createBackup(backupPath: string): Promise<{ success: boolean; error?: string }> {
+    try {
+      return await window.electronAPI.createBackup(backupPath);
+    } catch (error) {
+      console.error('Error creating backup:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  // ===== MÉTODOS DE COMPATIBILIDAD =====
+
+  static async guardarPacienteJSON(data: any): Promise<{ success: boolean; filePath?: string; error?: string }> {
+    try {
+      return await window.electronAPI.guardarPaciente(data);
+    } catch (error) {
+      console.error('Error saving paciente JSON:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  // ===== MÉTODOS AUXILIARES =====
+
+  static async migrarDatosDeJSON(): Promise<{ success: boolean; migratedCount?: number; error?: string }> {
+    // Aquí podrías implementar lógica para migrar datos existentes desde archivos JSON
+    // a la nueva base de datos SQLite
+    console.log('Migración de datos JSON no implementada aún');
+    return { success: false, error: 'Migración no implementada' };
+  }
+
+  // Método para obtener estadísticas rápidas del mes actual
+  static async getEstadisticasMesActual() {
+    const now = new Date();
+    const mes = now.getMonth() + 1;
+    const anio = now.getFullYear();
+    
+    const examenesMes = await this.getExamenesPorMes(mes, anio);
+    const completados = examenesMes.filter(e => e.estado === 'completado').length;
+    const pendientes = examenesMes.filter(e => e.estado === 'pendiente').length;
+    
+    return {
+      mes,
+      anio,
+      total: examenesMes.length,
+      completados,
+      pendientes,
+      pacientesUnicos: new Set(examenesMes.map(e => e.pacienteId)).size
+    };
+  }
+}

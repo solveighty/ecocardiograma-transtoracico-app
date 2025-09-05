@@ -21,7 +21,7 @@ export default defineConfig({
           build: {
             outDir: 'dist-electron',
             rollupOptions: {
-              external: ['electron']
+              external: ['electron', 'sqlite3']
             }
           }
         }
@@ -56,6 +56,7 @@ export default defineConfig({
     assetsInlineLimit: 0,
     chunkSizeWarningLimit: 1600,
     rollupOptions: {
+      external: ['sqlite3'],
       output: {
         manualChunks: undefined
       }

@@ -33,12 +33,14 @@ export function calcIMVI({ masaVI, superficieCorporal }: IMVIParams): string {
 // Fórmula: GRP = 2 * GDPIL / DDVI 
 // Unidades: misma unidad para numerador y denominador (se normaliza a mm aquí).
 export function calcGRP(gdsept: string, gdpil: string, ddfvi: string): string {
-  // Convertir a mm si vienen en cm (si el valor es < 10 asumimos cm)
-  const s = toNum(gdsept) < 10 ? toNum(gdsept) * 10 : toNum(gdsept);
-  const p = toNum(gdpil) < 10 ? toNum(gdpil) * 10 : toNum(gdpil);
-  const d = toNum(ddfvi) < 10 ? toNum(ddfvi) * 10 : toNum(ddfvi);
-  if (!s || !p || !d) return "";
-  const grp = (s + p) / d;
+  // gdsept is part of the original signature but not used in the GRP formula.
+  // Keep a reference to avoid unused-parameter lint errors.
+  void gdsept;
+  // Normalizar a mm: si el valor está en cm (<10) lo convertimos a mm
+  const p = toNum(gdpil) < 10 ? toNum(gdpil) * 10 : toNum(gdpil); // GDPIL en mm
+  const d = toNum(ddfvi) < 10 ? toNum(ddfvi) * 10 : toNum(ddfvi); // DDVI en mm
+  if (!p || !d) return "";
+  const grp = (2 * p) / d;
   return grp > 0 ? grp.toFixed(2) : "";
 }
 

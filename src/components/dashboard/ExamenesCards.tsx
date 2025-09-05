@@ -9,6 +9,7 @@ import {
 import { RefreshCw, User, Calendar, Clock, FileText } from "lucide-react";
 import { Examen } from "@/types/database";
 import { useNavigate } from "react-router-dom";
+import { formatearFechaParaUI } from "@/lib/dateUtils";
 
 interface ExamenListItemProps {
   examen: Examen;
@@ -28,11 +29,7 @@ const ExamenListItem = ({ examen, showLlenarDatos = false }: ExamenListItemProps
     navigate(`/ecocardiograma?${searchParams.toString()}`);
   };
   const fecha = new Date(examen.fecha);
-  const fechaFormateada = fecha.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
-  });
+  const fechaFormateada = formatearFechaParaUI(examen.fecha);
   const horaFormateada = fecha.toLocaleTimeString('es-ES', {
     hour: '2-digit',
     minute: '2-digit'

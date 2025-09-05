@@ -6,6 +6,7 @@ import { Label } from '../ui/label';
 import { Calendar, Plus, User, Hash, CalendarDays, AlertCircle, CheckCircle } from 'lucide-react';
 import { DatabaseService } from '../../services/databaseService';
 import { Paciente, Examen } from '../../types/database';
+import { getFechaLocalHoy, formatearFechaParaUI } from '../../lib/dateUtils';
 
 interface PacienteProgramado {
   paciente: Paciente;
@@ -16,15 +17,16 @@ export const AgendaDelDia: React.FC = () => {
   const [pacientesProgramados, setPacientesProgramados] = useState<PacienteProgramado[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  
   const [formData, setFormData] = useState({
-    fecha: new Date().toISOString().split('T')[0], // Fecha de hoy por defecto
+    fecha: getFechaLocalHoy(), // Fecha de hoy por defecto usando utilidad
     ci: '',
     nombres: ''
   });
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  const fechaHoy = new Date().toISOString().split('T')[0];
+  const fechaHoy = getFechaLocalHoy();
 
   useEffect(() => {
     cargarPacientesHoy();
@@ -153,7 +155,7 @@ export const AgendaDelDia: React.FC = () => {
 
       setMessage({ type: 'success', text: 'Paciente programado exitosamente' });
       setFormData({
-        fecha: fechaHoy,
+        fecha: getFechaLocalHoy(),
         ci: '',
         nombres: ''
       });
@@ -368,7 +370,7 @@ export const AgendaDelDia: React.FC = () => {
                           </div>
                           <div className="flex items-center space-x-2">
                             <CalendarDays className="h-4 w-4" />
-                            <span>Programado: {new Date(examen.fecha).toLocaleDateString('es-ES')}</span>
+                            <span>Programado: {formatearFechaParaUI(examen.fecha)}</span>
                           </div>
                           {paciente.edad > 0 && (
                             <div className="flex items-center space-x-2">

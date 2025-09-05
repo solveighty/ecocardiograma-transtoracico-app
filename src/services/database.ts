@@ -2,6 +2,7 @@ import * as sqlite3 from 'sqlite3';
 import { app } from 'electron';
 import * as path from 'path';
 import { Paciente, Examen, EstadisticasDashboard, ResumenMensual } from '../types/database';
+import { getFechaLocalHoy } from '../lib/dateUtils';
 
 export class EcocardioDB {
   private db!: sqlite3.Database;
@@ -403,7 +404,7 @@ export class EcocardioDB {
   // Estadísticas y reportes
   async getEstadisticasDashboard(): Promise<EstadisticasDashboard> {
     return new Promise((resolve, reject) => {
-      const hoy = new Date().toISOString().split('T')[0];
+      const hoy = getFechaLocalHoy();
       
       const sql = `
         SELECT 
@@ -520,7 +521,7 @@ export class EcocardioDB {
 
   async getExamenesHoy(): Promise<Examen[]> {
     return new Promise((resolve, reject) => {
-      const hoy = new Date().toISOString().split('T')[0];
+      const hoy = getFechaLocalHoy();
       
       const sql = `
         SELECT 

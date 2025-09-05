@@ -6,7 +6,7 @@ import {
   useExamenesCompletados, 
   useExamenesHoy 
 } from "@/hooks/useExamenes";
-import { RefreshCw, User, Calendar, Clock, FileText } from "lucide-react";
+import { RefreshCw, User, Calendar, Clock, FileText, Trash2 } from "lucide-react";
 import { Examen } from "@/types/database";
 import { useNavigate } from "react-router-dom";
 import { formatearFechaParaUI } from "@/lib/dateUtils";
@@ -14,9 +14,10 @@ import { formatearFechaParaUI } from "@/lib/dateUtils";
 interface ExamenListItemProps {
   examen: Examen;
   showLlenarDatos?: boolean;
+  onDelete?: (id: number) => void;
 }
 
-const ExamenListItem = ({ examen, showLlenarDatos = false }: ExamenListItemProps) => {
+const ExamenListItem = ({ examen, showLlenarDatos = false, onDelete }: ExamenListItemProps) => {
   const navigate = useNavigate();
   
   const handleLlenarDatos = () => {
@@ -27,6 +28,12 @@ const ExamenListItem = ({ examen, showLlenarDatos = false }: ExamenListItemProps
       fecha: examen.fecha
     });
     navigate(`/ecocardiograma?${searchParams.toString()}`);
+  };
+
+  const handleDelete = () => {
+    if (examen.id && window.confirm(`¿Está seguro de que desea eliminar la cita de ${examen.paciente?.nombres}?`)) {
+      onDelete?.(examen.id);
+    }
   };
   const fecha = new Date(examen.fecha);
   const fechaFormateada = formatearFechaParaUI(examen.fecha);
@@ -88,13 +95,32 @@ const ExamenListItem = ({ examen, showLlenarDatos = false }: ExamenListItemProps
             Llenar Datos
           </Button>
         )}
+        {onDelete && (
+          <Button
+            size="sm"
+            variant="destructive"
+            onClick={handleDelete}
+            className="px-3 py-2"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </div>
   );
 };
 
 export const ExamenesHoyCard = () => {
-  const { examenes, loading, error, refresh } = useExamenesHoy();
+  const { examenes, loading, error, refresh, deleteExamen } = useExamenesHoy();
+
+  const handleDeleteExamen = async (id: number) => {
+    try {
+      await deleteExamen(id);
+    } catch (err) {
+      console.error('Error al eliminar examen:', err);
+      // El error ya se maneja en el hook
+    }
+  };
 
   return (
     <Card className="h-fit min-h-[400px]">
@@ -134,7 +160,12 @@ export const ExamenesHoyCard = () => {
         ) : (
           <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2">
             {examenes.map((examen) => (
-              <ExamenListItem key={examen.id} examen={examen} showLlenarDatos={true} />
+              <ExamenListItem 
+                key={examen.id} 
+                examen={examen} 
+                showLlenarDatos={true} 
+                onDelete={handleDeleteExamen}
+              />
             ))}
           </div>
         )}

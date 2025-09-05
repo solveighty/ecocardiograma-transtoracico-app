@@ -14,6 +14,7 @@ declare global {
       // Exámenes
       saveExamen: (data: any) => Promise<{ success: boolean; id?: number; error?: string }>;
       updateExamen: (id: number, data: Partial<Examen>) => Promise<{ success: boolean; error?: string }>;
+      deleteExamen: (id: number) => Promise<{ success: boolean; error?: string }>;
       getExamenes: (filtros?: any) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesPorEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesByEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
@@ -116,6 +117,15 @@ export class DatabaseService {
       return await window.electronAPI.updateExamen(id, data);
     } catch (error) {
       console.error('Error updating examen:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async deleteExamen(id: number): Promise<{ success: boolean; error?: string }> {
+    try {
+      return await window.electronAPI.deleteExamen(id);
+    } catch (error) {
+      console.error('Error deleting examen:', error);
       return { success: false, error: String(error) };
     }
   }

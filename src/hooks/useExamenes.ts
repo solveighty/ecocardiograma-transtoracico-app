@@ -49,9 +49,9 @@ export const useExamenes = () => {
     }
   };
 
-  const saveExamen = async (pacienteId: number, estado: string, diagnostico: string, datos: any) => {
+  const saveExamen = async (examen: Omit<Examen, 'id'>) => {
     try {
-      const result = await DatabaseService.saveExamen(pacienteId, estado, diagnostico, datos);
+      const result = await DatabaseService.saveExamen(examen);
       if (result.success) {
         // Recargar la lista actual
         return result.id;
@@ -178,6 +178,23 @@ export const useExamenesHoy = () => {
     }
   };
 
+  const deleteExamen = async (id: number) => {
+    try {
+      const result = await DatabaseService.deleteExamen(id);
+      if (result.success) {
+        // Remover el examen de la lista local
+        setExamenes(prev => prev.filter(exam => exam.id !== id));
+        return true;
+      } else {
+        throw new Error(result.error || 'Error al eliminar examen');
+      }
+    } catch (err) {
+      console.error('Error deleting examen:', err);
+      setError('Error al eliminar examen');
+      throw err;
+    }
+  };
+
   useEffect(() => {
     loadData();
   }, []);
@@ -186,6 +203,7 @@ export const useExamenesHoy = () => {
     examenes,
     loading,
     error,
-    refresh: loadData
+    refresh: loadData,
+    deleteExamen
   };
 };

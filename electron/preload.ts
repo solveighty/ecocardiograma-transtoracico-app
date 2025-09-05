@@ -27,6 +27,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Exámenes
   saveExamen: (data: any) => ipcRenderer.invoke('db-save-examen', data),
   updateExamen: (id: number, data: any) => ipcRenderer.invoke('db-update-examen', id, data),
+  deleteExamen: (id: number) => ipcRenderer.invoke('db-delete-examen', id),
   getExamenes: (filtros: any) => ipcRenderer.invoke('db-get-examenes', filtros),
   getExamenesPorEstado: () => ipcRenderer.invoke('db-get-examenes-por-estado'),
   getExamenesByEstado: (estado: string) => ipcRenderer.invoke('db-get-examenes-by-estado', estado),

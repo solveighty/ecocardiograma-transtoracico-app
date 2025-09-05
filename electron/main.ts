@@ -214,7 +214,7 @@ const createWindow = (): void => {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     },
-    icon: path.join(__dirname, '../public/vite.svg')
+    icon: path.join(__dirname, '../public/logo_app.png')
   });
 
   // Load the app

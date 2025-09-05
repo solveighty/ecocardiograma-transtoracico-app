@@ -52,7 +52,7 @@ function MainActions() {
               <span>Historial de Pacientes</span>
             </CardTitle>
             <CardDescription>
-              Ver y gestionar el historial de exámenes realizados
+              Ver el historial de exámenes realizados
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -70,7 +70,7 @@ function MainActions() {
               <span>Agenda del Día</span>
             </CardTitle>
             <CardDescription>
-              Revisar citas y exámenes programados para hoy
+              Agendar pacientes para realizar examen
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -86,11 +86,15 @@ function MainActions() {
         </Card>
       </div>
 
-      {/* Sección de Exámenes */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <ExamenesHoyCard />
-        <ExamenesPendientesCard />
-        <ExamenesCompletadosCard />
+      {/* Sección de Exámenes - Layout mejorado */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 xl:col-span-2">
+          <ExamenesHoyCard />
+        </div>
+        <div className="space-y-6">
+          <ExamenesPendientesCard />
+          <ExamenesCompletadosCard />
+        </div>
       </div>
 
       {/* Sección de Estadísticas */}

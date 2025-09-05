@@ -6,14 +6,27 @@ import {
   useExamenesCompletados, 
   useExamenesHoy 
 } from "@/hooks/useExamenes";
-import { RefreshCw, User, Calendar, Clock } from "lucide-react";
+import { RefreshCw, User, Calendar, Clock, FileText } from "lucide-react";
 import { Examen } from "@/types/database";
+import { useNavigate } from "react-router-dom";
 
 interface ExamenListItemProps {
   examen: Examen;
+  showLlenarDatos?: boolean;
 }
 
-const ExamenListItem = ({ examen }: ExamenListItemProps) => {
+const ExamenListItem = ({ examen, showLlenarDatos = false }: ExamenListItemProps) => {
+  const navigate = useNavigate();
+  
+  const handleLlenarDatos = () => {
+    // Navegar al formulario con los datos del paciente pre-cargados
+    const searchParams = new URLSearchParams({
+      ci: examen.paciente?.ci || '',
+      nombres: examen.paciente?.nombres || '',
+      fecha: examen.fecha
+    });
+    navigate(`/ecocardiograma?${searchParams.toString()}`);
+  };
   const fecha = new Date(examen.fecha);
   const fechaFormateada = fecha.toLocaleDateString('es-ES', {
     day: '2-digit',
@@ -64,6 +77,16 @@ const ExamenListItem = ({ examen }: ExamenListItemProps) => {
         <Badge variant={getEstadoBadgeVariant(examen.estado)}>
           {examen.estado}
         </Badge>
+        {showLlenarDatos && examen.estado === 'pendiente' && (
+          <Button
+            size="sm"
+            onClick={handleLlenarDatos}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            <FileText className="h-3 w-3 mr-1" />
+            Llenar Datos
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -98,7 +121,7 @@ export const ExamenesHoyCard = () => {
         ) : (
           <div className="space-y-3 max-h-60 overflow-y-auto">
             {examenes.map((examen) => (
-              <ExamenListItem key={examen.id} examen={examen} />
+              <ExamenListItem key={examen.id} examen={examen} showLlenarDatos={true} />
             ))}
           </div>
         )}

@@ -16,6 +16,7 @@ declare global {
       updateExamen: (id: number, data: Partial<Examen>) => Promise<{ success: boolean; error?: string }>;
       getExamenes: (filtros?: any) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesPorEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
+      getExamenesByEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesPorMes: (mes: number, anio: number) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesHoy: () => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getResumenMensual: (anio: number) => Promise<{ success: boolean; data?: ResumenMensual[]; error?: string }>;
@@ -121,7 +122,7 @@ export class DatabaseService {
 
   static async getExamenesPorEstado(estado: string): Promise<Examen[]> {
     try {
-      const result = await window.electronAPI.getExamenesPorEstado(estado);
+      const result = await window.electronAPI.getExamenesByEstado(estado);
       return result.success ? result.data || [] : [];
     } catch (error) {
       console.error('Error getting examenes por estado:', error);

@@ -7,8 +7,7 @@ import {
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { FolderOpen, FileText, Calendar, Pencil, ArrowLeft } from "lucide-react";
+import { FolderOpen, FileText, Calendar, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { 
   ExamenesHoyCard, 
@@ -22,7 +21,6 @@ import {
 import AgendaDelDia from "./AgendaDelDia";
 
 function MainActions() {
-  const navigate = useNavigate();
   const [showAgenda, setShowAgenda] = useState(false);
 
   if (showAgenda) {
@@ -46,29 +44,7 @@ function MainActions() {
   return (
     <div className="space-y-8">
       {/* Acciones principales */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Pencil className="h-5 w-5 text-green-600" />
-              <span>Llenar Ecocardiograma Transtorácico</span>
-            </CardTitle>
-            <CardDescription>
-              Llena el formulario para el ecocardiograma
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button
-              variant="outline"
-              className="w-full bg-transparent"
-              onClick={() => navigate("/ecocardiograma")}
-            >
-              <Pencil className="h-4 w-4 mr-2" />
-              Llenar Formulario
-            </Button>
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="hover:shadow-lg transition-shadow cursor-pointer">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">

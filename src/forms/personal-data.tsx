@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { StepDatosPersonales } from "./steps/StepDatosPersonales";
 import { StepMedidasVI } from "./steps/StepMedidasVI";
 import { StepVentriculosAuriculas } from "./steps/StepVentriculosAuriculas";
@@ -21,6 +22,7 @@ import { generateWordReport } from "./services/reportExporter";
 
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
+  const [searchParams] = useSearchParams();
   const [patientData, setPatientData] = useState<PatientData>(getInitialPatientData());
   const [medidasVIData, setMedidasVIData] = useState<MedidasVIData>(getInitialMedidasVIData());
   const [ventriculosAuriculasData, setVentriculosAuriculasData] = useState(
@@ -28,6 +30,22 @@ export default function PatientForm() {
   );
   const [valvulasData, setValvulasData] = useState<ValvulasData>(getInitialValvulasData());
   const [dtvvData, setDtvvData] = useState<DopplerVasosVenasData>(getInitialDopplerVasosVenasData());
+
+  // Pre-llenar datos si vienen de la agenda
+  useEffect(() => {
+    const ci = searchParams.get('ci');
+    const nombres = searchParams.get('nombres');
+    const fecha = searchParams.get('fecha');
+
+    if (ci || nombres || fecha) {
+      setPatientData(prev => ({
+        ...prev,
+        ...(ci && { ci }),
+        ...(nombres && { nombresApellidos: nombres }),
+        ...(fecha && { fechaExamen: new Date(fecha) })
+      }));
+    }
+  }, [searchParams]);
 
   useSyncVentriculosAuriculasData(medidasVIData, patientData, setVentriculosAuriculasData);
   useAutoSuperficieCorporal(patientData, setPatientData, setVentriculosAuriculasData);

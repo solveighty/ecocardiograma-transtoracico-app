@@ -63,17 +63,46 @@ export const AgendaDelDia: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    if (name === 'ci') {
+      // Solo permitir números y máximo 10 dígitos para CI
+      const numericValue = value.replace(/[^0-9]/g, "");
+      if (numericValue.length <= 10) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: numericValue
+        }));
+      }
+    } else if (name === 'nombres') {
+      // Solo permitir letras, espacios y tildes para nombres
+      const textValue = value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, "");
+      setFormData(prev => ({
+        ...prev,
+        [name]: textValue
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.ci || !formData.nombres || !formData.fecha) {
-      setMessage({ type: 'error', text: 'Por favor complete todos los campos' });
+      setMessage({ type: 'error', text: 'Por favor complete todos los campos obligatorios' });
+      return;
+    }
+
+    if (formData.ci.length !== 10) {
+      setMessage({ type: 'error', text: 'La cédula de identidad debe tener exactamente 10 dígitos' });
+      return;
+    }
+
+    if (formData.nombres.trim().length < 2) {
+      setMessage({ type: 'error', text: 'El nombre debe tener al menos 2 caracteres' });
       return;
     }
 
@@ -241,26 +270,49 @@ export const AgendaDelDia: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="ci">Cédula de Identidad</Label>
+                      <Label htmlFor="ci">Cédula de Identidad <span className="text-red-500">*</span></Label>
                       <Input
                         id="ci"
                         name="ci"
                         type="text"
                         value={formData.ci}
                         onChange={handleInputChange}
-                        placeholder="Ej: 12345678"
+                        onKeyPress={(e) => {
+                          // Prevenir la entrada de cualquier carácter que no sea número
+                          if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+                            e.preventDefault();
+                          }
+                          // Prevenir más de 10 dígitos
+                          if (formData.ci.length >= 10 && /[0-9]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        placeholder="10 dígitos (solo números)"
+                        className={`${formData.ci.length > 0 && formData.ci.length !== 10 ? 'border-red-500' : ''}`}
+                        maxLength={10}
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
                         required
                       />
+                      {formData.ci.length > 0 && formData.ci.length !== 10 && (
+                        <p className="text-red-500 text-xs mt-1">La cédula debe tener exactamente 10 dígitos</p>
+                      )}
                     </div>
                     <div>
-                      <Label htmlFor="nombres">Nombre Completo</Label>
+                      <Label htmlFor="nombres">Nombre Completo <span className="text-red-500">*</span></Label>
                       <Input
                         id="nombres"
                         name="nombres"
                         type="text"
                         value={formData.nombres}
                         onChange={handleInputChange}
-                        placeholder="Ej: Juan Pérez"
+                        onKeyPress={(e) => {
+                          // Prevenir la entrada de números y símbolos especiales
+                          if (!/[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                        placeholder="Solo letras y espacios"
                         required
                       />
                     </div>
@@ -268,8 +320,12 @@ export const AgendaDelDia: React.FC = () => {
                   <div className="flex space-x-3">
                     <Button
                       type="submit"
-                      disabled={submitting}
-                      className="bg-orange-600 hover:bg-orange-700"
+                      disabled={submitting || formData.ci.length !== 10 || formData.nombres.trim().length < 2}
+                      className={`bg-orange-600 hover:bg-orange-700 ${
+                        (formData.ci.length !== 10 || formData.nombres.trim().length < 2) 
+                          ? 'opacity-50 cursor-not-allowed' 
+                          : ''
+                      }`}
                     >
                       {submitting ? 'Programando...' : 'Programar Paciente'}
                     </Button>

@@ -59,14 +59,20 @@ export default function DatosPersonalesForm({
               id="nombresApellidos"
               value={patientData.nombresApellidos}
               onChange={(e) => {
-                // Solo permitir letras, espacios y tildes
+                // Solo permitir letras, espacios y tildes - sin números ni símbolos especiales
                 let value = e.target.value.replace(
-                  /[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s']/g,
+                  /[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g,
                   ""
                 );
                 handleInputChange("nombresApellidos", value);
               }}
-              placeholder="Ingrese nombres y apellidos completos"
+              onKeyPress={(e) => {
+                // Prevenir la entrada de números y símbolos especiales
+                if (!/[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              placeholder="Ingrese nombres y apellidos completos (solo letras)"
               className="mt-1"
               required
             />
@@ -105,20 +111,33 @@ export default function DatosPersonalesForm({
               id="ci"
               value={patientData.ci}
               onChange={(e) => {
-                let value = e.target.value;
-                if (value.length > 10) value = value.slice(0, 10);
-                // Solo permitir hasta 10 caracteres
-                const match = value.match(/^\d{0,10}$/);
-                if (match) {
+                // Solo permitir números y máximo 10 dígitos
+                let value = e.target.value.replace(/[^0-9]/g, "");
+                if (value.length <= 10) {
                   handleInputChange("ci", value);
                 }
               }}
-              placeholder="Cédula de identidad"
-              className="mt-1"
+              onKeyPress={(e) => {
+                // Prevenir la entrada de cualquier carácter que no sea número
+                if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+                  e.preventDefault();
+                }
+                // Prevenir más de 10 dígitos
+                if (patientData.ci.length >= 10 && /[0-9]/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              placeholder="Cédula de identidad (10 dígitos)"
+              className={`mt-1 ${patientData.ci.length > 0 && patientData.ci.length !== 10 ? 'border-red-500' : ''}`}
               maxLength={10}
-              minLength={10}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]{10}"
               required
             />
+            {patientData.ci.length > 0 && patientData.ci.length !== 10 && (
+              <p className="text-red-500 text-xs mt-1">La cédula debe tener exactamente 10 dígitos</p>
+            )}
           </div>
         </div>
         {/* Fecha de Nacimiento */}

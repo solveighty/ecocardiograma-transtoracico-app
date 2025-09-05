@@ -219,7 +219,7 @@ function safeFormat(value: string | number | undefined, decimals: number = 2): s
 }
 
 // Función auxiliar para obtener valores con fallback
-function safeValue(value: string | undefined, fallback: string = 'No evaluado'): string {
+function safeValue(value: string | undefined, fallback: string = 'no evaluado'): string {
   if (!value || value.trim() === '') return fallback;
   return value;
 }
@@ -246,13 +246,13 @@ function formatVentanas(ventanas: string[]): string {
 
 // Función auxiliar para valores opcionales que pueden no estar evaluados
 function optionalValue(value: string | undefined): string {
-  return safeValue(value, 'No evaluado');
+  return safeValue(value, 'no evaluado');
 }
 
 // Función auxiliar para valores numéricos opcionales
 function optionalNumericValue(value: string | undefined): string {
   if (!value || value.trim() === '' || isNaN(parseFloat(value))) {
-    return 'No evaluado';
+    return 'no evaluado';
   }
   return value;
 }
@@ -576,8 +576,6 @@ export async function generateWordReport(
       dopplerData
     );
 
-    console.log('Datos compilados para el reporte:', reportData);
-
     // Renderizar documento con los datos
     doc.render(reportData);
 
@@ -598,7 +596,6 @@ export async function generateWordReport(
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
 
-    console.log('Informe generado exitosamente:', fileName);
   } catch (error: any) {
     console.error('Error detallado al generar el informe:', error);
     

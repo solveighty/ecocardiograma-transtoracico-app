@@ -32,7 +32,7 @@ function validatePatientData(data: PatientData): ValidationError[] {
   const errors: ValidationError[] = [];
   const section = "Datos Personales";
 
-  // Campos obligatorios
+  // Solo campos básicos obligatorios según requisitos
   if (isFieldEmpty(data.nombresApellidos)) {
     errors.push({
       field: 'nombresApellidos',
@@ -41,66 +41,10 @@ function validatePatientData(data: PatientData): ValidationError[] {
     });
   }
 
-  if (isFieldEmpty(data.edad)) {
+  if (isFieldEmpty(data.ci)) {
     errors.push({
-      field: 'edad',
-      message: 'El campo "Edad" es obligatorio',
-      section
-    });
-  }
-
-  if (isFieldEmpty(data.sexo)) {
-    errors.push({
-      field: 'sexo',
-      message: 'El campo "Sexo" es obligatorio',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.peso)) {
-    errors.push({
-      field: 'peso',
-      message: 'El campo "Peso" es obligatorio y debe ser un número válido',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.talla)) {
-    errors.push({
-      field: 'talla',
-      message: 'El campo "Talla" es obligatorio y debe ser un número válido',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.superficieCorporal)) {
-    errors.push({
-      field: 'superficieCorporal',
-      message: 'La "Superficie Corporal" es obligatoria (se calcula automáticamente si peso y talla están completos)',
-      section
-    });
-  }
-
-  if (!data.ventanas || data.ventanas.length === 0) {
-    errors.push({
-      field: 'ventanas',
-      message: 'Debe seleccionar al menos una ventana de evaluación',
-      section
-    });
-  }
-
-  if (isFieldEmpty(data.ritmo)) {
-    errors.push({
-      field: 'ritmo',
-      message: 'El campo "Ritmo" es obligatorio',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.frecuenciaCardiaca)) {
-    errors.push({
-      field: 'frecuenciaCardiaca',
-      message: 'El campo "Frecuencia Cardíaca" es obligatorio y debe ser un número válido',
+      field: 'ci',
+      message: 'El campo "CI (Cédula de Identidad)" es obligatorio',
       section
     });
   }
@@ -116,116 +60,29 @@ function validatePatientData(data: PatientData): ValidationError[] {
   return errors;
 }
 
-// Validar mediciones VI
-function validateMedidasVI(data: MedidasVIData): ValidationError[] {
-  const errors: ValidationError[] = [];
-  const section = "Mediciones VI";
-
-  // Diámetros obligatorios
-  if (!isValidNumber(data.ddfvi)) {
-    errors.push({
-      field: 'ddfvi',
-      message: 'El "DDFVI" es obligatorio para calcular la función ventricular',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.dsfvi)) {
-    errors.push({
-      field: 'dsfvi',
-      message: 'El "DSFVI" es obligatorio para calcular la función ventricular',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.gdsept)) {
-    errors.push({
-      field: 'gdsept',
-      message: 'El "Grosor del Septum" es obligatorio para calcular la masa VI',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.gdpil)) {
-    errors.push({
-      field: 'gdpil',
-      message: 'El "Grosor de la Pared Posterior" es obligatorio para calcular la masa VI',
-      section
-    });
-  }
-
-  // Validar que al menos uno de los métodos de volumen esté completo
-  const hasLinearVolumes = isValidNumber(data.vdfLineal) && isValidNumber(data.vsfLineal);
-  const hasSimpsonVolumes = isValidNumber(data.vdfSimpson) && isValidNumber(data.vsfSimpson);
-
-  if (!hasLinearVolumes && !hasSimpsonVolumes) {
-    errors.push({
-      field: 'volumes',
-      message: 'Debe completar al menos VDF y VSF (método lineal o Simpson) para calcular la FE',
-      section
-    });
-  }
-
-  return errors;
+// Validar mediciones VI - Ahora opcional
+function validateMedidasVI(_data: MedidasVIData): ValidationError[] {
+  // Todos los campos son opcionales
+  return [];
 }
 
 // Validar ventrículos y aurículas
-function validateVentriculosAuriculas(data: VentriculosAuriculasData): ValidationError[] {
-  const errors: ValidationError[] = [];
-  const section = "Ventrículos y Aurículas";
-
-  // Los campos de masa VI e IMVI se calculan automáticamente, pero necesitamos GRP
-  if (!isValidNumber(data.grp)) {
-    errors.push({
-      field: 'grp',
-      message: 'El "GRP" es obligatorio para determinar el tipo de hipertrofia',
-      section
-    });
-  }
-
-  return errors;
+// Validar ventrículos y aurículas - Ahora opcional
+function validateVentriculosAuriculas(_data: VentriculosAuriculasData): ValidationError[] {
+  // Todos los campos son opcionales
+  return [];
 }
 
-// Validar válvulas (campos críticos para función diastólica)
-function validateValvulas(data: ValvulasData): ValidationError[] {
-  const errors: ValidationError[] = [];
-  const section = "Válvulas";
-
-  // Ondas mitrales obligatorias para función diastólica
-  if (!isValidNumber(data.mitral.ondaE)) {
-    errors.push({
-      field: 'mitral_ondaE',
-      message: 'La "Onda E mitral" es obligatoria para evaluar función diastólica',
-      section
-    });
-  }
-
-  if (!isValidNumber(data.mitral.ondaA)) {
-    errors.push({
-      field: 'mitral_ondaA',
-      message: 'La "Onda A mitral" es obligatoria para calcular la relación E/A',
-      section
-    });
-  }
-
-  return errors;
+// Validar válvulas - Ahora opcional
+function validateValvulas(_data: ValvulasData): ValidationError[] {
+  // Todos los campos son opcionales
+  return [];
 }
 
-// Validar Doppler tisular
-function validateDopplerTisular(data: DopplerVasosVenasData): ValidationError[] {
-  const errors: ValidationError[] = [];
-  const section = "Doppler Tisular";
-
-  // e' mitral es crítico para E/e'
-  if (!isValidNumber(data.tisularMitral.ePrime)) {
-    errors.push({
-      field: 'tisularMitral_ePrime',
-      message: 'La "e\' mitral" es obligatoria para calcular la relación E/e\'',
-      section
-    });
-  }
-
-  return errors;
+// Validar Doppler tisular - Ahora opcional
+function validateDopplerTisular(_data: DopplerVasosVenasData): ValidationError[] {
+  // Todos los campos son opcionales
+  return [];
 }
 
 // Función principal de validación

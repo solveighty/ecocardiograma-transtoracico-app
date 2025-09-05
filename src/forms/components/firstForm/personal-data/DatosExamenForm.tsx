@@ -59,7 +59,7 @@ export default function DatosExamenForm({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <Label className="text-sm font-medium">
-              Ventanas: <span className="text-red-500">*</span>
+              Ventanas:
             </Label>
             <div className="mt-2 space-y-3">
               {ventanaOptions.map((option) => (
@@ -83,7 +83,7 @@ export default function DatosExamenForm({
           </div>
           <div>
             <Label htmlFor="ritmo" className="text-sm font-medium">
-              Ritmo: <span className="text-red-500">*</span>
+              Ritmo:
             </Label>
             <Select
               value={patientData.ritmo}
@@ -105,7 +105,7 @@ export default function DatosExamenForm({
           </div>
           <div>
             <Label htmlFor="fc" className="text-sm font-medium">
-              FC (Frecuencia Cardíaca): <span className="text-red-500">*</span>
+              FC (Frecuencia Cardíaca):
             </Label>
             <InputWithUnit
               id="fc"
@@ -117,7 +117,6 @@ export default function DatosExamenForm({
               unit="lpm"
               min={0}
               max={300}
-              required
             />
           </div>
         </div>

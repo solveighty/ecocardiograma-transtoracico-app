@@ -16,7 +16,7 @@ export default function PesoTallaSCForm({
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <div>
         <Label htmlFor="peso" className="text-sm font-medium">
-          Peso: <span className="text-red-500">*</span>
+          Peso:
         </Label>
         <InputWithUnit
           id="peso"
@@ -26,13 +26,12 @@ export default function PesoTallaSCForm({
           unit="kg"
           min={0}
           max={999.99}
-          required
           placeholder="0.00"
         />
       </div>
       <div>
         <Label htmlFor="talla" className="text-sm font-medium">
-          Talla: <span className="text-red-500">*</span>
+          Talla:
         </Label>
         <InputWithUnit
           id="talla"
@@ -42,7 +41,6 @@ export default function PesoTallaSCForm({
           unit="cm"
           min={0}
           max={300}
-          required
           placeholder="0"
         />
       </div>

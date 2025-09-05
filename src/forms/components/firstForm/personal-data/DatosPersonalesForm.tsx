@@ -76,13 +76,13 @@ export default function DatosPersonalesForm({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <Label htmlFor="edad" className="text-sm font-medium">
-              Edad: <span className="text-red-500">*</span>
+              Edad:
             </Label>
             <ReadOnlyWithUnit label="" value={patientData.edad} unit="años" />
           </div>
           <div>
             <Label htmlFor="sexo" className="text-sm font-medium">
-              Sexo: <span className="text-red-500">*</span>
+              Sexo:
             </Label>
             <Select
               value={patientData.sexo}
@@ -125,7 +125,7 @@ export default function DatosPersonalesForm({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label className="text-sm font-medium">
-              FN (Fecha de Nacimiento): <span className="text-red-500">*</span>
+              FN (Fecha de Nacimiento):
             </Label>
             <Popover>
               <PopoverTrigger asChild>

@@ -71,8 +71,7 @@ export default function PatientForm() {
         valvulasData,
         dtvvData
       );
-      // Opcional: mostrar mensaje de éxito
-      alert('✅ Informe Word generado exitosamente');
+      // El archivo se descarga automáticamente, no necesitamos mostrar mensaje adicional
     } catch (error) {
       console.error('Error al generar el informe Word:', error);
       

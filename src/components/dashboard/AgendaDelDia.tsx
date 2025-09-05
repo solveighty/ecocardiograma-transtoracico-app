@@ -383,18 +383,6 @@ export const AgendaDelDia: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      <div className="flex space-x-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => {
-                            // TODO: Implementar navegación al examen
-                            console.log('Navegar a examen:', examen.id);
-                          }}
-                        >
-                          Ver Examen
-                        </Button>
-                      </div>
                     </div>
                   </CardContent>
                 </Card>

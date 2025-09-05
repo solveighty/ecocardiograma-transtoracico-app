@@ -30,7 +30,7 @@ export function calcIMVI({ masaVI, superficieCorporal }: IMVIParams): string {
 }
 
 // Grosor relativo de pared (adimensional)
-// Fórmula: GRP = (GDSept + GDPIL) / DDFVI
+// Fórmula: GRP = 2 * GDPIL / DDVI 
 // Unidades: misma unidad para numerador y denominador (se normaliza a mm aquí).
 export function calcGRP(gdsept: string, gdpil: string, ddfvi: string): string {
   // Convertir a mm si vienen en cm (si el valor es < 10 asumimos cm)

@@ -8,7 +8,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { FolderOpen, FileText, Calendar, Pencil } from "lucide-react";
+import { FolderOpen, FileText, Calendar, Pencil, ArrowLeft } from "lucide-react";
+import { useState } from "react";
 import { 
   ExamenesHoyCard, 
   ExamenesPendientesCard, 
@@ -18,9 +19,30 @@ import {
   ResumenMensualCard, 
   EstadisticasMesActualCard 
 } from "./EstadisticasCards";
+import AgendaDelDia from "./AgendaDelDia";
 
 function MainActions() {
   const navigate = useNavigate();
+  const [showAgenda, setShowAgenda] = useState(false);
+
+  if (showAgenda) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            onClick={() => setShowAgenda(false)}
+            className="flex items-center space-x-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Volver al Dashboard</span>
+          </Button>
+          <h2 className="text-2xl font-bold text-gray-900">Agenda del Día</h2>
+        </div>
+        <AgendaDelDia />
+      </div>
+    );
+  }
   return (
     <div className="space-y-8">
       {/* Acciones principales */}
@@ -76,7 +98,11 @@ function MainActions() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button variant="outline" className="w-full bg-transparent">
+            <Button 
+              variant="outline" 
+              className="w-full bg-transparent"
+              onClick={() => setShowAgenda(true)}
+            >
               <Calendar className="h-4 w-4 mr-2" />
               Ver Agenda
             </Button>

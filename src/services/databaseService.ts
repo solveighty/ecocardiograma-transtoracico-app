@@ -9,10 +9,12 @@ declare global {
       getPacienteById: (id: number) => Promise<{ success: boolean; data?: Paciente; error?: string }>;
       getPacienteByCi: (ci: string) => Promise<{ success: boolean; data?: Paciente; error?: string }>;
       getAllPacientes: () => Promise<{ success: boolean; data?: Paciente[]; error?: string }>;
+      getPacientes: (filtros?: any) => Promise<{ success: boolean; data?: Paciente[]; error?: string }>;
 
       // Exámenes
-      saveExamen: (pacienteId: number, estado: string, diagnostico: string, datos: any) => Promise<{ success: boolean; id?: number; error?: string }>;
+      saveExamen: (data: any) => Promise<{ success: boolean; id?: number; error?: string }>;
       updateExamen: (id: number, data: Partial<Examen>) => Promise<{ success: boolean; error?: string }>;
+      getExamenes: (filtros?: any) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesPorEstado: (estado: string) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesPorMes: (mes: number, anio: number) => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
       getExamenesHoy: () => Promise<{ success: boolean; data?: Examen[]; error?: string }>;
@@ -50,43 +52,60 @@ export class DatabaseService {
     }
   }
 
-  static async getPacienteById(id: number): Promise<Paciente | null> {
+  static async getPacienteById(id: number): Promise<{ success: boolean; data?: Paciente; error?: string }> {
     try {
       const result = await window.electronAPI.getPacienteById(id);
-      return result.success ? result.data || null : null;
+      return result;
     } catch (error) {
       console.error('Error getting paciente by id:', error);
-      return null;
+      return { success: false, error: String(error) };
     }
   }
 
-  static async getPacienteByCi(ci: string): Promise<Paciente | null> {
+  static async getPacienteByCi(ci: string): Promise<{ success: boolean; data?: Paciente; error?: string }> {
     try {
       const result = await window.electronAPI.getPacienteByCi(ci);
-      return result.success ? result.data || null : null;
+      return result;
     } catch (error) {
       console.error('Error getting paciente by CI:', error);
-      return null;
+      return { success: false, error: String(error) };
     }
   }
 
-  static async getAllPacientes(): Promise<Paciente[]> {
+  static async getAllPacientes(): Promise<{ success: boolean; data?: Paciente[]; error?: string }> {
     try {
-      const result = await window.electronAPI.getAllPacientes();
-      return result.success ? result.data || [] : [];
+      return await window.electronAPI.getAllPacientes();
     } catch (error) {
       console.error('Error getting all pacientes:', error);
-      return [];
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async getPacientes(filtros?: any): Promise<{ success: boolean; data?: Paciente[]; error?: string }> {
+    try {
+      return await window.electronAPI.getPacientes(filtros);
+    } catch (error) {
+      console.error('Error getting pacientes:', error);
+      return { success: false, error: String(error) };
     }
   }
 
   // ===== EXÁMENES =====
 
-  static async saveExamen(pacienteId: number, estado: string, diagnostico: string, datos: any): Promise<{ success: boolean; id?: number; error?: string }> {
+  static async saveExamen(examen: Omit<Examen, 'id'>): Promise<{ success: boolean; id?: number; error?: string }> {
     try {
-      return await window.electronAPI.saveExamen(pacienteId, estado, diagnostico, datos);
+      return await window.electronAPI.saveExamen(examen);
     } catch (error) {
       console.error('Error saving examen:', error);
+      return { success: false, error: String(error) };
+    }
+  }
+
+  static async getExamenes(filtros?: any): Promise<{ success: boolean; data?: Examen[]; error?: string }> {
+    try {
+      return await window.electronAPI.getExamenes(filtros);
+    } catch (error) {
+      console.error('Error getting examenes:', error);
       return { success: false, error: String(error) };
     }
   }

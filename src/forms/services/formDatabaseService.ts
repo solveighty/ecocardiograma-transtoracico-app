@@ -55,9 +55,9 @@ export class FormDatabaseService {
   // Buscar paciente por CI y cargar datos en el formulario
   static async buscarPacientePorCI(ci: string): Promise<PatientData | null> {
     try {
-      const paciente = await DatabaseService.getPacienteByCi(ci);
-      if (paciente) {
-        return this.pacienteToPatientData(paciente);
+      const result = await DatabaseService.getPacienteByCi(ci);
+      if (result.success && result.data) {
+        return this.pacienteToPatientData(result.data);
       }
       return null;
     } catch (error) {
@@ -72,13 +72,13 @@ export class FormDatabaseService {
       const paciente = this.patientDataToPaciente(patientData);
       
       // Verificar si ya existe un paciente con esta CI
-      const pacienteExistente = await DatabaseService.getPacienteByCi(paciente.ci);
+      const resultPacienteExistente = await DatabaseService.getPacienteByCi(paciente.ci);
       
-      if (pacienteExistente) {
+      if (resultPacienteExistente.success && resultPacienteExistente.data) {
         // Actualizar paciente existente
-        const result = await DatabaseService.updatePaciente(pacienteExistente.id!, paciente);
+        const result = await DatabaseService.updatePaciente(resultPacienteExistente.data.id!, paciente);
         if (result.success) {
-          return { success: true, pacienteId: pacienteExistente.id };
+          return { success: true, pacienteId: resultPacienteExistente.data.id };
         } else {
           return { success: false, error: result.error || 'Error al actualizar paciente' };
         }
@@ -125,12 +125,14 @@ export class FormDatabaseService {
       };
 
       // Guardar el examen
-      const examenResult = await DatabaseService.saveExamen(
-        pacienteResult.pacienteId,
+      const examenData = {
+        pacienteId: pacienteResult.pacienteId,
         estado,
         diagnostico,
-        datosExamen
-      );
+        datos: datosExamen,
+        fecha: new Date().toISOString()
+      };
+      const examenResult = await DatabaseService.saveExamen(examenData);
 
       if (examenResult.success && examenResult.id) {
         return {
@@ -182,15 +184,15 @@ export class FormDatabaseService {
   // Obtener historial de exámenes de un paciente
   static async obtenerHistorialPaciente(ci: string): Promise<{ success: boolean; examenes?: Examen[]; error?: string }> {
     try {
-      const paciente = await DatabaseService.getPacienteByCi(ci);
-      if (!paciente || !paciente.id) {
+      const resultPaciente = await DatabaseService.getPacienteByCi(ci);
+      if (!resultPaciente.success || !resultPaciente.data || !resultPaciente.data.id) {
         return { success: false, error: 'Paciente no encontrado' };
       }
 
       // Aquí necesitarías un método en DatabaseService para obtener exámenes por pacienteId
       // Por ahora, usamos getExamenesPorEstado como ejemplo
       const examenes = await DatabaseService.getExamenesPorEstado('completado');
-      const examenesPaciente = examenes.filter((e: Examen) => e.pacienteId === paciente.id);
+      const examenesPaciente = examenes.filter((e: Examen) => e.pacienteId === resultPaciente.data!.id);
 
       return { success: true, examenes: examenesPaciente };
     } catch (error) {

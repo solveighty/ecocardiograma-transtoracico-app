@@ -21,16 +21,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
   updatePaciente: (id: number, data: any) => ipcRenderer.invoke('db-update-paciente', id, data),
   getPacienteById: (id: number) => ipcRenderer.invoke('db-get-paciente-by-id', id),
   getPacienteByCi: (ci: string) => ipcRenderer.invoke('db-get-paciente-by-ci', ci),
-  getAllPacientes: () => ipcRenderer.invoke('db-get-all-pacientes'),
+  getAllPacientes: () => ipcRenderer.invoke('db-get-pacientes'),
+  getPacientes: (filtros: any) => ipcRenderer.invoke('db-get-pacientes', filtros),
 
   // Exámenes
-  saveExamen: (pacienteId: number, estado: string, diagnostico: string, datos: any) => 
-    ipcRenderer.invoke('db-save-examen', pacienteId, estado, diagnostico, datos),
+  saveExamen: (data: any) => ipcRenderer.invoke('db-save-examen', data),
   updateExamen: (id: number, data: any) => ipcRenderer.invoke('db-update-examen', id, data),
-  getExamenesPorEstado: (estado: string) => ipcRenderer.invoke('db-get-examenes-por-estado', estado),
-  getExamenesPorMes: (mes: number, anio: number) => ipcRenderer.invoke('db-get-examenes-por-mes', mes, anio),
+  getExamenes: (filtros: any) => ipcRenderer.invoke('db-get-examenes', filtros),
+  getExamenesPorEstado: () => ipcRenderer.invoke('db-get-examenes-por-estado'),
+  getExamenesPorMes: (meses: number) => ipcRenderer.invoke('db-get-examenes-por-mes', meses),
   getExamenesHoy: () => ipcRenderer.invoke('db-get-examenes-hoy'),
-  getResumenMensual: (anio: number) => ipcRenderer.invoke('db-get-resumen-mensual', anio),
+  getResumenMensual: (year: number, month: number) => ipcRenderer.invoke('db-get-resumen-mensual', year, month),
   getEstadisticasDashboard: () => ipcRenderer.invoke('db-get-estadisticas-dashboard'),
 
   // Utilidades

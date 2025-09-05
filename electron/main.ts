@@ -51,6 +51,29 @@ ipcMain.handle('db-get-pacientes', async (_event, filtros?: any) => {
   }
 });
 
+ipcMain.handle('db-get-paciente-by-ci', async (_event, ci: string) => {
+  try {
+    const db = await DatabaseManager.getInstance();
+    const pacientes = await db.getPacientes({ ci: ci });
+    const paciente = pacientes.length > 0 ? pacientes[0] : null;
+    return { success: true, data: paciente };
+  } catch (error: any) {
+    console.error('Error getting paciente by CI:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('db-get-examenes', async (_event, filtros?: any) => {
+  try {
+    const db = await DatabaseManager.getInstance();
+    const examenes = await db.getExamenes(filtros);
+    return { success: true, data: examenes };
+  } catch (error: any) {
+    console.error('Error getting examenes:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 ipcMain.handle('db-delete-paciente', async (_event, id: number) => {
   try {
     const db = await DatabaseManager.getInstance();
@@ -92,17 +115,6 @@ ipcMain.handle('db-get-examen-by-id', async (_event, id: number) => {
     return { success: true, data: examen };
   } catch (error: any) {
     console.error('Error getting examen:', error);
-    return { success: false, error: error.message };
-  }
-});
-
-ipcMain.handle('db-get-examenes', async (_event, filtros?: any) => {
-  try {
-    const db = await DatabaseManager.getInstance();
-    const examenes = await db.getExamenes(filtros);
-    return { success: true, data: examenes };
-  } catch (error: any) {
-    console.error('Error getting examenes:', error);
     return { success: false, error: error.message };
   }
 });

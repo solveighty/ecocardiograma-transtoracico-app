@@ -188,16 +188,27 @@ export class EcocardioDB {
 
   async getPacientes(filtros?: {
     nombres?: string;
+    ci?: string;
     limite?: number;
     pagina?: number;
   }): Promise<Paciente[]> {
     return new Promise((resolve, reject) => {
       let sql = 'SELECT * FROM pacientes';
       const params: any[] = [];
+      const whereConditions: string[] = [];
       
       if (filtros?.nombres) {
-        sql += ' WHERE nombres LIKE ?';
+        whereConditions.push('nombres LIKE ?');
         params.push(`%${filtros.nombres}%`);
+      }
+      
+      if (filtros?.ci) {
+        whereConditions.push('ci = ?');
+        params.push(filtros.ci);
+      }
+      
+      if (whereConditions.length > 0) {
+        sql += ' WHERE ' + whereConditions.join(' AND ');
       }
       
       sql += ' ORDER BY nombres ASC';

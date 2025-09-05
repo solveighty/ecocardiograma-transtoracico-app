@@ -7,7 +7,7 @@ export interface PatientData {
   peso: string;
   talla: string;
   superficieCorporal: string;
-  ventana: string;
+  ventanas: string[];
   ritmo: string;
   frecuenciaCardiaca: string;
   fechaExamen: Date | undefined;

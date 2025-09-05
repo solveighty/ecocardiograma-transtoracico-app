@@ -7,6 +7,7 @@ export function StepDatosPersonales({
   patientData,
   handleInputChange,
   handleDateChange,
+  handleVentanasChange,
   handleNext,
 }: any) {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ export function StepDatosPersonales({
       <DatosExamenForm
         patientData={patientData}
         handleInputChange={handleInputChange}
+        handleVentanasChange={handleVentanasChange}
       />
       <div className="flex justify-between mt-6">
         <button 

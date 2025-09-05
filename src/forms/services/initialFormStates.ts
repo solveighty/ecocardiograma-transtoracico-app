@@ -14,7 +14,7 @@ export function getInitialPatientData(): PatientData {
     peso: "",
     talla: "",
     superficieCorporal: "",
-    ventana: "",
+    ventanas: [],
     ritmo: "",
     frecuenciaCardiaca: "",
     fechaExamen: new Date(),

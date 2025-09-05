@@ -81,6 +81,30 @@ function validatePatientData(data: PatientData): ValidationError[] {
     });
   }
 
+  if (!data.ventanas || data.ventanas.length === 0) {
+    errors.push({
+      field: 'ventanas',
+      message: 'Debe seleccionar al menos una ventana de evaluación',
+      section
+    });
+  }
+
+  if (isFieldEmpty(data.ritmo)) {
+    errors.push({
+      field: 'ritmo',
+      message: 'El campo "Ritmo" es obligatorio',
+      section
+    });
+  }
+
+  if (!isValidNumber(data.frecuenciaCardiaca)) {
+    errors.push({
+      field: 'frecuenciaCardiaca',
+      message: 'El campo "Frecuencia Cardíaca" es obligatorio y debe ser un número válido',
+      section
+    });
+  }
+
   if (!data.fechaExamen) {
     errors.push({
       field: 'fechaExamen',

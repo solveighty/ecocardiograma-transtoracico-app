@@ -23,7 +23,7 @@ interface ReportData {
   peso: string;
   talla: string;
   superficieCorporal: string;
-  ventana: string;
+  ventanas: string;
   ritmo: string;
   frecuenciaCardiaca: string;
   fechaExamen: string;
@@ -224,6 +224,26 @@ function safeValue(value: string | undefined, fallback: string = 'No evaluado'):
   return value;
 }
 
+// Función auxiliar para formatear las ventanas seleccionadas
+function formatVentanas(ventanas: string[]): string {
+  if (!ventanas || ventanas.length === 0) {
+    return "no evaluado";
+  }
+  
+  if (ventanas.length === 1) {
+    return ventanas[0];
+  }
+  
+  if (ventanas.length === 2) {
+    return `${ventanas[0]} y ${ventanas[1]}`;
+  }
+  
+  // Para 3 o más ventanas: "A, B y C"
+  const allButLast = ventanas.slice(0, -1);
+  const last = ventanas[ventanas.length - 1];
+  return `${allButLast.join(", ")} y ${last}`;
+}
+
 // Función auxiliar para valores opcionales que pueden no estar evaluados
 function optionalValue(value: string | undefined): string {
   return safeValue(value, 'No evaluado');
@@ -365,7 +385,7 @@ export function compileReportData(
     peso: patientData.peso,
     talla: patientData.talla,
     superficieCorporal: patientData.superficieCorporal,
-    ventana: patientData.ventana,
+    ventanas: formatVentanas(patientData.ventanas),
     ritmo: patientData.ritmo,
     frecuenciaCardiaca: patientData.frecuenciaCardiaca,
     fechaExamen: formatDate(patientData.fechaExamen),

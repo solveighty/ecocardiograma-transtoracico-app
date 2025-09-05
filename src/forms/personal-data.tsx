@@ -53,6 +53,13 @@ export default function PatientForm() {
     }));
   };
 
+  const handleVentanasChange = (ventanas: string[]) => {
+    setPatientData((prev) => ({
+      ...prev,
+      ventanas,
+    }));
+  };
+
   // Export removed: the "Crear resumen" button won't trigger file generation for now
 
   const handleGenerateReport = async () => {
@@ -96,6 +103,7 @@ export default function PatientForm() {
             patientData={patientData}
             handleInputChange={handleInputChange}
             handleDateChange={handleDateChange}
+            handleVentanasChange={handleVentanasChange}
             handleNext={handleNext}
           />
         )}

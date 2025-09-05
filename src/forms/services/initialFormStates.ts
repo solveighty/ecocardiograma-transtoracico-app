@@ -3,6 +3,7 @@ import { MedidasVIData } from "../types/secondForm/MedidasVIData";
 import type { ValvulasData } from "../types/fourthForm/ValvulasData";
 import type { DopplerVasosVenasData } from "../types/fifthForm/DopplerTisularData";
 import type { VentriculosAuriculasData } from "../types/thirdForm/VentriculosAuriculasData";
+import { getFechaLocalHoy, parseFechaLocal } from "../../lib/dateUtils";
 
 export function getInitialPatientData(): PatientData {
   return {
@@ -17,7 +18,7 @@ export function getInitialPatientData(): PatientData {
     ventanas: [],
     ritmo: "",
     frecuenciaCardiaca: "",
-    fechaExamen: new Date(),
+    fechaExamen: parseFechaLocal(getFechaLocalHoy()),
   };
 }
 

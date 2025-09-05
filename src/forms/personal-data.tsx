@@ -18,6 +18,7 @@ import type { DopplerVasosVenasData } from "./types/fifthForm/DopplerTisularData
 import type { ValvulasData } from "./types/fourthForm/ValvulasData";
 import { useRapFromVci } from "./hooks/useRapFromVci";
 import { generateWordReport } from "./services/reportExporter";
+import { parseFechaLocal } from "../lib/dateUtils";
 
 
 export default function PatientForm() {
@@ -42,7 +43,9 @@ export default function PatientForm() {
         ...prev,
         ...(ci && { ci }),
         ...(nombres && { nombresApellidos: nombres }),
-        ...(fecha && { fechaExamen: new Date(fecha) })
+        ...(fecha && { 
+          fechaExamen: parseFechaLocal(fecha)
+        })
       }));
     }
   }, [searchParams]);

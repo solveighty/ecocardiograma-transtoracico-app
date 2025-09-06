@@ -4,6 +4,7 @@ import { PatientData } from '../types/firstForm/PatientData';
 import { MedidasVIData } from '../types/secondForm/MedidasVIData';
 import { ValvulasData } from '../types/fourthForm/ValvulasData';
 import { DopplerVasosVenasData } from '../types/fifthForm/DopplerTisularData';
+import { getFechaLocalHoy, getFechaLocal } from '../../lib/dateUtils';
 
 export interface FormData {
   patientData: PatientData;
@@ -27,7 +28,7 @@ export class FormDatabaseService {
       edad: parseInt(patientData.edad) || 0,
       sexo: patientData.sexo as 'M' | 'F',
       ci: patientData.ci,
-      fechaNacimiento: patientData.fechaNacimiento ? patientData.fechaNacimiento.toISOString() : new Date().toISOString(),
+      fechaNacimiento: patientData.fechaNacimiento ? getFechaLocal(patientData.fechaNacimiento) : getFechaLocalHoy(),
       peso: parseFloat(patientData.peso) || 0,
       talla: parseFloat(patientData.talla) || 0,
       superficieCorporal: parseFloat(patientData.superficieCorporal) || 0
@@ -121,7 +122,7 @@ export class FormDatabaseService {
         ventriculosAuriculas: formData.ventriculosAuriculasData,
         valvulas: formData.valvulasData,
         dopplerTisular: formData.dtvvData,
-        fechaCreacion: new Date().toISOString()
+        fechaCreacion: getFechaLocalHoy()
       };
 
       // Guardar el examen
@@ -130,7 +131,7 @@ export class FormDatabaseService {
         estado,
         diagnostico,
         datos: datosExamen,
-        fecha: new Date().toISOString()
+        fecha: getFechaLocalHoy()
       };
       const examenResult = await DatabaseService.saveExamen(examenData);
 
@@ -265,7 +266,7 @@ export class FormDatabaseService {
         valvulas: formData.valvulasData,
         doppler: formData.dtvvData,
         diagnostico,
-        fechaGuardado: new Date().toISOString(),
+        fechaGuardado: getFechaLocalHoy(),
         examenId: dbResult.examenId,
         pacienteId: dbResult.pacienteId
       };

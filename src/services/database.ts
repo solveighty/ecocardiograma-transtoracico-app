@@ -26,7 +26,6 @@ export class EcocardioDB {
           console.error('Error al abrir la base de datos:', err);
           reject(err);
         } else {
-          console.log('Base de datos SQLite inicializada correctamente en:', this.dbPath);
           this.initializeTables()
             .then(() => resolve())
             .catch(reject);
@@ -75,7 +74,7 @@ export class EcocardioDB {
           console.error('Error al crear las tablas:', err);
           reject(err);
         } else {
-          console.log('Tablas inicializadas correctamente');
+
           resolve();
         }
       });
@@ -405,10 +404,11 @@ export class EcocardioDB {
   async getEstadisticasDashboard(): Promise<EstadisticasDashboard> {
     return new Promise((resolve, reject) => {
       const hoy = getFechaLocalHoy();
+
       
       const sql = `
         SELECT 
-          COUNT(CASE WHEN DATE(fecha) = ? THEN 1 END) as examenesHoy,
+          COUNT(CASE WHEN DATE(fecha) = DATE(?) THEN 1 END) as examenesHoy,
           COUNT(CASE WHEN estado = 'pendiente' THEN 1 END) as examenesPendientes,
           COUNT(CASE WHEN estado = 'completado' THEN 1 END) as examenesCompletados,
           COUNT(DISTINCT pacienteId) as pacientesAtendidos
@@ -417,14 +417,17 @@ export class EcocardioDB {
       
       this.db.get(sql, [hoy], (err, row: any) => {
         if (err) {
+          console.error('Error en consulta de estadísticas:', err);
           reject(err);
         } else {
-          resolve({
+          const estadisticas = {
             examenesHoy: row.examenesHoy || 0,
             examenesPendientes: row.examenesPendientes || 0,
             examenesCompletados: row.examenesCompletados || 0,
             pacientesAtendidos: row.pacientesAtendidos || 0
-          });
+          };
+
+          resolve(estadisticas);
         }
       });
     });
@@ -451,6 +454,8 @@ export class EcocardioDB {
 
   async getExamenesByEstado(estado: string): Promise<Examen[]> {
     return new Promise((resolve, reject) => {
+
+      
       const sql = `
         SELECT 
           e.*,
@@ -470,8 +475,10 @@ export class EcocardioDB {
       
       this.db.all(sql, [estado], (err, rows: any[]) => {
         if (err) {
+          console.error(`Error buscando exámenes con estado ${estado}:`, err);
           reject(err);
         } else {
+
           const examenes = rows.map(row => ({
             id: row.id,
             pacienteId: row.pacienteId,
@@ -479,7 +486,7 @@ export class EcocardioDB {
             estado: row.estado,
             diagnostico: row.diagnostico,
             datos: row.datos ? JSON.parse(row.datos) : null,
-            paciente: {
+            paciente: row.paciente_nombres ? {
               id: row.pacienteId,
               nombres: row.paciente_nombres,
               ci: row.paciente_ci,
@@ -489,7 +496,7 @@ export class EcocardioDB {
               peso: row.paciente_peso,
               talla: row.paciente_talla,
               superficieCorporal: row.paciente_superficieCorporal
-            }
+            } : undefined
           }));
           resolve(examenes);
         }
@@ -522,6 +529,7 @@ export class EcocardioDB {
   async getExamenesHoy(): Promise<Examen[]> {
     return new Promise((resolve, reject) => {
       const hoy = getFechaLocalHoy();
+
       
       const sql = `
         SELECT 
@@ -536,14 +544,16 @@ export class EcocardioDB {
           p.superficieCorporal as paciente_superficieCorporal
         FROM examenes e
         LEFT JOIN pacientes p ON e.pacienteId = p.id
-        WHERE DATE(e.fecha) = ?
+        WHERE DATE(e.fecha) = DATE(?)
         ORDER BY e.fecha ASC
       `;
       
       this.db.all(sql, [hoy], (err, rows: any[]) => {
         if (err) {
+          console.error('Error en consulta SQL para exámenes de hoy:', err);
           reject(err);
         } else {
+
           const examenes = rows.map(row => ({
             id: row.id,
             pacienteId: row.pacienteId,
@@ -551,7 +561,7 @@ export class EcocardioDB {
             estado: row.estado,
             diagnostico: row.diagnostico,
             datos: row.datos ? JSON.parse(row.datos) : null,
-            paciente: {
+            paciente: row.paciente_nombres ? {
               id: row.pacienteId,
               nombres: row.paciente_nombres,
               ci: row.paciente_ci,
@@ -561,7 +571,60 @@ export class EcocardioDB {
               peso: row.paciente_peso,
               talla: row.paciente_talla,
               superficieCorporal: row.paciente_superficieCorporal
-            }
+            } : undefined
+          }));
+          resolve(examenes);
+        }
+      });
+    });
+  }
+
+  async getExamenesCompletadosHoy(): Promise<Examen[]> {
+    return new Promise((resolve, reject) => {
+      const hoy = getFechaLocalHoy();
+
+      
+      const sql = `
+        SELECT 
+          e.*,
+          p.nombres as paciente_nombres,
+          p.ci as paciente_ci,
+          p.edad as paciente_edad,
+          p.sexo as paciente_sexo,
+          p.fechaNacimiento as paciente_fechaNacimiento,
+          p.peso as paciente_peso,
+          p.talla as paciente_talla,
+          p.superficieCorporal as paciente_superficieCorporal
+        FROM examenes e
+        LEFT JOIN pacientes p ON e.pacienteId = p.id
+        WHERE DATE(e.fecha) = DATE(?) AND e.estado = 'completado'
+        ORDER BY e.fecha ASC
+      `;
+      
+      this.db.all(sql, [hoy], (err, rows: any[]) => {
+        if (err) {
+          console.error('Error en consulta SQL para exámenes completados de hoy:', err);
+          reject(err);
+        } else {
+
+          const examenes = rows.map(row => ({
+            id: row.id,
+            pacienteId: row.pacienteId,
+            fecha: row.fecha,
+            estado: row.estado,
+            diagnostico: row.diagnostico,
+            datos: row.datos ? JSON.parse(row.datos) : null,
+            paciente: row.paciente_nombres ? {
+              id: row.pacienteId,
+              nombres: row.paciente_nombres,
+              ci: row.paciente_ci,
+              edad: row.paciente_edad,
+              sexo: row.paciente_sexo,
+              fechaNacimiento: row.paciente_fechaNacimiento,
+              peso: row.paciente_peso,
+              talla: row.paciente_talla,
+              superficieCorporal: row.paciente_superficieCorporal
+            } : undefined
           }));
           resolve(examenes);
         }

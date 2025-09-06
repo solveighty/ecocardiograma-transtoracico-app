@@ -43,9 +43,15 @@ export const formatearFechaParaUI = (fecha: string | Date): string => {
   let date: Date;
   
   if (typeof fecha === 'string') {
+    // Si es un string, asumimos que está en formato YYYY-MM-DD local
     date = parseFechaLocal(fecha);
   } else {
-    date = fecha;
+    // Si es un Date object, extraemos los componentes locales directamente
+    // para evitar problemas de zona horaria
+    const year = fecha.getFullYear();
+    const month = fecha.getMonth();
+    const day = fecha.getDate();
+    date = new Date(year, month, day);
   }
   
   return date.toLocaleDateString('es-ES', {

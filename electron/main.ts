@@ -175,6 +175,17 @@ ipcMain.handle('db-get-examenes-by-estado', async (_event, estado: string) => {
   }
 });
 
+ipcMain.handle('db-get-examenes-completados-hoy', async () => {
+  try {
+    const db = await DatabaseManager.getInstance();
+    const examenes = await db.getExamenesCompletadosHoy();
+    return { success: true, data: examenes };
+  } catch (error: any) {
+    console.error('Error getting examenes completados hoy:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 ipcMain.handle('db-get-examenes-por-mes', async (_event, meses: number = 12) => {
   try {
     const db = await DatabaseManager.getInstance();

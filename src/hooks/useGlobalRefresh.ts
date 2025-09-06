@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 
 export interface RefreshCallbacks {
   refreshStats?: () => void;
-  refreshExamenesHoy?: () => void;
   refreshExamenesPendientes?: () => void;
   refreshExamenesCompletados?: () => void;
   refreshResumenMensual?: () => void;

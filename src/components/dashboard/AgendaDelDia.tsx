@@ -28,6 +28,11 @@ export const AgendaDelDia: React.FC = () => {
 
   const fechaHoy = getFechaLocalHoy();
 
+  // Debug: log inicial
+  useEffect(() => {
+
+  }, []);
+
   useEffect(() => {
     cargarPacientesHoy();
   }, []);
@@ -35,26 +40,17 @@ export const AgendaDelDia: React.FC = () => {
   const cargarPacientesHoy = async () => {
     try {
       setLoading(true);
-      const resultExamenes = await DatabaseService.getExamenes({
-        fecha_desde: fechaHoy,
-        fecha_hasta: fechaHoy
-      });
-
-      if (resultExamenes.success && resultExamenes.data) {
-        const pacientesConExamenes: PacienteProgramado[] = [];
-        
-        for (const examen of resultExamenes.data) {
-          const resultPaciente = await DatabaseService.getPacienteById(examen.pacienteId);
-          if (resultPaciente.success && resultPaciente.data) {
-            pacientesConExamenes.push({
-              paciente: resultPaciente.data,
-              examen: examen
-            });
-          }
-        }
-        
-        setPacientesProgramados(pacientesConExamenes);
-      }
+      setMessage(null);
+      
+      // Usar el método específico para obtener exámenes de hoy que incluye datos de pacientes
+      const examenes = await DatabaseService.getExamenesHoy();
+      
+      const pacientesConExamenes: PacienteProgramado[] = examenes.map(examen => ({
+        paciente: examen.paciente!,
+        examen: examen
+      }));
+      
+      setPacientesProgramados(pacientesConExamenes);
     } catch (error) {
       console.error('Error cargando pacientes de hoy:', error);
       setMessage({ type: 'error', text: 'Error al cargar los pacientes programados' });
@@ -161,8 +157,13 @@ export const AgendaDelDia: React.FC = () => {
       });
       setShowForm(false);
       
-      // Recargar la lista
+      // Recargar la lista local
       await cargarPacientesHoy();
+
+      // También disparar refresh global para actualizar dashboard principal
+      if (window.dispatchEvent) {
+        window.dispatchEvent(new CustomEvent('refreshDashboard'));
+      }
 
     } catch (error: any) {
       console.error('Error al programar paciente:', error);

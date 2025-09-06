@@ -33,6 +33,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getExamenesByEstado: (estado: string) => ipcRenderer.invoke('db-get-examenes-by-estado', estado),
   getExamenesPorMes: (meses: number) => ipcRenderer.invoke('db-get-examenes-por-mes', meses),
   getExamenesHoy: () => ipcRenderer.invoke('db-get-examenes-hoy'),
+  getExamenesCompletadosHoy: () => ipcRenderer.invoke('db-get-examenes-completados-hoy'),
   getResumenMensual: (year: number, month: number) => ipcRenderer.invoke('db-get-resumen-mensual', year, month),
   getEstadisticasDashboard: () => ipcRenderer.invoke('db-get-estadisticas-dashboard'),
 

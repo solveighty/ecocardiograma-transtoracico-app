@@ -16,7 +16,9 @@ export const useDashboardStats = () => {
     try {
       setLoading(true);
       setError(null);
+
       const estadisticas = await DatabaseService.getEstadisticasDashboard();
+
       setStats(estadisticas);
     } catch (err) {
       console.error('Error loading dashboard stats:', err);

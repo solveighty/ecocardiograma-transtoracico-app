@@ -42,7 +42,6 @@ export const DatabaseFormExample = () => {
     
     const examenes = await obtenerHistorial(ci);
     setMostrarHistorial(true);
-    console.log('Historial:', examenes);
   };
 
   const handleGuardarBorrador = async () => {
@@ -59,7 +58,6 @@ export const DatabaseFormExample = () => {
 
     const success = await guardarBorrador(formDataEjemplo);
     if (success) {
-      console.log('Borrador guardado exitosamente');
     }
   };
 
@@ -77,7 +75,7 @@ export const DatabaseFormExample = () => {
 
     const success = await finalizarExamen(formDataEjemplo, 'Examen normal - Sin alteraciones significativas');
     if (success) {
-      console.log('Examen finalizado exitosamente');
+
     }
   };
 

@@ -110,7 +110,7 @@ export default function PatientForm() {
           });
           
           if (updateResult.success) {
-            console.log('Examen marcado como completado exitosamente');
+
           } else {
             console.error('Error al actualizar el estado del examen:', updateResult.error);
           }
@@ -119,8 +119,6 @@ export default function PatientForm() {
         }
       }
       
-      // Mostrar mensaje de éxito y navegar de vuelta al dashboard
-      alert('✅ Informe generado exitosamente. Regresando al dashboard...');
       
       // Pequeño delay para que el usuario pueda leer el mensaje
       setTimeout(() => {

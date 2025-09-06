@@ -106,13 +106,32 @@ export const useExamenesPendientes = () => {
     try {
       setLoading(true);
       setError(null);
+
       const data = await DatabaseService.getExamenesPendientes();
+
       setExamenes(data);
     } catch (err) {
       console.error('Error loading examenes pendientes:', err);
       setError('Error al cargar exámenes pendientes');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteExamen = async (id: number) => {
+    try {
+      const result = await DatabaseService.deleteExamen(id);
+      if (result.success) {
+        // Remover el examen de la lista local
+        setExamenes(prev => prev.filter(exam => exam.id !== id));
+        return true;
+      } else {
+        throw new Error(result.error || 'Error al eliminar examen');
+      }
+    } catch (err) {
+      console.error('Error deleting examen:', err);
+      setError('Error al eliminar examen');
+      throw err;
     }
   };
 
@@ -124,7 +143,8 @@ export const useExamenesPendientes = () => {
     examenes,
     loading,
     error,
-    refresh: loadData
+    refresh: loadData,
+    deleteExamen
   };
 };
 
@@ -137,7 +157,9 @@ export const useExamenesCompletados = () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await DatabaseService.getExamenesCompletados();
+
+      const data = await DatabaseService.getExamenesCompletadosHoy();
+
       setExamenes(data);
     } catch (err) {
       console.error('Error loading examenes completados:', err);
@@ -168,7 +190,9 @@ export const useExamenesHoy = () => {
     try {
       setLoading(true);
       setError(null);
+
       const data = await DatabaseService.getExamenesHoy();
+
       setExamenes(data);
     } catch (err) {
       console.error('Error loading examenes hoy:', err);

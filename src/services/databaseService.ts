@@ -168,6 +168,16 @@ export class DatabaseService {
     }
   }
 
+  static async getExamenesCompletadosHoy(): Promise<Examen[]> {
+    try {
+      const result = await (window.electronAPI as any).getExamenesCompletadosHoy();
+      return result.success ? result.data || [] : [];
+    } catch (error) {
+      console.error('Error getting examenes completados hoy:', error);
+      return [];
+    }
+  }
+
   static async getResumenMensual(anio: number): Promise<ResumenMensual[]> {
     try {
       const result = await window.electronAPI.getResumenMensual(anio);
@@ -238,7 +248,7 @@ export class DatabaseService {
   static async migrarDatosDeJSON(): Promise<{ success: boolean; migratedCount?: number; error?: string }> {
     // Aquí podrías implementar lógica para migrar datos existentes desde archivos JSON
     // a la nueva base de datos SQLite
-    console.log('Migración de datos JSON no implementada aún');
+
     return { success: false, error: 'Migración no implementada' };
   }
 }

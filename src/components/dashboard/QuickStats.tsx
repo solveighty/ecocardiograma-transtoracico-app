@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Calendar, Clock, BarChart3, User } from "lucide-react";
+import { Clock, BarChart3, User } from "lucide-react";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
 import { RefreshCallbacks } from "@/hooks/useGlobalRefresh";
 import { useEffect } from "react";
@@ -32,21 +32,7 @@ export default function QuickStats({ registerRefreshCallback }: QuickStatsProps)
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Exámenes Hoy</CardTitle>
-          <Calendar className="h-4 w-4 text-muted-foreground" />
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">
-            {loading ? "..." : stats.examenesHoy}
-          </div>
-          <p className="text-xs text-muted-foreground">
-            {stats.examenesHoy === 1 ? "Examen" : "Exámenes"} programados
-          </p>
-        </CardContent>
-      </Card>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Pendientes</CardTitle>

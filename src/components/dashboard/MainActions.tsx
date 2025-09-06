@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { FolderOpen, FileText, Calendar, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { 
-  ExamenesHoyCard, 
   ExamenesPendientesCard, 
   ExamenesCompletadosCard 
 } from "./ExamenesCards";
@@ -101,14 +100,9 @@ function MainActions({ registerRefreshCallback }: MainActionsProps) {
           <div className="w-16 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500"></div>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <ExamenesHoyCard registerRefreshCallback={registerRefreshCallback} />
-          </div>
-          <div className="space-y-6">
-            <ExamenesPendientesCard registerRefreshCallback={registerRefreshCallback} />
-            <ExamenesCompletadosCard registerRefreshCallback={registerRefreshCallback} />
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ExamenesPendientesCard registerRefreshCallback={registerRefreshCallback} />
+          <ExamenesCompletadosCard registerRefreshCallback={registerRefreshCallback} />
         </div>
       </div>
 

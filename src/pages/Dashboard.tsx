@@ -6,12 +6,27 @@ import HeaderTemplateCard from "@/components/dashboard/HeaderTemplateCard";
 import QuickStats from "@/components/dashboard/QuickStats";
 import MainActions from "@/components/dashboard/MainActions";
 import { useGlobalRefresh } from "@/hooks/useGlobalRefresh";
+import { useEffect } from "react";
 
 export default function EchocardiogramDashboard() {
   const doctorName = "Dra. Carolina Viña";
   const doctorEmail = "carolina.vina@hospital.com";
   
   const { registerCallbacks, refreshAll, isRefreshing } = useGlobalRefresh();
+
+  // Escuchar eventos globales de refresh
+  useEffect(() => {
+    const handleRefresh = () => {
+
+      refreshAll();
+    };
+
+    window.addEventListener('refreshDashboard', handleRefresh);
+    
+    return () => {
+      window.removeEventListener('refreshDashboard', handleRefresh);
+    };
+  }, [refreshAll]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">

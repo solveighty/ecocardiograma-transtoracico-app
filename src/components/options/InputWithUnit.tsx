@@ -28,27 +28,46 @@ const InputWithUnit: React.FC<InputWithUnitProps> = ({
   step = "any",
   required = false,
   readOnly = false,
-}) => (
-  <div>
-    <Label htmlFor={id}>{label}</Label>
-    <div className="flex items-center gap-2 mt-1">
-      <Input
-        id={id}
-        type="number"
-        placeholder={placeholder}
-        className="flex-1 mt-0"
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        min={min}
-        max={max}
-        step={step}
-        required={required}
-        readOnly={readOnly}
-        disabled={readOnly}
-      />
-      <span className="text-sm text-gray-500">{unit}</span>
+}) => {
+  // Función para validar entrada numérica
+  const handleNumericInput = (inputValue: string) => {
+    // Permitir string vacío para limpiar el campo
+    if (inputValue === '') {
+      onChange('');
+      return;
+    }
+    
+    // Regex para números positivos con decimales opcionales
+    const numericRegex = /^[0-9]*\.?[0-9]*$/;
+    
+    // Solo actualizar si es un número válido
+    if (numericRegex.test(inputValue)) {
+      onChange(inputValue);
+    }
+  };
+
+  return (
+    <div>
+      <Label htmlFor={id}>{label}</Label>
+      <div className="flex items-center gap-2 mt-1">
+        <Input
+          id={id}
+          type="number"
+          placeholder={placeholder}
+          className="flex-1 mt-0"
+          value={value}
+          onChange={e => handleNumericInput(e.target.value)}
+          min={min}
+          max={max}
+          step={step}
+          required={required}
+          readOnly={readOnly}
+          disabled={readOnly}
+        />
+        <span className="text-sm text-gray-500">{unit}</span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default InputWithUnit;

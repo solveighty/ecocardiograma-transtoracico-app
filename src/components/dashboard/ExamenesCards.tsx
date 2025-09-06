@@ -6,10 +6,16 @@ import {
   useExamenesCompletados, 
   useExamenesHoy 
 } from "@/hooks/useExamenes";
-import { RefreshCw, User, Calendar, Clock, FileText, Trash2 } from "lucide-react";
+import { User, Calendar, Clock, FileText, Trash2 } from "lucide-react";
 import { Examen } from "@/types/database";
 import { useNavigate } from "react-router-dom";
 import { formatearFechaParaUI } from "@/lib/dateUtils";
+import { RefreshCallbacks } from "@/hooks/useGlobalRefresh";
+import { useEffect } from "react";
+
+interface ExamenCardProps {
+  registerRefreshCallback?: (callbacks: RefreshCallbacks) => void;
+}
 
 interface ExamenListItemProps {
   examen: Examen;
@@ -111,8 +117,17 @@ const ExamenListItem = ({ examen, showLlenarDatos = false, onDelete }: ExamenLis
   );
 };
 
-export const ExamenesHoyCard = () => {
+export const ExamenesHoyCard = ({ registerRefreshCallback }: ExamenCardProps = {}) => {
   const { examenes, loading, error, refresh, deleteExamen } = useExamenesHoy();
+
+  // Registrar el callback de refresh cuando el componente se monta
+  useEffect(() => {
+    if (registerRefreshCallback) {
+      registerRefreshCallback({
+        refreshExamenesHoy: () => refresh()
+      });
+    }
+  }, [registerRefreshCallback, refresh]); // Incluir refresh para que se actualice cuando cambie
 
   const handleDeleteExamen = async (id: number) => {
     try {
@@ -132,9 +147,6 @@ export const ExamenesHoyCard = () => {
             {examenes.length} {examenes.length === 1 ? 'examen programado' : 'exámenes programados'}
           </p>
         </div>
-        <Button onClick={refresh} variant="outline" size="sm" disabled={loading}>
-          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-        </Button>
       </CardHeader>
       <CardContent className="space-y-4">
         {error && (
@@ -175,16 +187,23 @@ export const ExamenesHoyCard = () => {
   );
 };
 
-export const ExamenesPendientesCard = () => {
+export const ExamenesPendientesCard = ({ registerRefreshCallback }: ExamenCardProps = {}) => {
   const { examenes, loading, error, refresh } = useExamenesPendientes();
+
+  // Registrar el callback de refresh cuando el componente se monta
+  useEffect(() => {
+    if (registerRefreshCallback) {
+      registerRefreshCallback({
+        refreshExamenesPendientes: refresh
+      });
+    }
+    // Solo ejecutar una vez al montar el componente
+  }, [registerRefreshCallback]); // Removido refresh de las dependencias
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-lg font-semibold">Exámenes Pendientes</CardTitle>
-        <Button onClick={refresh} variant="outline" size="sm" disabled={loading}>
-          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-        </Button>
       </CardHeader>
       <CardContent>
         {error && (
@@ -213,16 +232,23 @@ export const ExamenesPendientesCard = () => {
   );
 };
 
-export const ExamenesCompletadosCard = () => {
+export const ExamenesCompletadosCard = ({ registerRefreshCallback }: ExamenCardProps = {}) => {
   const { examenes, loading, error, refresh } = useExamenesCompletados();
+
+  // Registrar el callback de refresh cuando el componente se monta
+  useEffect(() => {
+    if (registerRefreshCallback) {
+      registerRefreshCallback({
+        refreshExamenesCompletados: refresh
+      });
+    }
+    // Solo ejecutar una vez al montar el componente
+  }, [registerRefreshCallback]); // Removido refresh de las dependencias
 
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-lg font-semibold">Exámenes Completados</CardTitle>
-        <Button onClick={refresh} variant="outline" size="sm" disabled={loading}>
-          <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-        </Button>
       </CardHeader>
       <CardContent>
         {error && (

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { User } from "lucide-react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { StepDatosPersonales } from "./steps/StepDatosPersonales";
 import { StepMedidasVI } from "./steps/StepMedidasVI";
 import { StepVentriculosAuriculas } from "./steps/StepVentriculosAuriculas";
@@ -25,6 +25,7 @@ import { DatabaseService } from "../services/databaseService";
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [examenId, setExamenId] = useState<number | null>(null);
   const [patientData, setPatientData] = useState<PatientData>(getInitialPatientData());
   const [medidasVIData, setMedidasVIData] = useState<MedidasVIData>(getInitialMedidasVIData());
@@ -118,7 +119,14 @@ export default function PatientForm() {
         }
       }
       
-      // El archivo se descarga automáticamente, no necesitamos mostrar mensaje adicional
+      // Mostrar mensaje de éxito y navegar de vuelta al dashboard
+      alert('✅ Informe generado exitosamente. Regresando al dashboard...');
+      
+      // Pequeño delay para que el usuario pueda leer el mensaje
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
+      
     } catch (error) {
       console.error('Error al generar el informe Word:', error);
       

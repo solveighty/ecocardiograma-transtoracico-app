@@ -241,24 +241,4 @@ export class DatabaseService {
     console.log('Migración de datos JSON no implementada aún');
     return { success: false, error: 'Migración no implementada' };
   }
-
-  // Método para obtener estadísticas rápidas del mes actual
-  static async getEstadisticasMesActual() {
-    const now = new Date();
-    const mes = now.getMonth() + 1;
-    const anio = now.getFullYear();
-    
-    const examenesMes = await this.getExamenesPorMes(mes, anio);
-    const completados = examenesMes.filter(e => e.estado === 'completado').length;
-    const pendientes = examenesMes.filter(e => e.estado === 'pendiente').length;
-    
-    return {
-      mes,
-      anio,
-      total: examenesMes.length,
-      completados,
-      pendientes,
-      pacientesUnicos: new Set(examenesMes.map(e => e.pacienteId)).size
-    };
-  }
 }

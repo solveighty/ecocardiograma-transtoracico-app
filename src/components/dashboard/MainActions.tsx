@@ -15,12 +15,16 @@ import {
   ExamenesCompletadosCard 
 } from "./ExamenesCards";
 import { 
-  ResumenMensualCard, 
-  EstadisticasMesActualCard 
+  ResumenMensualCard 
 } from "./EstadisticasCards";
 import AgendaDelDia from "./AgendaDelDia";
+import { RefreshCallbacks } from "@/hooks/useGlobalRefresh";
 
-function MainActions() {
+interface MainActionsProps {
+  registerRefreshCallback?: (callbacks: RefreshCallbacks) => void;
+}
+
+function MainActions({ registerRefreshCallback }: MainActionsProps) {
   const [showAgenda, setShowAgenda] = useState(false);
 
   if (showAgenda) {
@@ -89,18 +93,17 @@ function MainActions() {
       {/* Sección de Exámenes - Layout mejorado */}
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
         <div className="lg:col-span-1 xl:col-span-2">
-          <ExamenesHoyCard />
+          <ExamenesHoyCard registerRefreshCallback={registerRefreshCallback} />
         </div>
         <div className="space-y-6">
-          <ExamenesPendientesCard />
-          <ExamenesCompletadosCard />
+          <ExamenesPendientesCard registerRefreshCallback={registerRefreshCallback} />
+          <ExamenesCompletadosCard registerRefreshCallback={registerRefreshCallback} />
         </div>
       </div>
 
       {/* Sección de Estadísticas */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <EstadisticasMesActualCard />
-        <ResumenMensualCard />
+        <ResumenMensualCard registerRefreshCallback={registerRefreshCallback} />
       </div>
     </div>
   );

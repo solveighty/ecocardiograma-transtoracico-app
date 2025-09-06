@@ -1,4 +1,4 @@
-import { Heart, User, Settings } from "lucide-react";
+import { Heart, User, Settings, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import cardiologistPP from "@/assets/cardiologist_pp.jpg";
@@ -14,9 +14,11 @@ import {
 interface HeaderProps {
   doctorName: string;
   doctorEmail: string;
+  onRefreshAll?: () => void;
+  isRefreshing?: boolean;
 }
 
-export default function Header({ doctorName, doctorEmail }: HeaderProps) {
+export default function Header({ doctorName, doctorEmail, onRefreshAll, isRefreshing = false }: HeaderProps) {
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="flex items-center justify-between px-6 py-4">
@@ -30,6 +32,18 @@ export default function Header({ doctorName, doctorEmail }: HeaderProps) {
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          {onRefreshAll && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRefreshAll}
+              disabled={isRefreshing}
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+              {isRefreshing ? 'Actualizando...' : 'Actualizar Datos'}
+            </Button>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">

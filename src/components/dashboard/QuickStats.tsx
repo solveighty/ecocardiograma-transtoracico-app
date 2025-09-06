@@ -1,20 +1,30 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Calendar, Clock, BarChart3, User, RefreshCw } from "lucide-react";
+import { Calendar, Clock, BarChart3, User } from "lucide-react";
 import { useDashboardStats } from "@/hooks/useDashboardStats";
-import { Button } from "@/components/ui/button";
+import { RefreshCallbacks } from "@/hooks/useGlobalRefresh";
+import { useEffect } from "react";
 
-export default function QuickStats() {
+interface QuickStatsProps {
+  registerRefreshCallback?: (callbacks: RefreshCallbacks) => void;
+}
+
+export default function QuickStats({ registerRefreshCallback }: QuickStatsProps) {
   const { stats, loading, error, refreshStats } = useDashboardStats();
+
+  // Registrar el callback de refresh cuando el componente se monta
+  useEffect(() => {
+    if (registerRefreshCallback) {
+      registerRefreshCallback({
+        refreshStats: () => refreshStats()
+      });
+    }
+  }, [registerRefreshCallback, refreshStats]); // Incluir refreshStats para que se actualice cuando cambie
 
   if (error) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="col-span-4 text-center text-red-500 p-4">
           <p>Error al cargar estadísticas: {error}</p>
-          <Button onClick={refreshStats} variant="outline" size="sm" className="mt-2">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Reintentar
-          </Button>
         </div>
       </div>
     );
@@ -72,14 +82,6 @@ export default function QuickStats() {
           <p className="text-xs text-muted-foreground">Total registrados</p>
         </CardContent>
       </Card>
-      {!loading && (
-        <div className="col-span-4 flex justify-end">
-          <Button onClick={refreshStats} variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Actualizar estadísticas
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

@@ -15,10 +15,11 @@ export default function QuickStats({ registerRefreshCallback }: QuickStatsProps)
   useEffect(() => {
     if (registerRefreshCallback) {
       registerRefreshCallback({
-        refreshStats: () => refreshStats()
+        refreshStats: refreshStats
       });
     }
-  }, [registerRefreshCallback, refreshStats]); // Incluir refreshStats para que se actualice cuando cambie
+    // Solo ejecutar una vez al montar el componente
+  }, [registerRefreshCallback]); // Removido refreshStats de las dependencias
 
   if (error) {
     return (

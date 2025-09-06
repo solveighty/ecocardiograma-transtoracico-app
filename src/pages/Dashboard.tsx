@@ -1,5 +1,3 @@
-"use client"
-
 import Header from "@/components/dashboard/Header";
 import DoctorInfoCard from "@/components/dashboard/DoctorInfoCard";
 import HeaderTemplateCard from "@/components/dashboard/HeaderTemplateCard";
@@ -17,7 +15,6 @@ export default function EchocardiogramDashboard() {
   // Escuchar eventos globales de refresh
   useEffect(() => {
     const handleRefresh = () => {
-
       refreshAll();
     };
 

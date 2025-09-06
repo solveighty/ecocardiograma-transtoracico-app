@@ -210,16 +210,31 @@ ipcMain.handle('db-get-resumen-mensual', async (_event, _year: number, _month: n
 
 // ===== ELECTRON APP CONFIGURATION =====
 
-const isDev = process.env.NODE_ENV === 'development';
+// Forzar siempre modo producción cuando existe dist/
+const distExists = require('fs').existsSync(path.join(__dirname, '../dist'));
+const isDev = !distExists && process.env.NODE_ENV === 'development';
+
+console.log('🔧 Environment check:');
+console.log('   NODE_ENV:', process.env.NODE_ENV);
+console.log('   __dirname:', __dirname);
+console.log('   dist exists:', distExists);
+console.log('   isDev:', isDev);
+
 let mainWindow: BrowserWindow | null = null;
 
 const createWindow = (): void => {
+  console.log('🚀 Creating main window...');
+  console.log('📁 __dirname:', __dirname);
+  console.log('🔧 isDev:', isDev);
+  console.log('📂 Current working directory:', process.cwd());
+  
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 800,
     minHeight: 600,
+    show: false, // No mostrar hasta que esté listo
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -228,13 +243,68 @@ const createWindow = (): void => {
     icon: path.join(__dirname, '../public/logo_app.png')
   });
 
+  console.log('🖼️ Window created successfully');
+
+  // Mostrar la ventana cuando esté lista para prevenir flash blanco
+  mainWindow.once('ready-to-show', () => {
+    console.log('✅ Window ready to show');
+    mainWindow?.show();
+  });
+
   // Load the app
   if (isDev) {
     const port = process.env.PORT || 5173;
+    console.log('🌐 Development mode - loading URL:', `http://localhost:${port}`);
     mainWindow.loadURL(`http://localhost:${port}`);
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    // En producción, cargar desde el archivo local
+    const indexPath = path.join(__dirname, '../dist/index.html');
+    console.log('📄 Production mode - loading file from:', indexPath);
+    console.log('✅ File exists:', require('fs').existsSync(indexPath));
+    
+    // Verificar contenido del directorio
+    const distDir = path.join(__dirname, '../dist');
+    console.log('📂 Dist directory exists:', require('fs').existsSync(distDir));
+    if (require('fs').existsSync(distDir)) {
+      console.log('📁 Dist directory contents:', require('fs').readdirSync(distDir));
+    }
+    
+    // Verificar que el archivo JS existe
+    const assetsDir = path.join(distDir, 'assets');
+    if (require('fs').existsSync(assetsDir)) {
+      console.log('📁 Assets directory contents:', require('fs').readdirSync(assetsDir));
+    }
+    
+    console.log('🔄 Attempting to load file:', indexPath);
+    mainWindow.loadFile(indexPath).then(() => {
+      console.log('✅ File loaded successfully');
+    }).catch((error) => {
+      console.error('❌ Failed to load file:', error);
+    });
+    
+    // ABRIR DEVTOOLS EN PRODUCCIÓN PARA DEBUG
+    mainWindow.webContents.openDevTools();
+    
+    // Manejar errores de carga
+    mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
+      console.error('❌ Failed to load:', errorCode, errorDescription, validatedURL);
+    });
+    
+    // Log cuando la página se carga exitosamente
+    mainWindow.webContents.on('did-finish-load', () => {
+      console.log('✅ Page loaded successfully');
+    });
+    
+    // Log cuando el DOM está listo
+    mainWindow.webContents.on('dom-ready', () => {
+      console.log('✅ DOM ready');
+    });
+    
+    // Logs de consola del renderer
+    mainWindow.webContents.on('console-message', (_event, level, message) => {
+      console.log(`🖥️ Renderer console [${level}]:`, message);
+    });
   }
 
   // Open external links in default browser
@@ -249,9 +319,11 @@ const createWindow = (): void => {
 
 // This method will be called when Electron has finished initialization
 app.whenReady().then(() => {
+  console.log('🎯 Electron app is ready');
   createWindow();
 
   app.on('activate', () => {
+    console.log('🔄 App activated');
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
@@ -260,9 +332,15 @@ app.whenReady().then(() => {
 
 // Quit when all windows are closed, except on macOS
 app.on('window-all-closed', () => {
+  console.log('🚪 All windows closed');
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+// Log cuando la app se va a cerrar
+app.on('before-quit', () => {
+  console.log('👋 App is about to quit');
 });
 
 // Security: Prevent navigation to external URLs

@@ -529,6 +529,7 @@ export async function generateWordReport(
   dopplerData: DopplerVasosVenasData
 ): Promise<void> {
   try {
+
     // Validar datos obligatorios antes de exportar
     const validationResult = validateFormData(
       patientData,
@@ -538,18 +539,72 @@ export async function generateWordReport(
       dopplerData
     );
 
+
     if (!validationResult.isValid) {
+      console.error('❌ Errores de validación:', validationResult.errors);
       const errorMessage = formatValidationErrors(validationResult.errors);
       alert(errorMessage);
       throw new Error('Validación fallida: Faltan campos obligatorios');
     }
 
-    // Cargar la plantilla
-    const templatePath = '/informe.docx';
-    const response = await fetch(templatePath);
+
+    // Cargar la plantilla - Manejar rutas para desarrollo y producción
+    let templatePath = '/informe.docx';
+    let response: Response | null = null;
     
-    if (!response.ok) {
-      throw new Error(`Error al cargar la plantilla: ${response.statusText}`);
+    // En aplicaciones Electron empaquetadas, usar diferentes estrategias
+    if (window.location.protocol === 'file:') {
+      // Intentar múltiples rutas posibles
+      const possiblePaths = [
+        './informe.docx',
+        '../informe.docx',
+        '../../informe.docx',
+        '/informe.docx'
+      ];
+      
+      
+      // Función auxiliar para probar una ruta
+      const tryPath = async (path: string): Promise<Response | null> => {
+        try {
+          console.log(`📂 Probando ruta: ${path}`);
+          const resp = await fetch(path);
+          if (resp.ok) {
+            return resp;
+          }
+          return null;
+        } catch (error) {
+          return null;
+        }
+      };
+      
+      // Probar cada ruta hasta encontrar una que funcione
+      let foundResponse: Response | null = null;
+      for (const path of possiblePaths) {
+        foundResponse = await tryPath(path);
+        if (foundResponse) {
+          templatePath = path;
+          response = foundResponse;
+          break;
+        }
+      }
+      
+      if (!foundResponse) {
+        throw new Error('No se pudo encontrar el archivo informe.docx en ninguna de las rutas probadas');
+      }
+      
+      
+    } else {
+      
+      response = await fetch(templatePath);
+      
+      if (!response.ok) {
+        throw new Error(`Error al cargar la plantilla: ${response.statusText}`);
+      }
+    }
+    
+    // Verificar que tenemos una respuesta válida
+    if (!response) {
+      throw new Error('No se pudo cargar la plantilla informe.docx');
     }
     
     const templateBuffer = await response.arrayBuffer();

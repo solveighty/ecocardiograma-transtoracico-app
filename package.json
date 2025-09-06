@@ -2,17 +2,21 @@
   "name": "ecocardiograma-transtoracico-app",
   "private": true,
   "version": "0.0.1",
+  "description": "Aplicación de ecocardiograma transtorácico para gestión de exámenes cardiológicos",
+  "author": "Sistema de Ecocardiograma",
   "scripts": {
     "dev": "vite",
     "start": "vite --config vite.config.ts",
     "electron": "wait-on tcp:5173 && electron .",
     "electron:dev": "concurrently -k \"npm run start\" \"npm run electron\"",
     "build": "vite build && electron-builder --dir",
+    "build:debug": "vite build && electron-builder --dir",
     "build:release": "vite build && electron-builder",
     "test:prod": "vite build && cross-env NODE_ENV=production electron .",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",

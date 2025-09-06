@@ -4,6 +4,7 @@
   "directories": {
     "output": "release/${version}"
   },
+  "asar": false,
   "files": [
     "dist",
     "dist-electron"
@@ -36,5 +37,9 @@
       "AppImage"
     ],
     "icon": "public/logo_app.png"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true
   }
 }

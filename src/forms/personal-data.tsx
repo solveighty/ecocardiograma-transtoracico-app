@@ -19,11 +19,13 @@ import type { ValvulasData } from "./types/fourthForm/ValvulasData";
 import { useRapFromVci } from "./hooks/useRapFromVci";
 import { generateWordReport } from "./services/reportExporter";
 import { parseFechaLocal } from "../lib/dateUtils";
+import { DatabaseService } from "../services/databaseService";
 
 
 export default function PatientForm() {
   const { step, handleNext, handleBack } = usePatientFormSteps(1);
   const [searchParams] = useSearchParams();
+  const [examenId, setExamenId] = useState<number | null>(null);
   const [patientData, setPatientData] = useState<PatientData>(getInitialPatientData());
   const [medidasVIData, setMedidasVIData] = useState<MedidasVIData>(getInitialMedidasVIData());
   const [ventriculosAuriculasData, setVentriculosAuriculasData] = useState(
@@ -37,6 +39,12 @@ export default function PatientForm() {
     const ci = searchParams.get('ci');
     const nombres = searchParams.get('nombres');
     const fecha = searchParams.get('fecha');
+    const examenIdParam = searchParams.get('examenId');
+
+    // Guardar el ID del examen si viene en los parámetros
+    if (examenIdParam) {
+      setExamenId(parseInt(examenIdParam));
+    }
 
     if (ci || nombres || fecha) {
       setPatientData(prev => ({
@@ -92,6 +100,24 @@ export default function PatientForm() {
         valvulasData,
         dtvvData
       );
+      
+      // Si hay un examenId, actualizar el estado a "completado"
+      if (examenId) {
+        try {
+          const updateResult = await DatabaseService.updateExamen(examenId, { 
+            estado: 'completado' 
+          });
+          
+          if (updateResult.success) {
+            console.log('Examen marcado como completado exitosamente');
+          } else {
+            console.error('Error al actualizar el estado del examen:', updateResult.error);
+          }
+        } catch (error) {
+          console.error('Error al marcar el examen como completado:', error);
+        }
+      }
+      
       // El archivo se descarga automáticamente, no necesitamos mostrar mensaje adicional
     } catch (error) {
       console.error('Error al generar el informe Word:', error);

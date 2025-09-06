@@ -25,7 +25,8 @@ const ExamenListItem = ({ examen, showLlenarDatos = false, onDelete }: ExamenLis
     const searchParams = new URLSearchParams({
       ci: examen.paciente?.ci || '',
       nombres: examen.paciente?.nombres || '',
-      fecha: examen.fecha
+      fecha: examen.fecha,
+      examenId: examen.id?.toString() || ''
     });
     navigate(`/ecocardiograma?${searchParams.toString()}`);
   };

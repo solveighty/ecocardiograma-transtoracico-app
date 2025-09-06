@@ -21,7 +21,6 @@ function DoctorInfoCard({ doctorName }: { doctorName: string }) {
           <div>
             <h3 className="font-semibold text-lg">{doctorName}</h3>
             <p className="text-sm text-gray-600">Especialista en Cardiología</p>
-            <p className="text-sm text-gray-500">Lic. Med. 12345</p>
           </div>
         </div>
       </CardContent>

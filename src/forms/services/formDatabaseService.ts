@@ -182,26 +182,6 @@ export class FormDatabaseService {
     }
   }
 
-  // Obtener historial de exámenes de un paciente
-  static async obtenerHistorialPaciente(ci: string): Promise<{ success: boolean; examenes?: Examen[]; error?: string }> {
-    try {
-      const resultPaciente = await DatabaseService.getPacienteByCi(ci);
-      if (!resultPaciente.success || !resultPaciente.data || !resultPaciente.data.id) {
-        return { success: false, error: 'Paciente no encontrado' };
-      }
-
-      // Aquí necesitarías un método en DatabaseService para obtener exámenes por pacienteId
-      // Por ahora, usamos getExamenesPorEstado como ejemplo
-      const examenes = await DatabaseService.getExamenesPorEstado('completado');
-      const examenesPaciente = examenes.filter((e: Examen) => e.pacienteId === resultPaciente.data!.id);
-
-      return { success: true, examenes: examenesPaciente };
-    } catch (error) {
-      console.error('Error obteniendo historial del paciente:', error);
-      return { success: false, error: String(error) };
-    }
-  }
-
   // Validar datos antes de guardar
   static validarDatos(formData: FormData): { valid: boolean; errors: string[] } {
     const errors: string[] = [];

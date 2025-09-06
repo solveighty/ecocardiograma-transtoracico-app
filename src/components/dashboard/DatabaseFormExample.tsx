@@ -6,12 +6,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useFormDatabase } from '../../forms/hooks/useFormDatabase';
 import { PatientData } from '../../forms/types/firstForm/PatientData';
-import { Search, Save, CheckCircle, AlertCircle, User, Clock } from 'lucide-react';
+import { Search, Save, CheckCircle, AlertCircle, User } from 'lucide-react';
 
 export const DatabaseFormExample = () => {
   const [ci, setCi] = useState('');
   const [pacienteEncontrado, setPacienteEncontrado] = useState<PatientData | null>(null);
-  const [mostrarHistorial, setMostrarHistorial] = useState(false);
   
   const {
     loading,
@@ -21,7 +20,6 @@ export const DatabaseFormExample = () => {
     buscarPaciente,
     guardarBorrador,
     finalizarExamen,
-    obtenerHistorial,
     clearError
   } = useFormDatabase();
 
@@ -31,17 +29,9 @@ export const DatabaseFormExample = () => {
     const paciente = await buscarPaciente(ci);
     if (paciente) {
       setPacienteEncontrado(paciente);
-      setMostrarHistorial(false);
     } else {
       setPacienteEncontrado(null);
     }
-  };
-
-  const handleVerHistorial = async () => {
-    if (!ci.trim()) return;
-    
-    const examenes = await obtenerHistorial(ci);
-    setMostrarHistorial(true);
   };
 
   const handleGuardarBorrador = async () => {
@@ -109,15 +99,6 @@ export const DatabaseFormExample = () => {
               >
                 <Search className="h-4 w-4 mr-2" />
                 Buscar
-              </Button>
-              <Button 
-                onClick={handleVerHistorial} 
-                disabled={loading || !ci.trim()}
-                variant="outline"
-                size="sm"
-              >
-                <Clock className="h-4 w-4 mr-2" />
-                Historial
               </Button>
             </div>
           </div>
@@ -215,14 +196,6 @@ export const DatabaseFormExample = () => {
               <p className="text-sm">Puede crear un nuevo paciente con estos datos</p>
             </div>
           )}
-
-          {/* Mostrar mensaje sobre historial */}
-          {mostrarHistorial && (
-            <div className="text-center py-4 text-blue-600">
-              <Clock className="h-8 w-8 mx-auto mb-2" />
-              <p>Historial consultado. Ver consola para detalles.</p>
-            </div>
-          )}
         </CardContent>
       </Card>
 
@@ -249,7 +222,6 @@ export const DatabaseFormExample = () => {
               <h4 className="font-semibold text-blue-600">🔄 Próximas mejoras</h4>
               <ul className="text-sm space-y-1">
                 <li>• Cargar exámenes existentes</li>
-                <li>• Historial completo por paciente</li>
                 <li>• Búsqueda avanzada</li>
                 <li>• Reportes personalizados</li>
                 <li>• Backup automático</li>

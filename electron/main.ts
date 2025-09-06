@@ -212,7 +212,7 @@ ipcMain.handle('db-get-resumen-mensual', async (_event, _year: number, _month: n
 
 // Forzar siempre modo producción cuando existe dist/
 const distExists = require('fs').existsSync(path.join(__dirname, '../dist'));
-const isDev = !distExists && process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL !== undefined;
 
 console.log('🔧 Environment check:');
 console.log('   NODE_ENV:', process.env.NODE_ENV);
@@ -253,9 +253,10 @@ const createWindow = (): void => {
 
   // Load the app
   if (isDev) {
-    const port = process.env.PORT || 5173;
-    console.log('🌐 Development mode - loading URL:', `http://localhost:${port}`);
-    mainWindow.loadURL(`http://localhost:${port}`);
+    const port = process.env.PORT || process.env.VITE_DEV_SERVER_URL?.split(':')[2]?.split('/')[0] || 5173;
+    const devUrl = `http://localhost:${port}`;
+    console.log('🌐 Development mode - loading URL:', devUrl);
+    mainWindow.loadURL(devUrl);
     mainWindow.webContents.openDevTools();
   } else {
     // En producción, cargar desde el archivo local

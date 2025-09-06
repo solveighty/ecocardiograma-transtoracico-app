@@ -106,30 +106,6 @@ export const useFormDatabase = () => {
     return FormDatabaseService.validarDatos(formData);
   }, []);
 
-  // Obtener historial de un paciente
-  const obtenerHistorial = useCallback(async (ci: string) => {
-    if (!ci.trim()) return [];
-    
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const result = await FormDatabaseService.obtenerHistorialPaciente(ci.trim());
-      if (result.success) {
-        return result.examenes || [];
-      } else {
-        setError(result.error || 'Error al obtener historial');
-        return [];
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error al obtener historial';
-      setError(errorMessage);
-      return [];
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   return {
     // Estado
     loading,
@@ -143,7 +119,6 @@ export const useFormDatabase = () => {
     finalizarExamen,
     exportarYGuardar,
     validarDatos,
-    obtenerHistorial,
     clearError
   };
 };

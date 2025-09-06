@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button";
-import { FolderOpen, FileText, Calendar, ArrowLeft } from "lucide-react";
+import { Calendar, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { 
   ExamenesPendientesCard, 
@@ -47,27 +47,7 @@ function MainActions({ registerRefreshCallback }: MainActionsProps) {
   return (
     <div className="space-y-8">
       {/* Acciones principales */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-blue-50 to-white">
-          <CardHeader className="pb-4">
-            <CardTitle className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <FolderOpen className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-gray-900">Historial de Pacientes</span>
-            </CardTitle>
-            <CardDescription className="text-gray-600">
-              Ver el historial completo de exámenes realizados
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="outline" className="w-full bg-white hover:bg-blue-50 border-blue-200 text-blue-700 hover:text-blue-800 transition-colors">
-              <FileText className="h-4 w-4 mr-2" />
-              Ver Historial
-            </Button>
-          </CardContent>
-        </Card>
-
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
         <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-gradient-to-br from-orange-50 to-white">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center space-x-3">

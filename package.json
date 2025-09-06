@@ -13,6 +13,7 @@
     "build:debug": "vite build && electron-builder --dir",
     "build:release": "vite build && electron-builder",
     "test:prod": "vite build && cross-env NODE_ENV=production electron .",
+    "test:prod:debug": "vite build && cross-env NODE_ENV=production DEBUG_PROD=true electron .",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",

@@ -4,6 +4,15 @@ import DatabaseManager from '../src/services/databaseManager';
 import { Paciente, Examen } from '../src/types/database';
 import './electron-env';
 
+// Workaround: Some Windows setups crash the GPU process and render a blank screen.
+// Disable hardware acceleration as early as possible in the main process.
+// See: https://www.electronjs.org/docs/latest/api/app#appdisablehardwareacceleration
+app.disableHardwareAcceleration();
+if (process.platform === 'win32') {
+  // Extra guard for problematic GPUs/drivers
+  app.commandLine.appendSwitch('disable-gpu');
+}
+
 // ===== IPC HANDLERS PARA BASE DE DATOS =====
 
 // Pacientes
@@ -210,15 +219,22 @@ ipcMain.handle('db-get-resumen-mensual', async (_event, _year: number, _month: n
 
 // ===== ELECTRON APP CONFIGURATION =====
 
-// Forzar siempre modo producción cuando existe dist/
-const distExists = require('fs').existsSync(path.join(__dirname, '../dist'));
-const isDev = process.env.NODE_ENV === 'development' || process.env.VITE_DEV_SERVER_URL !== undefined;
+// Detección más robusta del entorno
+// En el ejecutable empaquetado, NODE_ENV puede no estar definido o ser 'development'
+// Usar la presencia del servidor de desarrollo como indicador principal
+const isDevServer = !!process.env.VITE_DEV_SERVER_URL;
+const isPackaged = app.isPackaged; // true cuando está empaquetado por electron-builder
+const isDev = !isPackaged && process.env.NODE_ENV === 'development' && !isDevServer;
+const isProduction = isPackaged || process.env.NODE_ENV === 'production';
 
 console.log('🔧 Environment check:');
 console.log('   NODE_ENV:', process.env.NODE_ENV);
+console.log('   VITE_DEV_SERVER_URL:', process.env.VITE_DEV_SERVER_URL);
 console.log('   __dirname:', __dirname);
-console.log('   dist exists:', distExists);
+console.log('   app.isPackaged:', isPackaged);
 console.log('   isDev:', isDev);
+console.log('   isDevServer:', isDevServer);
+console.log('   isProduction:', isProduction);
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -235,9 +251,12 @@ const createWindow = (): void => {
     minWidth: 800,
     minHeight: 600,
     show: false, // No mostrar hasta que esté listo
+  backgroundColor: '#ffffff', // Avoid flicker/black screen when GPU is off
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
       preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, '../public/logo_app.png')
@@ -252,16 +271,17 @@ const createWindow = (): void => {
   });
 
   // Load the app
-  if (isDev) {
-    const port = process.env.PORT || process.env.VITE_DEV_SERVER_URL?.split(':')[2]?.split('/')[0] || 5173;
+  if (isDevServer) {
+    // Modo desarrollo con servidor Vite
+    const port = process.env.VITE_DEV_SERVER_URL?.split(':')[2]?.split('/')[0] || 5173;
     const devUrl = `http://localhost:${port}`;
-    console.log('🌐 Development mode - loading URL:', devUrl);
+    console.log('🌐 Development server mode - loading URL:', devUrl);
     mainWindow.loadURL(devUrl);
     mainWindow.webContents.openDevTools();
   } else {
-    // En producción, cargar desde el archivo local
+    // Modo producción o desarrollo sin servidor - cargar desde archivo local
     const indexPath = path.join(__dirname, '../dist/index.html');
-    console.log('📄 Production mode - loading file from:', indexPath);
+    console.log('📄 Production/file mode - loading file from:', indexPath);
     console.log('✅ File exists:', require('fs').existsSync(indexPath));
     
     // Verificar contenido del directorio
@@ -271,12 +291,6 @@ const createWindow = (): void => {
       console.log('📁 Dist directory contents:', require('fs').readdirSync(distDir));
     }
     
-    // Verificar que el archivo JS existe
-    const assetsDir = path.join(distDir, 'assets');
-    if (require('fs').existsSync(assetsDir)) {
-      console.log('📁 Assets directory contents:', require('fs').readdirSync(assetsDir));
-    }
-    
     console.log('🔄 Attempting to load file:', indexPath);
     mainWindow.loadFile(indexPath).then(() => {
       console.log('✅ File loaded successfully');
@@ -284,8 +298,10 @@ const createWindow = (): void => {
       console.error('❌ Failed to load file:', error);
     });
     
-    // ABRIR DEVTOOLS EN PRODUCCIÓN PARA DEBUG
-    mainWindow.webContents.openDevTools();
+    // Solo abrir DevTools en producción si hay problemas (comentar en release)
+    if (process.env.DEBUG_PROD || !isPackaged) {
+      mainWindow.webContents.openDevTools();
+    }
     
     // Manejar errores de carga
     mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {

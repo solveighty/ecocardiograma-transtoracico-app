@@ -18,7 +18,7 @@ import {
 import { Examen } from "@/types/database";
 import { formatearFechaParaUI } from "@/lib/dateUtils";
 import { RefreshCallbacks } from "@/hooks/useGlobalRefresh";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface ExamenCardProps {
@@ -234,6 +234,7 @@ export const ExamenesPendientesCard = ({ registerRefreshCallback }: ExamenCardPr
 
 export const ExamenesCompletadosCard = ({ registerRefreshCallback }: ExamenCardProps = {}) => {
   const { examenes, loading, error, refresh } = useExamenesCompletados();
+  const [showAll, setShowAll] = useState(false);
 
   // Registrar el callback de refresh cuando el componente se monta
   useEffect(() => {
@@ -244,6 +245,9 @@ export const ExamenesCompletadosCard = ({ registerRefreshCallback }: ExamenCardP
     }
     // Solo ejecutar una vez al montar el componente
   }, [registerRefreshCallback]); // Removido refresh de las dependencias
+
+  const examenesMostrar = showAll ? examenes : examenes.slice(0, 5);
+  const hayMas = examenes.length > 5;
 
   return (
     <Card className="shadow-sm border-0 bg-gradient-to-br from-green-50/50 to-white">
@@ -289,7 +293,7 @@ export const ExamenesCompletadosCard = ({ registerRefreshCallback }: ExamenCardP
           </div>
         ) : (
           <div className="space-y-2 max-h-64 overflow-y-auto">
-            {examenes.slice(0, 5).map((examen) => (
+            {examenesMostrar.map((examen) => (
               <ExamenListItem
                 key={examen.id}
                 examen={examen}
@@ -297,10 +301,27 @@ export const ExamenesCompletadosCard = ({ registerRefreshCallback }: ExamenCardP
                 variant="compact"
               />
             ))}
-            {examenes.length > 5 && (
+            {hayMas && !showAll && (
               <div className="text-center pt-2">
-                <Button variant="ghost" size="sm" className="text-xs text-gray-500 hover:text-gray-700">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-xs text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowAll(true)}
+                >
                   Ver {examenes.length - 5} más...
+                </Button>
+              </div>
+            )}
+            {showAll && hayMas && (
+              <div className="text-center pt-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-xs text-gray-500 hover:text-gray-700"
+                  onClick={() => setShowAll(false)}
+                >
+                  Ver menos
                 </Button>
               </div>
             )}

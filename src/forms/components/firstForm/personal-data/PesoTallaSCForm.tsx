@@ -26,7 +26,8 @@ export default function PesoTallaSCForm({
           unit="kg"
           min={0}
           max={999.99}
-          placeholder="0.00"
+          step={0.1}
+          placeholder="0.0"
         />
       </div>
       <div>
@@ -41,7 +42,8 @@ export default function PesoTallaSCForm({
           unit="cm"
           min={0}
           max={300}
-          placeholder="0"
+          step={0.1}
+          placeholder="0.0"
         />
       </div>
       <div>

@@ -230,17 +230,30 @@ function formatVentanas(ventanas: string[]): string {
     return "no evaluado";
   }
   
-  if (ventanas.length === 1) {
-    return ventanas[0];
+  // Mapear valores internos a nombres amigables
+  const ventanaLabels: { [key: string]: string } = {
+    optima: "Ventana óptima",
+    suboptima: "Ventana subóptima",
+    // Mantener compatibilidad con valores antiguos
+    paraesternal: "Paraesternal",
+    apical: "Apical",
+    subcostal: "Subcostal",
+    supraesternal: "Supraesternal"
+  };
+  
+  const formattedVentanas = ventanas.map(v => ventanaLabels[v] || v);
+  
+  if (formattedVentanas.length === 1) {
+    return formattedVentanas[0];
   }
   
-  if (ventanas.length === 2) {
-    return `${ventanas[0]} y ${ventanas[1]}`;
+  if (formattedVentanas.length === 2) {
+    return `${formattedVentanas[0]} y ${formattedVentanas[1]}`;
   }
   
   // Para 3 o más ventanas: "A, B y C"
-  const allButLast = ventanas.slice(0, -1);
-  const last = ventanas[ventanas.length - 1];
+  const allButLast = formattedVentanas.slice(0, -1);
+  const last = formattedVentanas[formattedVentanas.length - 1];
   return `${allButLast.join(", ")} y ${last}`;
 }
 

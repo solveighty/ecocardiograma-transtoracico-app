@@ -31,10 +31,8 @@ export default function DatosExamenForm({
   handleVentanasChange,
 }: Props) {
   const ventanaOptions = [
-    { value: "paraesternal", label: "Paraesternal" },
-    { value: "apical", label: "Apical" },
-    { value: "subcostal", label: "Subcostal" },
-    { value: "supraesternal", label: "Supraesternal" },
+    { value: "optima", label: "Ventana óptima" },
+    { value: "suboptima", label: "Ventana subóptima" },
   ];
 
   const handleVentanaToggle = (ventana: string, checked: boolean) => {

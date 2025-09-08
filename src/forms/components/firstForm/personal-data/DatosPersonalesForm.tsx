@@ -6,7 +6,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import ReadOnlyWithUnit from "../../../../components/options/ReadOnlyWithUnit";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -84,7 +83,28 @@ export default function DatosPersonalesForm({
             <Label htmlFor="edad" className="text-sm font-medium">
               Edad:
             </Label>
-            <ReadOnlyWithUnit label="" value={patientData.edad} unit="años" />
+            <div className="flex items-center gap-2 mt-1">
+              <Input
+                id="edad"
+                type="number"
+                placeholder="Edad en años"
+                className="flex-1"
+                value={patientData.edad}
+                onChange={(e) => {
+                  // Validar entrada numérica para edad (0-150)
+                  const value = e.target.value;
+                  if (value === '' || (/^\d+$/.test(value) && parseInt(value) >= 0 && parseInt(value) <= 150)) {
+                    handleInputChange("edad", value);
+                  }
+                }}
+                min={0}
+                max={150}
+              />
+              <span className="text-sm text-gray-500">años</span>
+            </div>
+            <p className="text-xs text-gray-500 mt-1">
+              Se calcula automáticamente con fecha de nacimiento, o ingrese manualmente
+            </p>
           </div>
           <div>
             <Label htmlFor="sexo" className="text-sm font-medium">

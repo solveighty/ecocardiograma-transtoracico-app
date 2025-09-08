@@ -21,9 +21,8 @@ export interface VentriculosAuriculasData {
   medidaVI: string; // para Relación VD/VI
   // Aurícula Izquierda
   dai: string;
-  areaAi: string; // Área 4C
-  areaAi2C: string; // Área 2C (nuevo campo)
-  volAi: string;
+  areaAi: string; // Área AI
+  volAi: string; // Volumen AI manual
   volIndexAi: string;
   // Aurícula Derecha
   dmAd: string;

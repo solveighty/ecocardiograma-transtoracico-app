@@ -11,7 +11,7 @@ interface Props {
 
 const AuriculaIzquierdaSection: React.FC<Props> = ({ data, handleChange }) => (
   <SectionGroup title="Aurícula Izquierda">
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <InputWithUnit
         id="dai"
         label="DAI"
@@ -21,21 +21,20 @@ const AuriculaIzquierdaSection: React.FC<Props> = ({ data, handleChange }) => (
       />
       <InputWithUnit
         id="areaAi"
-        label="Área 4C"
+        label="Área AI"
         value={data.areaAi}
         onChange={(v: string) => handleChange("areaAi", v)}
         unit="cm²"
       />
       <InputWithUnit
-        id="areaAi2C"
-        label="Área 2C"
-        value={data.areaAi2C}
-        onChange={(v: string) => handleChange("areaAi2C", v)}
-        unit="cm²"
+        id="volAi"
+        label="Volumen AI"
+        value={data.volAi}
+        onChange={(v: string) => handleChange("volAi", v)}
+        unit="ml"
       />
-      <ReadOnlyWithUnit label="Vol" value={data.volAi} unit="ml" />
       <ReadOnlyWithUnit
-        label="Vol. Index"
+        label="Volumen Index"
         value={data.volIndexAi}
         unit="ml/m²"
       />

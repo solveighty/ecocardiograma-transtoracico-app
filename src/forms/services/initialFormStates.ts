@@ -64,7 +64,6 @@ export function getInitialVentriculosAuriculasData(
     // Aurícula Izquierda
     dai: "",
     areaAi: "",
-    areaAi2C: "",
     volAi: "",
     volIndexAi: "",
     superficieCorporal: patientData.superficieCorporal,

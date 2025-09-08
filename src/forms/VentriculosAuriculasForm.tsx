@@ -21,7 +21,7 @@ import {
   calcIE,
   calcRelacionVDVI,
 } from "./services/thirdForm/ventriculosAuriculasCalculos";
-import { useLeftAtriumVolume } from "./hooks/useLeftAtriumVolume";
+import { useAuriculaIzquierdaVolumeIndex } from "./hooks/useAuriculaIzquierdaVolumeIndex";
 
 interface Props {
   data: VentriculosAuriculasData;
@@ -57,8 +57,9 @@ const VentriculosAuriculasForm: React.FC<Props> = ({
   const ie = calcIE(data.basal, data.long);
   const caf = calcCAF(data.basal, data.basalSistolico); // requiere basal sistólico
   const relacionVdVi = calcRelacionVDVI(data.basal, data.ddfvi);
-  // Volumen AI y Vol Index calculados y sincronizados en el estado
-  useLeftAtriumVolume(data, setData);
+  
+  // Cálculo automático del Volumen Index de Aurícula Izquierda
+  useAuriculaIzquierdaVolumeIndex(data, setData);
 
   return (
     <Card className="mb-6">

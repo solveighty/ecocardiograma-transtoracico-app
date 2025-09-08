@@ -1,12 +1,11 @@
 import React from "react";
 import SectionGroup from "../../../../components/options/SectionGroup";
-import InputWithUnit from "../../../../components/options/InputWithUnit";
 import ReadOnlyWithUnit from "../../../../components/options/ReadOnlyWithUnit";
 import type { MedidasVIData } from "../../../types/secondForm/MedidasVIData";
 
 interface Props {
   medidasVIData: MedidasVIData;
-  handleChange: (field: keyof MedidasVIData, value: string) => void;
+  handleChange?: (field: keyof MedidasVIData, value: string) => void;
   calcVL: (vdf: string, vsf: string) => string;
   calcFETeich: (ddfvi: string, dsfvi: string) => string;
   calcFA: (ddfvi: string, dsfvi: string) => string;
@@ -14,25 +13,20 @@ interface Props {
 
 const VolumenesLinealesSection: React.FC<Props> = ({
   medidasVIData,
-  handleChange,
   calcVL,
   calcFETeich,
   calcFA,
 }) => (
   <SectionGroup title="Volúmenes (lineales)">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <InputWithUnit
-        id="vdfLineal"
+      <ReadOnlyWithUnit
         label="VDF"
         value={medidasVIData.vdfLineal}
-        onChange={(v: string) => handleChange("vdfLineal", v)}
         unit="ml"
       />
-      <InputWithUnit
-        id="vsfLineal"
+      <ReadOnlyWithUnit
         label="VSF"
         value={medidasVIData.vsfLineal}
-        onChange={(v: string) => handleChange("vsfLineal", v)}
         unit="ml"
       />
       <ReadOnlyWithUnit

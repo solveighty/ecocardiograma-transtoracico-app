@@ -1,3 +1,27 @@
+// Volumen Diastólico Final por Teichholz
+// Fórmula: VDF = 7.0 × DDFVI³ / (2.4 + DDFVI)
+// Unidades: DDFVI en mm (se convierte a cm). Resultado en ml.
+export function calcVDFTeich(ddfvi: string): string {
+  const d = parseFloat(ddfvi) / 10; // mm a cm
+  if (!isNaN(d) && d > 0) {
+    const vdf = 7.0 * Math.pow(d, 3) / (2.4 + d);
+    return vdf.toFixed(2);
+  }
+  return "";
+}
+
+// Volumen Sistólico Final por Teichholz
+// Fórmula: VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
+// Unidades: DSFVI en mm (se convierte a cm). Resultado en ml.
+export function calcVSFTeich(dsfvi: string): string {
+  const s = parseFloat(dsfvi) / 10; // mm a cm
+  if (!isNaN(s) && s >= 0) {
+    const vsf = 7.0 * Math.pow(s, 3) / (2.4 + s);
+    return vsf.toFixed(2);
+  }
+  return "";
+}
+
 // Diferencia de volúmenes (VL)
 // Fórmula: VL = VDF − VSF
 // Unidades esperadas: VDF y VSF en ml -> resultado en ml

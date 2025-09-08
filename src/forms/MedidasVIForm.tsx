@@ -1,5 +1,5 @@
 import FormNavigationButtons from "./components/ui/FormNavigationButtons";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -15,6 +15,8 @@ import {
   calcFETeich,
   calcFA,
   calcFE_Simpson,
+  calcVDFTeich,
+  calcVSFTeich,
 } from "./services/secondForm/medidasVI";
 import { MedidasVIData } from "./types/secondForm/MedidasVIData";
 interface Props {
@@ -30,6 +32,44 @@ const MedidasVIForm: React.FC<Props> = ({
   onNext,
   onBack,
 }) => {
+  // Cálculo automático de VDF y VSF usando Teichholz cuando cambien DDFVI o DSFVI
+  useEffect(() => {
+    const { ddfvi, dsfvi } = medidasVIData;
+    let needsUpdate = false;
+    const updates: Partial<MedidasVIData> = {};
+    
+    // Calcular VDF automáticamente si hay DDFVI
+    if (ddfvi && parseFloat(ddfvi) > 0) {
+      const calculatedVDF = calcVDFTeich(ddfvi);
+      if (calculatedVDF && calculatedVDF !== medidasVIData.vdfLineal) {
+        updates.vdfLineal = calculatedVDF;
+        needsUpdate = true;
+      }
+    } else if (medidasVIData.vdfLineal && (!ddfvi || parseFloat(ddfvi) <= 0)) {
+      // Limpiar VDF si no hay DDFVI válido
+      updates.vdfLineal = "";
+      needsUpdate = true;
+    }
+    
+    // Calcular VSF automáticamente si hay DSFVI
+    if (dsfvi && parseFloat(dsfvi) >= 0) {
+      const calculatedVSF = calcVSFTeich(dsfvi);
+      if (calculatedVSF && calculatedVSF !== medidasVIData.vsfLineal) {
+        updates.vsfLineal = calculatedVSF;
+        needsUpdate = true;
+      }
+    } else if (medidasVIData.vsfLineal && (!dsfvi || parseFloat(dsfvi) < 0)) {
+      // Limpiar VSF si no hay DSFVI válido
+      updates.vsfLineal = "";
+      needsUpdate = true;
+    }
+
+    // Solo actualizar si hay cambios
+    if (needsUpdate) {
+      setMedidasVIData((prev) => ({ ...prev, ...updates }));
+    }
+  }, [medidasVIData.ddfvi, medidasVIData.dsfvi]);
+
   // No side effects needed for calculations, as they are derived in render
   const handleChange = (field: keyof MedidasVIData, value: string) => {
     setMedidasVIData((prev) => ({ ...prev, [field]: value }));
@@ -50,7 +90,6 @@ const MedidasVIForm: React.FC<Props> = ({
         />
         <VolumenesLinealesSection
           medidasVIData={medidasVIData}
-          handleChange={handleChange}
           calcVL={calcVL}
           calcFETeich={calcFETeich}
           calcFA={calcFA}

@@ -203,25 +203,6 @@ function formatDate(date: Date | undefined): string {
   });
 }
 
-// Función auxiliar para convertir string a número de forma segura
-function safeParseFloat(value: string | undefined, defaultValue: number = 0): number {
-  if (!value || value.trim() === '') return defaultValue;
-  const parsed = parseFloat(value);
-  return isNaN(parsed) ? defaultValue : parsed;
-}
-
-// Función auxiliar para formatear números de forma segura
-function safeFormat(value: string | number | undefined, decimals: number = 2): string {
-  if (value === undefined || value === null) return '';
-  
-  if (typeof value === 'string') {
-    if (!value || value.trim() === '') return '';
-    const parsed = parseFloat(value);
-    return isNaN(parsed) ? '' : parsed.toFixed(decimals);
-  }
-  return isNaN(value) ? '' : value.toFixed(decimals);
-}
-
 // Función auxiliar para obtener valores con fallback
 function safeValue(value: string | undefined, fallback: string = 'no evaluado'): string {
   if (!value || value.trim() === '') return fallback;
@@ -269,6 +250,14 @@ function optionalValue(value: string | undefined): string {
 // Función auxiliar para valores numéricos opcionales
 function optionalNumericValue(value: string | undefined): string {
   if (!value || value.trim() === '' || isNaN(parseFloat(value))) {
+    return 'no evaluado';
+  }
+  return value;
+}
+
+// Función auxiliar para valores calculados que pueden estar vacíos
+function calculatedValue(value: string): string {
+  if (!value || value.trim() === '') {
     return 'no evaluado';
   }
   return value;
@@ -410,33 +399,33 @@ export function compileReportData(
     fechaExamen: formatDate(patientData.fechaExamen),
 
     // Medidas VI
-    ddfvi: safeValue(medidasVIData.ddfvi, '0'),
-    dsfvi: safeValue(medidasVIData.dsfvi, '0'),
-    gdsept: safeValue(medidasVIData.gdsept, '0'),
-    gdpil: safeValue(medidasVIData.gdpil, '0'),
-    rao: safeValue(medidasVIData.rao, '0'),
-    vdfLineal: safeValue(medidasVIData.vdfLineal, '0'),
-    vsfLineal: safeValue(medidasVIData.vsfLineal, '0'),
-    vlLineal,
-    feTeich,
-    fa,
-    vdfSimpson: safeValue(medidasVIData.vdfSimpson, '0'),
-    vsfSimpson: safeValue(medidasVIData.vsfSimpson, '0'),
-    vlSimpson,
-    feSimpson,
+    ddfvi: optionalNumericValue(medidasVIData.ddfvi),
+    dsfvi: optionalNumericValue(medidasVIData.dsfvi),
+    gdsept: optionalNumericValue(medidasVIData.gdsept),
+    gdpil: optionalNumericValue(medidasVIData.gdpil),
+    rao: optionalNumericValue(medidasVIData.rao),
+    vdfLineal: optionalNumericValue(medidasVIData.vdfLineal),
+    vsfLineal: optionalNumericValue(medidasVIData.vsfLineal),
+    vlLineal: calculatedValue(vlLineal),
+    feTeich: calculatedValue(feTeich),
+    fa: calculatedValue(fa),
+    vdfSimpson: optionalNumericValue(medidasVIData.vdfSimpson),
+    vsfSimpson: optionalNumericValue(medidasVIData.vsfSimpson),
+    vlSimpson: calculatedValue(vlSimpson),
+    feSimpson: calculatedValue(feSimpson),
 
     // Ventrículos y Aurículas
-    masaVI,
-    imvi,
-    grp: safeValue(ventriculosAuriculasData.grp, '0'),
+    masaVI: calculatedValue(masaVI),
+    imvi: calculatedValue(imvi),
+    grp: optionalNumericValue(ventriculosAuriculasData.grp),
     mapse: optionalNumericValue(ventriculosAuriculasData.mapse),
     dpdt: optionalNumericValue(ventriculosAuriculasData.dpdt),
     basal: optionalNumericValue(ventriculosAuriculasData.basal),
     medio: optionalNumericValue(ventriculosAuriculasData.medio),
     long: optionalNumericValue(ventriculosAuriculasData.long),
-    caf,
-    ie: ie,
-    relacionVdVi: relacionVdVi,
+    caf: calculatedValue(caf),
+    ie: calculatedValue(ie),
+    relacionVdVi: calculatedValue(relacionVdVi),
     tapse: optionalNumericValue(ventriculosAuriculasData.tapse),
     dai: optionalNumericValue(ventriculosAuriculasData.dai),
     areaAi: optionalNumericValue(ventriculosAuriculasData.areaAi),
@@ -446,12 +435,12 @@ export function compileReportData(
     areaAd: optionalNumericValue(ventriculosAuriculasData.areaAd),
 
     // Válvulas - Mitral
-    mitral_ondaE: safeValue(valvulasData.mitral.ondaE, '0'),
+    mitral_ondaE: optionalNumericValue(valvulasData.mitral.ondaE),
     mitral_itv: optionalNumericValue(valvulasData.mitral.itv),
-    mitral_ondaA: safeValue(valvulasData.mitral.ondaA, '0'),
-    mitral_ore: mitral_ero_pisa,
-    mitral_relEA: mitral_relEA,
-    mitral_vr: mitral_vr,
+    mitral_ondaA: optionalNumericValue(valvulasData.mitral.ondaA),
+    mitral_ore: calculatedValue(mitral_ero_pisa),
+    mitral_relEA: calculatedValue(mitral_relEA),
+    mitral_vr: calculatedValue(mitral_vr),
     mitral_durA: optionalNumericValue(valvulasData.mitral.durA),
     mitral_vc: optionalNumericValue(valvulasData.mitral.vc),
     mitral_tde: optionalNumericValue(valvulasData.mitral.tde),
@@ -459,7 +448,7 @@ export function compileReportData(
     mitral_reg: optionalValue(valvulasData.mitral.reg),
     mitral_avm: optionalNumericValue(valvulasData.mitral.avm),
     mitral_vmax: optionalNumericValue(valvulasData.mitral.vmax),
-    mitral_gradMax: mitral_gradMax,
+    mitral_gradMax: calculatedValue(mitral_gradMax),
     mitral_radio: optionalNumericValue(valvulasData.mitral.radio),
     mitral_gradMed: optionalNumericValue(valvulasData.mitral.gradMed),
     mitral_ny: optionalNumericValue(valvulasData.mitral.ny),
@@ -467,18 +456,18 @@ export function compileReportData(
     // Válvulas - Tricúspide
     tricuspide_ondaE: optionalNumericValue(valvulasData.tricuspide.ondaE),
     tricuspide_ondaA: optionalNumericValue(valvulasData.tricuspide.ondaA),
-    tricuspide_relEA: tricuspide_relEA,
+    tricuspide_relEA: calculatedValue(tricuspide_relEA),
     tricuspide_reg: optionalValue(valvulasData.tricuspide.reg),
     tricuspide_vmax: optionalNumericValue(valvulasData.tricuspide.vmax),
-    tricuspide_grpMax: tricuspide_grpMax,
-    tricuspide_psvd: tricuspide_psvd,
+    tricuspide_grpMax: calculatedValue(tricuspide_grpMax),
+    tricuspide_psvd: calculatedValue(tricuspide_psvd),
     tricuspide_thp: optionalNumericValue(valvulasData.tricuspide.thp),
     tricuspide_avt: optionalNumericValue(valvulasData.tricuspide.avt),
     tricuspide_vc: optionalNumericValue(valvulasData.tricuspide.vc),
 
     // Válvulas - Aorta
     aorta_vmax: optionalNumericValue(valvulasData.aorta.vmax),
-    aorta_gpMax: aorta_gpMax,
+    aorta_gpMax: calculatedValue(aorta_gpMax),
     aorta_gradMed: optionalNumericValue(valvulasData.aorta.gradMed),
     aorta_avac: optionalNumericValue(valvulasData.aorta.avac),
     aorta_reg: optionalValue(valvulasData.aorta.reg),
@@ -491,7 +480,7 @@ export function compileReportData(
 
     // Válvulas - Pulmonar
     pulmonar_vmax: optionalNumericValue(valvulasData.pulmonar.vmax),
-    pulmonar_gpMax: pulmonar_gpMax,
+    pulmonar_gpMax: calculatedValue(pulmonar_gpMax),
     pulmonar_tam: optionalNumericValue(valvulasData.pulmonar.tam),
     pulmonar_reg: optionalValue(valvulasData.pulmonar.reg),
     pulmonar_pmap: optionalNumericValue(valvulasData.pulmonar.pmap),
@@ -499,11 +488,11 @@ export function compileReportData(
     pulmonar_vc: optionalNumericValue(valvulasData.pulmonar.vc),
 
     // Doppler Tisular - Mitral
-    tisularMitral_ePrime: dopplerData.tisularMitral.ePrime,
+    tisularMitral_ePrime: optionalNumericValue(dopplerData.tisularMitral.ePrime),
     tisularMitral_aPrime: optionalNumericValue(dopplerData.tisularMitral.aPrime),
     tisularMitral_sPrime: optionalNumericValue(dopplerData.tisularMitral.sPrime),
     tisularMitral_triv: optionalNumericValue(dopplerData.tisularMitral.triv),
-    relEePrime,
+    relEePrime: calculatedValue(relEePrime),
 
     // Doppler Tisular - Tricúspide
     tisularTricuspide_ePrime: optionalNumericValue(dopplerData.tisularTricuspide.ePrime),
@@ -527,7 +516,7 @@ export function compileReportData(
     venasPulmonares_ondaD: optionalNumericValue(dopplerData.venasPulmonares.ondaD),
     venasPulmonares_ondaARev: optionalNumericValue(dopplerData.venasPulmonares.ondaARev),
     venasPulmonares_durAr: optionalNumericValue(dopplerData.venasPulmonares.durAr),
-    venasPulmonares_relSD: relSD,
+    venasPulmonares_relSD: calculatedValue(relSD),
 
     // Modo M Color (opcional)
     modoMColor_vpOndaE: optionalNumericValue(dopplerData.modoMColor.vpOndaE),

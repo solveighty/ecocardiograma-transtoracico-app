@@ -19,6 +19,7 @@ interface ReportData {
   edad: string;
   sexo: string;
   ci: string;
+  hcl: string;
   fechaNacimiento: string;
   peso: string;
   talla: string;
@@ -394,6 +395,7 @@ export function compileReportData(
     edad: patientData.edad,
     sexo: patientData.sexo,
     ci: patientData.ci,
+    hcl: patientData.hcl,
     fechaNacimiento: formatDate(patientData.fechaNacimiento),
     peso: patientData.peso,
     talla: patientData.talla,

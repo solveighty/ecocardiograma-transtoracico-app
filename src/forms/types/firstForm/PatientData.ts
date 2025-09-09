@@ -3,6 +3,7 @@ export interface PatientData {
   edad: string;
   sexo: string;
   ci: string;
+  hcl: string; // Historia Clínica
   fechaNacimiento: Date | undefined;
   peso: string;
   talla: string;

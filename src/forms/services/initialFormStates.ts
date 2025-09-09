@@ -11,6 +11,7 @@ export function getInitialPatientData(): PatientData {
     edad: "",
     sexo: "",
     ci: "",
+    hcl: "",
     fechaNacimiento: undefined,
     peso: "",
     talla: "",

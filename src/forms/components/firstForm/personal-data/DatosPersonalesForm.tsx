@@ -77,8 +77,8 @@ export default function DatosPersonalesForm({
             />
           </div>
         </div>
-        {/* Edad, Sexo, CI */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Edad, Sexo, CI, HCL */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="edad" className="text-sm font-medium">
               Edad:
@@ -123,6 +123,8 @@ export default function DatosPersonalesForm({
               </SelectContent>
             </Select>
           </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="ci" className="text-sm font-medium">
               CI: <span className="text-red-500">*</span>
@@ -158,6 +160,18 @@ export default function DatosPersonalesForm({
             {patientData.ci.length > 0 && patientData.ci.length !== 10 && (
               <p className="text-red-500 text-xs mt-1">La cédula debe tener exactamente 10 dígitos</p>
             )}
+          </div>
+          <div>
+            <Label htmlFor="hcl" className="text-sm font-medium">
+              HCL (Historia Clínica):
+            </Label>
+            <Input
+              id="hcl"
+              value={patientData.hcl}
+              onChange={(e) => handleInputChange("hcl", e.target.value)}
+              placeholder="Número de historia clínica"
+              className="mt-1"
+            />
           </div>
         </div>
         {/* Fecha de Nacimiento */}

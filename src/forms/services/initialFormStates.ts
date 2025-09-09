@@ -117,6 +117,9 @@ export function getInitialValvulasData(): ValvulasData {
       thp: "",
       vc: "",
       flujoHolodiastolicoReverso: "",
+      diametroTsvi: "",
+      itvTsvi: "",
+      itvAorta: "",
     },
     pulmonar: {
       vmax: "",

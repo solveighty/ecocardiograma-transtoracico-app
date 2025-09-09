@@ -40,6 +40,9 @@ export interface AortaData {
   thp: string;
   vc: string;
   flujoHolodiastolicoReverso: string;
+  diametroTsvi: string;
+  itvTsvi: string;
+  itvAorta: string;
 }
 
 export interface PulmonarData {

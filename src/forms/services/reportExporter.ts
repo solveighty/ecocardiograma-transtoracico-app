@@ -105,6 +105,9 @@ interface ReportData {
   aorta_thp: string;
   aorta_vc: string;
   aorta_flujoHolodiastolicoReverso: string;
+  aorta_diametroTsvi: string;
+  aorta_itvTsvi: string;
+  aorta_itvAorta: string;
 
   // Válvulas - Pulmonar
   pulmonar_vmax: string;
@@ -482,6 +485,9 @@ export function compileReportData(
     aorta_thp: optionalNumericValue(valvulasData.aorta.thp),
     aorta_vc: optionalNumericValue(valvulasData.aorta.vc),
     aorta_flujoHolodiastolicoReverso: optionalValue(valvulasData.aorta.flujoHolodiastolicoReverso),
+    aorta_diametroTsvi: optionalNumericValue(valvulasData.aorta.diametroTsvi),
+    aorta_itvTsvi: optionalNumericValue(valvulasData.aorta.itvTsvi),
+    aorta_itvAorta: optionalNumericValue(valvulasData.aorta.itvAorta),
 
     // Válvulas - Pulmonar
     pulmonar_vmax: optionalNumericValue(valvulasData.pulmonar.vmax),

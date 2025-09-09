@@ -8,7 +8,7 @@ import { DopplerVasosVenasData } from '../types/fifthForm/DopplerTisularData';
 import { calcVL, calcFETeich, calcFA, calcFE_Simpson } from './secondForm/medidasVI';
 import { calcMasaVI, calcIMVI, calcIE, calcRelacionVDVI } from './thirdForm/ventriculosAuriculasCalculos';
 import { calcRelEePrime, calcRelSD } from './fifthForm/calculos';
-import { calcRelEA, calcGradPicoFromVmaxCm, calcPSVD, calcVR } from './fourthForm/valvulasCalculos';
+import { calcRelEA, calcGradPicoFromVmaxCm, calcPSVD, calcVR, calcERO_PISA } from './fourthForm/valvulasCalculos';
 import { generateDiagnosticTexts } from './diagnosticTexts';
 import { validateFormData, formatValidationErrors } from './validation';
 
@@ -313,7 +313,8 @@ export function compileReportData(
   // Cálculos de válvulas automáticos
   const mitral_relEA = calcRelEA(valvulasData.mitral.ondaE, valvulasData.mitral.ondaA);
   const mitral_gradMax = calcGradPicoFromVmaxCm(valvulasData.mitral.vmax);
-  const mitral_vr = calcVR(valvulasData.mitral.ore, valvulasData.mitral.itv);
+  const mitral_ero_pisa = calcERO_PISA(valvulasData.mitral.radio, valvulasData.mitral.ny, valvulasData.mitral.vmax);
+  const mitral_vr = calcVR(mitral_ero_pisa, valvulasData.mitral.itv);
   
   const tricuspide_relEA = calcRelEA(valvulasData.tricuspide.ondaE, valvulasData.tricuspide.ondaA);
   const tricuspide_grpMax = calcGradPicoFromVmaxCm(valvulasData.tricuspide.vmax);
@@ -445,7 +446,7 @@ export function compileReportData(
     mitral_ondaE: safeValue(valvulasData.mitral.ondaE, '0'),
     mitral_itv: optionalNumericValue(valvulasData.mitral.itv),
     mitral_ondaA: safeValue(valvulasData.mitral.ondaA, '0'),
-    mitral_ore: optionalNumericValue(valvulasData.mitral.ore),
+    mitral_ore: mitral_ero_pisa,
     mitral_relEA: mitral_relEA,
     mitral_vr: mitral_vr,
     mitral_durA: optionalNumericValue(valvulasData.mitral.durA),

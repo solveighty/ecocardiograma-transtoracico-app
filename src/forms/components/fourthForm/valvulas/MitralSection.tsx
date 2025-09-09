@@ -16,14 +16,6 @@ interface Props {
 }
 
 const MitralSection: React.FC<Props> = ({ data, onChange, relEA, gradMax, avmFromPHT, eroFromPISA, vrCalc }) => {
-  const toNum = (v?: string) => {
-    const n = parseFloat((v ?? '').toString().replace(',', '.'));
-    return Number.isFinite(n) ? n : undefined;
-  };
-  const oreNum = toNum(data.ore);
-  const eroPisaNum = toNum(eroFromPISA);
-  const showDiscrepancy = oreNum !== undefined && eroPisaNum !== undefined && Math.abs(oreNum - eroPisaNum) > Math.max(0.2, (oreNum + eroPisaNum) / 2 * 0.5);
-
   return (
     <SectionGroup title="MITRAL">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -34,7 +26,7 @@ const MitralSection: React.FC<Props> = ({ data, onChange, relEA, gradMax, avmFro
         <InputWithUnit id="mitral-tde" label="TDE" value={data.tde} onChange={v => onChange('tde', v)} unit="ms" />
         <InputWithUnit id="mitral-thp" label="PHT" value={data.thp} onChange={v => onChange('thp', v)} unit="ms" />
         <InputWithUnit id="mitral-itv" label="ITV / VTI" value={data.itv} onChange={v => onChange('itv', v)} unit="cm" />
-        <InputWithUnit id="mitral-ore" label="ORE (ERO)" value={data.ore} onChange={v => onChange('ore', v)} unit="cm²" />
+        <ReadOnlyWithUnit label="ERO (PISA)" value={eroFromPISA} unit="cm²" />
         <ReadOnlyWithUnit label="VR (Reg Vol)" value={vrCalc} unit="ml" />
         <InputWithUnit id="mitral-vc" label="VC" value={data.vc} onChange={v => onChange('vc', v)} unit="mm" />
         <RegurgitacionSelect id="mitral-reg" value={data.reg} onChange={v => onChange('reg', v)} />
@@ -44,16 +36,14 @@ const MitralSection: React.FC<Props> = ({ data, onChange, relEA, gradMax, avmFro
         <InputWithUnit id="mitral-gradMed" label="Grad. Med" value={data.gradMed} onChange={v => onChange('gradMed', v)} unit="mmHg" />
         <InputWithUnit id="mitral-radio" label="Radio (PISA)" value={data.radio} onChange={v => onChange('radio', v)} unit="cm" />
         <InputWithUnit id="mitral-ny" label="Nyquist (Va)" value={data.ny} onChange={v => onChange('ny', v)} unit="cm/s" />
-        <ReadOnlyWithUnit label="ERO (PISA)" value={eroFromPISA} unit="cm²" />
         <ReadOnlyWithUnit label="AVM (PHT)" value={avmFromPHT} unit="cm²" />
         <div className="md:col-span-3 text-xs text-muted-foreground">
           PISA: radio en cm y Va/Vmax en cm/s. Un radio ≥ 0.9 cm suele indicar IM al menos moderada.
+          <br />
+          ERO se calcula automáticamente usando: ERO = (2π × radio² × Nyquist) / Vmax
+          <br />
+          VR se calcula automáticamente usando: VR = ERO × ITV
         </div>
-        {showDiscrepancy && (
-          <div className="md:col-span-3 text-xs text-yellow-700">
-            Advertencia: ERO manual ({data.ore} cm²) y ERO (PISA) ({eroFromPISA} cm²) difieren notablemente. Revise medición PISA/Vmax o priorice un método para el informe. El VR mostrado usa ORE manual si está disponible.
-          </div>
-        )}
       </div>
     </SectionGroup>
   );

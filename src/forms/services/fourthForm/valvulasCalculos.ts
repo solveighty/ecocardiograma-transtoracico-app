@@ -4,6 +4,22 @@ export function toNumber(v?: string): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
+// Utilidad: convierte velocidad a cm/s automáticamente
+// Si el valor es < 10, asume que está en m/s y lo convierte a cm/s (×100)
+// Si el valor es >= 10, asume que ya está en cm/s
+export function normalizeVelocityToCmS(velocity?: string): number | undefined {
+  const v = toNumber(velocity);
+  if (v === undefined) return undefined;
+  
+  // Si el valor es menor a 10, probablemente está en m/s, convertir a cm/s
+  if (v < 10) {
+    return v * 100;
+  }
+  
+  // Si el valor es >= 10, asumir que ya está en cm/s
+  return v;
+}
+
 // Relación E/A (adimensional)
 // Fórmula: RelEA = E / A
 // Unidades: velocidades en cm/s (o misma unidad). Resultado adimensional.
@@ -16,10 +32,11 @@ export function calcRelEA(e?: string, a?: string): string {
 
 // Gradiente pico (mmHg) a partir de velocidad
 // Fórmula: Grad = 4 × (V[m/s])² = 4 × (V[cm/s]/100)²
+// Nota: Vmax se convierte automáticamente de m/s a cm/s si es necesario.
 export function calcGradPicoFromVmaxCm(vmaxCm?: string): string {
-  const v = toNumber(vmaxCm);
-  if (v === undefined) return "";
-  const vms = v / 100; // cm/s -> m/s
+  const vCmS = normalizeVelocityToCmS(vmaxCm);
+  if (vCmS === undefined) return "";
+  const vms = vCmS / 100; // cm/s -> m/s
   return (4 * vms * vms).toFixed(1);
 }
 
@@ -35,13 +52,13 @@ export function calcAVMFromPHT(phtMs?: string): string {
 // Orificio regurgitante efectivo (ERO) por PISA (cm²)
 // Fórmula: ERO = (2π r² × Va) / Vmax_regurg
 // Unidades: r en cm, Va en cm/s, Vmax en cm/s. Resultado en cm².
-// Nota: si Va o Vmax están en m/s, conviértalos a cm/s (×100) antes.
+// Nota: Vmax se convierte automáticamente de m/s a cm/s si es necesario.
 export function calcERO_PISA(radioCm?: string, nyquistCmSeg?: string, vmaxRegCmSeg?: string): string {
   const r = toNumber(radioCm);
   const va = toNumber(nyquistCmSeg);
-  const vmax = toNumber(vmaxRegCmSeg);
-  if (r === undefined || va === undefined || vmax === undefined || vmax === 0) return "";
-  const ero = (2 * Math.PI * r * r * va) / vmax;
+  const vmaxNormalized = normalizeVelocityToCmS(vmaxRegCmSeg);
+  if (r === undefined || va === undefined || vmaxNormalized === undefined || vmaxNormalized === 0) return "";
+  const ero = (2 * Math.PI * r * r * va) / vmaxNormalized;
   return ero.toFixed(2);
 }
 
@@ -57,10 +74,11 @@ export function calcVR(eroCm2?: string, vtiCm?: string): string {
 // PSVD / RVSP (mmHg) a partir de insuficiencia tricuspídea
 // Fórmula: PSVD = 4 × (V_TR[m/s])² + RAP
 // Unidades: V_TR en cm/s (se convierte a m/s aquí), RAP en mmHg. Resultado en mmHg.
+// Nota: V_TR se convierte automáticamente de m/s a cm/s si es necesario.
 export function calcPSVD(vtrCm?: string, rapMmHg?: string): string {
-  const v = toNumber(vtrCm);
-  if (v === undefined) return "";
-  const vms = v / 100;
+  const vCmS = normalizeVelocityToCmS(vtrCm);
+  if (vCmS === undefined) return "";
+  const vms = vCmS / 100;
   const base = 4 * vms * vms;
   const rap = toNumber(rapMmHg) ?? 0;
   return (base + rap).toFixed(1);

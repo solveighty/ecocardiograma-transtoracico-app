@@ -2,7 +2,6 @@ export interface MitralData {
   ondaE: string;
   itv: string;
   ondaA: string;
-  ore: string;
   relEA: string;
   vr: string;
   durA: string;

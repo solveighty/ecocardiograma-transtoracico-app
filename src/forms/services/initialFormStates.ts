@@ -81,7 +81,6 @@ export function getInitialValvulasData(): ValvulasData {
       ondaE: "",
       itv: "",
       ondaA: "",
-      ore: "",
       relEA: "",
       vr: "",
       durA: "",

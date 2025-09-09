@@ -81,8 +81,8 @@ export default function ValvulasForm({ data, setData, onNext, onBack }: Props) {
     [data.mitral.radio, data.mitral.ny, data.mitral.vmax]
   );
   const vr_calc = useMemo(
-    () => calcVR(data.mitral.ore || ero_fromPISA, data.mitral.itv),
-    [data.mitral.ore, ero_fromPISA, data.mitral.itv]
+    () => calcVR(ero_fromPISA, data.mitral.itv),
+    [ero_fromPISA, data.mitral.itv]
   );
 
   const relEA_Tric = useMemo(

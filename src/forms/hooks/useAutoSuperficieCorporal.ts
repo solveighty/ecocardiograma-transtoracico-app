@@ -3,7 +3,7 @@ import { calcularSuperficieCorporal } from "../services/firstForm/personalData";
 
 export function useAutoSuperficieCorporal(patientData: any, setPatientData: (updater: any) => void, setVentriculosAuriculasData: (updater: any) => void) {
   useEffect(() => {
-    const sc = calcularSuperficieCorporal(patientData.peso, patientData.talla);
+    const sc = calcularSuperficieCorporal(patientData.peso, patientData.talla, patientData.bsaFormula || 'dubois');
     setPatientData((prev: any) => ({
       ...prev,
       superficieCorporal: sc || "",
@@ -16,5 +16,5 @@ export function useAutoSuperficieCorporal(patientData: any, setPatientData: (upd
         superficieCorporal: sc || "",
       };
     });
-  }, [patientData.peso, patientData.talla]);
+  }, [patientData.peso, patientData.talla, patientData.bsaFormula]);
 }

@@ -16,6 +16,7 @@ export function getInitialPatientData(): PatientData {
     peso: "",
     talla: "",
     superficieCorporal: "",
+    bsaFormula: "dubois" as const, // Du Bois por defecto
     ventanas: [],
     ritmo: "",
     frecuenciaCardiaca: "",

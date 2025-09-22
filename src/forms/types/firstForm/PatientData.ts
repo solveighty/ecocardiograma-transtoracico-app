@@ -1,3 +1,5 @@
+import { BSAFormula } from '../../services/firstForm/personalData';
+
 export interface PatientData {
   nombresApellidos: string;
   edad: string;
@@ -8,6 +10,7 @@ export interface PatientData {
   peso: string;
   talla: string;
   superficieCorporal: string;
+  bsaFormula: BSAFormula; // Fórmula elegida para superficie corporal
   ventanas: string[];
   ritmo: string;
   frecuenciaCardiaca: string;

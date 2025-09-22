@@ -47,6 +47,7 @@ export class FormDatabaseService {
       peso: paciente.peso.toString(),
       talla: paciente.talla.toString(),
       superficieCorporal: paciente.superficieCorporal.toString(),
+      bsaFormula: 'dubois', // Por defecto, ya que la DB no almacena la fórmula
       ventanas: [],
       ritmo: '',
       frecuenciaCardiaca: '',

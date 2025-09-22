@@ -1,23 +1,42 @@
-// Volumen Diastólico Final por Teichholz
-// Fórmula: VDF = 7.0 × DDFVI³ / (2.4 + DDFVI)
+import diameterToVolumeData from '../../../lib/diameterToVolume.json';
+
+// Función auxiliar para buscar volumen por diámetro en JSON
+function lookupVolumeByDiameter(diameterCm: number): number {
+  // Buscar el valor más cercano en el JSON
+  let closestEntry = diameterToVolumeData[0];
+  let minDiff = Math.abs(diameterCm - closestEntry.diam);
+  
+  for (const entry of diameterToVolumeData) {
+    const diff = Math.abs(diameterCm - entry.diam);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestEntry = entry;
+    }
+  }
+  
+  return closestEntry.vol;
+}
+
+// Volumen Diastólico Final usando lookup table
+// Convierte de mm a cm y busca en tabla de diámetro a volumen
 // Unidades: DDFVI en mm (se convierte a cm). Resultado en ml.
 export function calcVDFTeich(ddfvi: string): string {
   const d = parseFloat(ddfvi) / 10; // mm a cm
   if (!isNaN(d) && d > 0) {
-    const vdf = 7.0 * Math.pow(d, 3) / (2.4 + d);
-    return vdf.toFixed(2);
+    const vdf = lookupVolumeByDiameter(d);
+    return vdf.toString();
   }
   return "";
 }
 
-// Volumen Sistólico Final por Teichholz
-// Fórmula: VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
+// Volumen Sistólico Final usando lookup table
+// Convierte de mm a cm y busca en tabla de diámetro a volumen
 // Unidades: DSFVI en mm (se convierte a cm). Resultado en ml.
 export function calcVSFTeich(dsfvi: string): string {
   const s = parseFloat(dsfvi) / 10; // mm a cm
   if (!isNaN(s) && s >= 0) {
-    const vsf = 7.0 * Math.pow(s, 3) / (2.4 + s);
-    return vsf.toFixed(2);
+    const vsf = lookupVolumeByDiameter(s);
+    return vsf.toString();
   }
   return "";
 }
@@ -46,18 +65,17 @@ export function calcFE_Vol(vdf: string, vsf: string): string {
   return "";
 }
 
-// Fracción de eyección por Teichholz
+// Fracción de eyección usando lookup table
 // Fórmulas:
 //  - FE = ((VDF − VSF) / VDF) × 100
-//  - VDF = 7.0 × DDFVI³ / (2.4 + DDFVI)
-//  - VSF = 7.0 × DSFVI³ / (2.4 + DSFVI)
+//  - VDF y VSF se obtienen de lookup table basado en diámetros
 // Unidades: DDFVI y DSFVI en mm (se convierten aquí a cm). Volúmenes en ml. Resultado FE en %.
 export function calcFETeich(ddfvi: string, dsfvi: string): string {
   const d = parseFloat(ddfvi) / 10; // mm a cm
   const s = parseFloat(dsfvi) / 10;
   if (!isNaN(d) && !isNaN(s) && d > 0 && s >= 0) {
-    const vdf = 7.0 * Math.pow(d, 3) / (2.4 + d);
-    const vsf = 7.0 * Math.pow(s, 3) / (2.4 + s);
+    const vdf = lookupVolumeByDiameter(d);
+    const vsf = lookupVolumeByDiameter(s);
     if (vdf > 0) {
       return (((vdf - vsf) / vdf) * 100).toFixed(2);
     }

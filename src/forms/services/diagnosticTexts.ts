@@ -22,7 +22,6 @@ export function generateDiagnosticTexts(data: any, sexo: string): any {
   };
   
   const ddfvi = safe(data.ddfvi);
-  const dsfvi = safe(data.dsfvi);
   const gdsept = safe(data.gdsept);
   const gdpil = safe(data.gdpil);
   const vdfSimpson = safe(data.vdfSimpson);
@@ -32,7 +31,6 @@ export function generateDiagnosticTexts(data: any, sexo: string): any {
   const grp = safe(data.grp);
   const dai = safe(data.dai);
   const areaAi = safe(data.areaAi);
-  const volAi = safe(data.volAi);
   const volIndexAi = safe(data.volIndexAi);
   const dmAd = safe(data.dmAd);
   const areaAd = safe(data.areaAd);
@@ -43,7 +41,6 @@ export function generateDiagnosticTexts(data: any, sexo: string): any {
   const tricuspide_psvd = safe(data.tricuspide_psvd);
   const aorta_avac = safe(data.aorta_avac);
   const aorta_vmax = safe(data.aorta_vmax);
-  const pulmonar_vmax = safe(data.pulmonar_vmax);
   const vci_dt = safe(data.vci_dt);
   const vci_colapso = safe(data.vci_colapso);
   

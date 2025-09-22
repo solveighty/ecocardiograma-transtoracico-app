@@ -20,13 +20,6 @@ function isFieldEmpty(value: string | undefined | null): boolean {
   return !value || value.trim() === '';
 }
 
-// Función auxiliar para validar que un número sea válido
-function isValidNumber(value: string | undefined | null): boolean {
-  if (isFieldEmpty(value)) return false;
-  const num = parseFloat(value!);
-  return !isNaN(num) && num > 0;
-}
-
 // Validar datos personales
 function validatePatientData(data: PatientData): ValidationError[] {
   const errors: ValidationError[] = [];

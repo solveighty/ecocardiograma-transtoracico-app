@@ -43,6 +43,7 @@ export class FormDatabaseService {
       sexo: paciente.sexo,
       ci: paciente.ci,
       fechaNacimiento: new Date(paciente.fechaNacimiento),
+      hcl: '',
       peso: paciente.peso.toString(),
       talla: paciente.talla.toString(),
       superficieCorporal: paciente.superficieCorporal.toString(),

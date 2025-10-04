@@ -1,3 +1,5 @@
+import { evaluarParametro, evaluarVCI } from '../../lib/diagnosticRangeUtils';
+
 // Tipos para clasificaciones
 type Severidad = 'NORMAL' | 'LEVEMENTE ANORMAL' | 'MODERADAMENTE ANORMAL' | 'SEVERAMENTE ANORMAL';
 type TipoHipertrofia = 'Normal' | 'Hipertrofia Fisiológica' | 'Remodelación Concéntrica' | 'Remodelación Excéntrica' | 
@@ -11,65 +13,31 @@ export function evaluarDiametrosVI(
   gdpil: number, 
   sexo: string
 ): string {
-  const esMujer = sexo.toLowerCase() === 'femenino' || sexo.toLowerCase() === 'mujer';
+  const sexoParam = sexo.toLowerCase() === 'femenino' || sexo.toLowerCase() === 'mujer' ? 'mujer' : 'hombre';
+  
+  // Evaluar cada parámetro con el JSON
+  const ddfviResult = evaluarParametro('diametrosVI', 'ddfvi', ddfvi, sexoParam);
+  const dsfviResult = evaluarParametro('diametrosVI', 'dsfvi', dsfvi, sexoParam);
+  const gseptResult = evaluarParametro('diametrosVI', 'gdsept', gdsept, sexoParam);
+  const gdpilResult = evaluarParametro('diametrosVI', 'gdpil', gdpil, sexoParam);
+  
+  // Mapear clasificaciones a Severidad
+  const mapSeveridad = (clasificacion: string): Severidad => {
+    switch (clasificacion) {
+      case 'normal': return 'NORMAL';
+      case 'levemente anormal': return 'LEVEMENTE ANORMAL';
+      case 'moderadamente anormal': return 'MODERADAMENTE ANORMAL';
+      case 'severamente anormal': return 'SEVERAMENTE ANORMAL';
+      default: return 'NORMAL';
+    }
+  };
+  
+  const ddfviStatus = mapSeveridad(ddfviResult.clasificacion);
+  const dsfviStatus = mapSeveridad(dsfviResult.clasificacion);
+  const gseptStatus = mapSeveridad(gseptResult.clasificacion);
+  const gpilStatus = mapSeveridad(gdpilResult.clasificacion);
   
   let diagnosticos: string[] = [];
-  
-  // Evaluar DDFVI
-  let ddfviStatus: Severidad;
-  if (esMujer) {
-    if (ddfvi >= 39 && ddfvi <= 53) ddfviStatus = 'NORMAL';
-    else if (ddfvi >= 54 && ddfvi <= 57) ddfviStatus = 'LEVEMENTE ANORMAL';
-    else if (ddfvi >= 58 && ddfvi <= 61) ddfviStatus = 'MODERADAMENTE ANORMAL';
-    else if (ddfvi >= 62) ddfviStatus = 'SEVERAMENTE ANORMAL';
-    else ddfviStatus = 'NORMAL'; // Por debajo del rango
-  } else {
-    if (ddfvi >= 42 && ddfvi <= 59) ddfviStatus = 'NORMAL';
-    else if (ddfvi >= 60 && ddfvi <= 63) ddfviStatus = 'LEVEMENTE ANORMAL';
-    else if (ddfvi >= 64 && ddfvi <= 68) ddfviStatus = 'MODERADAMENTE ANORMAL';
-    else if (ddfvi >= 69) ddfviStatus = 'SEVERAMENTE ANORMAL';
-    else ddfviStatus = 'NORMAL'; // Por debajo del rango
-  }
-  
-  // Evaluar DSFVI
-  let dsfviStatus: Severidad;
-  if (dsfvi >= 28 && dsfvi <= 38) {
-    dsfviStatus = 'NORMAL';
-  } else {
-    dsfviStatus = 'SEVERAMENTE ANORMAL';
-  }
-  
-  // Evaluar Grosor del Septum
-  let gseptStatus: Severidad;
-  if (esMujer) {
-    if (gdsept >= 6 && gdsept <= 9) gseptStatus = 'NORMAL';
-    else if (gdsept >= 10 && gdsept <= 12) gseptStatus = 'LEVEMENTE ANORMAL';
-    else if (gdsept >= 13 && gdsept <= 15) gseptStatus = 'MODERADAMENTE ANORMAL';
-    else if (gdsept >= 16) gseptStatus = 'SEVERAMENTE ANORMAL';
-    else gseptStatus = 'NORMAL';
-  } else {
-    if (gdsept >= 6 && gdsept <= 10) gseptStatus = 'NORMAL';
-    else if (gdsept >= 11 && gdsept <= 13) gseptStatus = 'LEVEMENTE ANORMAL';
-    else if (gdsept >= 14 && gdsept <= 16) gseptStatus = 'MODERADAMENTE ANORMAL';
-    else if (gdsept >= 17) gseptStatus = 'SEVERAMENTE ANORMAL';
-    else gseptStatus = 'NORMAL';
-  }
-  
-  // Evaluar Grosor Pared Posterior
-  let gpilStatus: Severidad;
-  if (esMujer) {
-    if (gdpil >= 6 && gdpil <= 9) gpilStatus = 'NORMAL';
-    else if (gdpil >= 10 && gdpil <= 12) gpilStatus = 'LEVEMENTE ANORMAL';
-    else if (gdpil >= 13 && gdpil <= 15) gpilStatus = 'MODERADAMENTE ANORMAL';
-    else if (gdpil >= 16) gpilStatus = 'SEVERAMENTE ANORMAL';
-    else gpilStatus = 'NORMAL';
-  } else {
-    if (gdpil >= 6 && gdpil <= 10) gpilStatus = 'NORMAL';
-    else if (gdpil >= 11 && gdpil <= 13) gpilStatus = 'LEVEMENTE ANORMAL';
-    else if (gdpil >= 14 && gdpil <= 16) gpilStatus = 'MODERADAMENTE ANORMAL';
-    else if (gdpil >= 17) gpilStatus = 'SEVERAMENTE ANORMAL';
-    else gpilStatus = 'NORMAL';
-  }
   
   // Generar diagnóstico
   if (ddfviStatus === 'NORMAL' && dsfviStatus === 'NORMAL' && gseptStatus === 'NORMAL' && gpilStatus === 'NORMAL') {
@@ -110,30 +78,28 @@ export function evaluarDiametrosVI(
 export function evaluarFuncionVI(fe: number, fa: number): string {
   let diagnosticos: string[] = [];
   
-  // Evaluar FE
-  if (fe >= 55) {
+  // Evaluar FE usando JSON
+  const feResult = evaluarParametro('funcionVI', 'fevi', fe, 'hombre');
+  
+  if (feResult.clasificacion === 'normal') {
     diagnosticos.push('Función sistólica del ventrículo izquierdo normal');
-  } else if (fe >= 45 && fe <= 54) {
+  } else if (feResult.clasificacion === 'levemente disminuida') {
     diagnosticos.push('Disfunción sistólica leve del ventrículo izquierdo');
-  } else if (fe >= 30 && fe <= 44) {
+  } else if (feResult.clasificacion === 'moderadamente disminuida') {
     diagnosticos.push('Disfunción sistólica moderada del ventrículo izquierdo');
-  } else if (fe < 30) {
+  } else if (feResult.clasificacion === 'severamente disminuida') {
     diagnosticos.push('Disfunción sistólica severa del ventrículo izquierdo');
   }
   
-  // Evaluar FA
-  if (fa >= 27 && fa <= 45) {
-    // Normal, ya incluido en FE
-  } else if (fa >= 22 && fa <= 26) {
-    if (!diagnosticos[0].includes('leve')) {
+  // Evaluar FA usando JSON
+  const faResult = evaluarParametro('funcionVI', 'fac', fa, 'hombre');
+  
+  if (faResult.clasificacion !== 'normal') {
+    if (faResult.clasificacion === 'levemente disminuida' && !diagnosticos[0]?.includes('leve')) {
       diagnosticos.push('Fracción de acortamiento levemente disminuida');
-    }
-  } else if (fa >= 17 && fa <= 21) {
-    if (!diagnosticos[0].includes('moderada')) {
+    } else if (faResult.clasificacion === 'moderadamente disminuida' && !diagnosticos[0]?.includes('moderada')) {
       diagnosticos.push('Fracción de acortamiento moderadamente disminuida');
-    }
-  } else if (fa <= 16) {
-    if (!diagnosticos[0].includes('severa')) {
+    } else if (faResult.clasificacion === 'severamente disminuida' && !diagnosticos[0]?.includes('severa')) {
       diagnosticos.push('Fracción de acortamiento severamente disminuida');
     }
   }
@@ -148,19 +114,21 @@ export function determinarTipoHipertrofia(
   sexo: string,
   vdfIndex?: number
 ): TipoHipertrofia {
-  const esMujer = sexo.toLowerCase() === 'femenino' || sexo.toLowerCase() === 'mujer';
+  const sexoParam = sexo.toLowerCase() === 'femenino' || sexo.toLowerCase() === 'mujer' ? 'mujer' : 'hombre';
   
-  // Determinar si IMVI es alto
-  const imviAlto = esMujer ? imvi > 95 : imvi > 115;
+  // Evaluar IMVI usando JSON
+  const imviResult = evaluarParametro('masaImviGrp', 'imvi', imvi, sexoParam);
+  const imviAlto = imviResult.clasificacion !== 'normal';
   
   // Usar VDF indexado si está disponible, sino asumir <= 75
   const lvVolumeIndex = vdfIndex || 75;
   const volumenAlto = lvVolumeIndex > 75;
   
-  // Evaluar RWT
-  const rwtNormal = grp >= 0.32 && grp <= 0.42;
-  const rwtAlto = grp > 0.42;
-  const rwtBajo = grp < 0.32;
+  // Evaluar RWT usando JSON
+  const grpResult = evaluarParametro('masaImviGrp', 'grp', grp, sexoParam);
+  const rwtNormal = grpResult.clasificacion === 'normal';
+  const rwtAlto = grpResult.clasificacion === 'remodelación concéntrica';
+  const rwtBajo = grpResult.clasificacion === 'remodelación excéntrica';
   
   if (!volumenAlto && !imviAlto && rwtNormal) {
     return 'Normal';
@@ -185,12 +153,24 @@ export function determinarTipoHipertrofia(
 
 // Función para evaluar válvula aórtica
 export function evaluarValvulaAortica(vmax: number, gradMedio: number, avac: number): string {
-  if (vmax >= 2.6 && vmax <= 3.0 && gradMedio < 20 && avac > 1.5) {
-    return 'Estenosis aórtica leve.';
-  } else if (vmax >= 3.0 && vmax <= 4.0 && gradMedio >= 20 && gradMedio <= 40 && avac >= 1.0 && avac <= 1.5) {
-    return 'Estenosis aórtica moderada.';
-  } else if (vmax > 4.0 && gradMedio > 40 && avac < 1.0) {
+  // Evaluar con JSON
+  const vmaxResult = evaluarParametro('valvulas', 'aorta_vmax', vmax, 'hombre');
+  const gradResult = evaluarParametro('valvulas', 'aorta_gm', gradMedio, 'hombre');
+  const avacResult = evaluarParametro('valvulas', 'aorta_avac', avac, 'hombre');
+  
+  // Priorizar la clasificación más severa
+  if (vmaxResult.clasificacion === 'estenosis aórtica severa' || 
+      gradResult.clasificacion === 'estenosis aórtica severa' || 
+      avacResult.clasificacion === 'estenosis aórtica severa') {
     return 'Estenosis aórtica severa.';
+  } else if (vmaxResult.clasificacion === 'estenosis aórtica moderada' || 
+             gradResult.clasificacion === 'estenosis aórtica moderada' || 
+             avacResult.clasificacion === 'estenosis aórtica moderada') {
+    return 'Estenosis aórtica moderada.';
+  } else if (vmaxResult.clasificacion === 'estenosis aórtica leve' || 
+             gradResult.clasificacion === 'estenosis aórtica leve' || 
+             avacResult.clasificacion === 'estenosis aórtica leve') {
+    return 'Estenosis aórtica leve.';
   } else {
     return 'Válvula aórtica sin estenosis significativa.';
   }
@@ -198,14 +178,8 @@ export function evaluarValvulaAortica(vmax: number, gradMedio: number, avac: num
 
 // Función para evaluar válvula mitral
 export function evaluarValvulaMitral(gradMedio: number): string {
-  if (gradMedio < 5) {
-    return 'Válvula mitral sin estenosis significativa.';
-  } else if (gradMedio >= 5 && gradMedio <= 10) {
-    return 'Estenosis mitral leve.';
-  } else if (gradMedio > 10) {
-    return 'Estenosis mitral grave.';
-  }
-  return 'Válvula mitral sin estenosis significativa.';
+  const result = evaluarParametro('valvulas', 'mitral_gm', gradMedio, 'hombre');
+  return result.texto + '.';
 }
 
 // Función para evaluar disfunción diastólica
@@ -246,20 +220,16 @@ export function evaluarDisfuncionDiastolica(
 export function evaluarPresionPulmonar(psvd: number, pmap: number): string {
   let diagnosticos: string[] = [];
   
-  if (psvd > 35) {
-    if (psvd <= 45) {
-      diagnosticos.push('Hipertensión pulmonar leve');
-    } else if (psvd <= 60) {
-      diagnosticos.push('Hipertensión pulmonar moderada');
-    } else {
-      diagnosticos.push('Hipertensión pulmonar severa');
-    }
+  const psvdResult = evaluarParametro('hipertensionPulmonar', 'psvd', psvd, 'hombre');
+  
+  if (psvdResult.clasificacion !== 'normal') {
+    diagnosticos.push(psvdResult.texto);
   }
   
-  if (pmap > 25) {
-    if (!diagnosticos.length) {
-      diagnosticos.push('Presión media de arteria pulmonar elevada');
-    }
+  const pmapResult = evaluarParametro('hipertensionPulmonar', 'pmap', pmap, 'hombre');
+  
+  if (pmapResult.clasificacion !== 'normal' && !diagnosticos.length) {
+    diagnosticos.push(pmapResult.texto);
   }
   
   return diagnosticos.length > 0 
@@ -269,22 +239,6 @@ export function evaluarPresionPulmonar(psvd: number, pmap: number): string {
 
 // Función para evaluar VCI y estimar PAD
 export function evaluarVCIyPAD(vciDT: number, colapso: number): string {
-  let pad: string;
-  let descripcion: string;
-  
-  if (vciDT <= 21 && colapso >= 50) {
-    pad = '0-5 mmHg';
-    descripcion = 'VCI normal con colapso inspiratorio adecuado';
-  } else if (vciDT >= 21 && colapso >= 50) {
-    pad = '6-10 mmHg';
-    descripcion = 'VCI dilatada con colapso inspiratorio preservado';
-  } else if (vciDT >= 21 && colapso < 50) {
-    pad = '10-15 mmHg';
-    descripcion = 'VCI dilatada con colapso inspiratorio disminuido';
-  } else {
-    pad = '15-20 mmHg';
-    descripcion = 'VCI dilatada sin colapso inspiratorio';
-  }
-  
-  return `${descripcion}. Presión estimada de aurícula derecha: ${pad}.`;
+  const result = evaluarVCI(vciDT, colapso);
+  return result.texto;
 }

@@ -1,0 +1,261 @@
+{
+  "diametrosVI": {
+    "ddfvi": {
+      "mujer": {
+        "normal": { "min": 39, "max": 53, "texto": "normales" },
+        "leve": { "min": 54, "max": 57, "texto": "levemente aumentados" },
+        "moderado": { "min": 58, "max": 61, "texto": "moderadamente aumentados" },
+        "severo": { "min": 62, "max": 999, "texto": "severamente aumentados" }
+      },
+      "hombre": {
+        "normal": { "min": 42, "max": 59, "texto": "normales" },
+        "leve": { "min": 60, "max": 63, "texto": "levemente aumentados" },
+        "moderado": { "min": 64, "max": 68, "texto": "moderadamente aumentados" },
+        "severo": { "min": 69, "max": 999, "texto": "severamente aumentados" }
+      }
+    },
+    "dsfvi": {
+      "normal": { "min": 28, "max": 38, "texto": "normales" }
+    }
+  },
+  
+  "volumenesVI": {
+    "vsfSimpson": {
+      "mujer": {
+        "normal": { "min": 19, "max": 49, "texto": "normales" },
+        "leve": { "min": 50, "max": 59, "texto": "levemente aumentados" },
+        "moderado": { "min": 60, "max": 69, "texto": "moderadamente aumentados" },
+        "severo": { "min": 70, "max": 999, "texto": "severamente aumentados" }
+      },
+      "hombre": {
+        "normal": { "min": 22, "max": 58, "texto": "normales" },
+        "leve": { "min": 59, "max": 70, "texto": "levemente aumentados" },
+        "moderado": { "min": 71, "max": 82, "texto": "moderadamente aumentados" },
+        "severo": { "min": 83, "max": 999, "texto": "severamente aumentados" }
+      }
+    },
+    "vdfSimpson": {
+      "mujer": {
+        "normal": { "min": 56, "max": 104, "texto": "normales" },
+        "leve": { "min": 105, "max": 117, "texto": "levemente aumentados" },
+        "moderado": { "min": 118, "max": 130, "texto": "moderadamente aumentados" },
+        "severo": { "min": 131, "max": 999, "texto": "severamente aumentados" }
+      },
+      "hombre": {
+        "normal": { "min": 57, "max": 155, "texto": "normales" },
+        "leve": { "min": 156, "max": 178, "texto": "levemente aumentados" },
+        "moderado": { "min": 179, "max": 201, "texto": "moderadamente aumentados" },
+        "severo": { "min": 202, "max": 999, "texto": "severamente aumentados" }
+      }
+    }
+  },
+  
+  "grosoresPared": {
+    "gdsept": {
+      "mujer": {
+        "normal": { "min": 6, "max": 9, "texto": "normal" },
+        "leve": { "min": 10, "max": 12, "texto": "levemente aumentado" },
+        "moderado": { "min": 13, "max": 15, "texto": "moderadamente aumentado" },
+        "severo": { "min": 16, "max": 999, "texto": "severamente aumentado" }
+      },
+      "hombre": {
+        "normal": { "min": 6, "max": 10, "texto": "normal" },
+        "leve": { "min": 11, "max": 13, "texto": "levemente aumentado" },
+        "moderado": { "min": 14, "max": 16, "texto": "moderadamente aumentado" },
+        "severo": { "min": 17, "max": 999, "texto": "severamente aumentado" }
+      }
+    },
+    "gdpil": {
+      "mujer": {
+        "normal": { "min": 6, "max": 9, "texto": "normal" },
+        "leve": { "min": 10, "max": 12, "texto": "levemente aumentado" },
+        "moderado": { "min": 13, "max": 15, "texto": "moderadamente aumentado" },
+        "severo": { "min": 16, "max": 999, "texto": "severamente aumentado" }
+      },
+      "hombre": {
+        "normal": { "min": 6, "max": 10, "texto": "normal" },
+        "leve": { "min": 11, "max": 13, "texto": "levemente aumentado" },
+        "moderado": { "min": 14, "max": 16, "texto": "moderadamente aumentado" },
+        "severo": { "min": 17, "max": 999, "texto": "severamente aumentado" }
+      }
+    }
+  },
+  
+  "funcionVI": {
+    "feSimpson": {
+      "normal": { "min": 55, "max": 100, "texto": "normal" },
+      "leve": { "min": 45, "max": 54, "texto": "levemente deprimida" },
+      "moderado": { "min": 30, "max": 44, "texto": "moderadamente deprimida" },
+      "severo": { "min": 0, "max": 29, "texto": "severamente deprimida" }
+    },
+    "fa": {
+      "normal": { "min": 27, "max": 45, "texto": "normal" },
+      "leve": { "min": 22, "max": 26, "texto": "levemente disminuida" },
+      "moderado": { "min": 17, "max": 21, "texto": "moderadamente disminuida" },
+      "severo": { "min": 0, "max": 16, "texto": "severamente disminuida" }
+    }
+  },
+  
+  "masaVI": {
+    "imvi": {
+      "mujer": {
+        "normal": { "min": 0, "max": 95, "texto": "normal" },
+        "aumentado": { "min": 96, "max": 999, "texto": "aumentado" }
+      },
+      "hombre": {
+        "normal": { "min": 0, "max": 115, "texto": "normal" },
+        "aumentado": { "min": 116, "max": 999, "texto": "aumentado" }
+      }
+    },
+    "grp": {
+      "bajo": { "min": 0, "max": 0.31, "texto": "bajo" },
+      "normal": { "min": 0.32, "max": 0.42, "texto": "normal" },
+      "alto": { "min": 0.43, "max": 999, "texto": "alto" }
+    }
+  },
+  
+  "auriculaIzquierda": {
+    "dai": {
+      "mujer": {
+        "normal": { "min": 27, "max": 38, "texto": "normales" },
+        "leve": { "min": 39, "max": 42, "texto": "levemente aumentados" },
+        "moderado": { "min": 43, "max": 46, "texto": "moderadamente aumentados" },
+        "severo": { "min": 47, "max": 999, "texto": "severamente aumentados" }
+      },
+      "hombre": {
+        "normal": { "min": 30, "max": 40, "texto": "normales" },
+        "leve": { "min": 41, "max": 46, "texto": "levemente aumentados" },
+        "moderado": { "min": 47, "max": 52, "texto": "moderadamente aumentados" },
+        "severo": { "min": 53, "max": 999, "texto": "severamente aumentados" }
+      }
+    },
+    "areaAi": {
+      "normal": { "min": 0, "max": 20, "texto": "normal" },
+      "leve": { "min": 21, "max": 30, "texto": "levemente aumentada" },
+      "moderado": { "min": 31, "max": 40, "texto": "moderadamente aumentada" },
+      "severo": { "min": 41, "max": 999, "texto": "severamente aumentada" }
+    },
+    "volIndexAi": {
+      "normal": { "min": 0, "max": 28, "texto": "normal" },
+      "leve": { "min": 29, "max": 33, "texto": "levemente aumentado" },
+      "moderado": { "min": 34, "max": 39, "texto": "moderadamente aumentado" },
+      "severo": { "min": 40, "max": 999, "texto": "severamente aumentado" }
+    }
+  },
+  
+  "auriculaDerecha": {
+    "dmAd": {
+      "normal": { "min": 29, "max": 45, "texto": "normales" },
+      "leve": { "min": 46, "max": 49, "texto": "levemente aumentados" },
+      "moderado": { "min": 50, "max": 54, "texto": "moderadamente aumentados" },
+      "severo": { "min": 55, "max": 999, "texto": "severamente aumentados" }
+    },
+    "areaAd": {
+      "normal": { "min": 0, "max": 18, "texto": "normal" }
+    }
+  },
+  
+  "ventriculoDerecho": {
+    "basal": {
+      "normal": { "min": 20, "max": 28, "texto": "normales" },
+      "leve": { "min": 29, "max": 33, "texto": "levemente dilatado" },
+      "moderado": { "min": 34, "max": 38, "texto": "moderadamente dilatado" },
+      "severo": { "min": 39, "max": 999, "texto": "severamente dilatado" }
+    },
+    "tapse": {
+      "normal": { "min": 18, "max": 999, "texto": "función sistólica preservada" },
+      "deprimida": { "min": 0, "max": 17, "texto": "función sistólica deprimida" }
+    }
+  },
+  
+  "disfuncionDiastolica": {
+    "relEePrime": {
+      "normal": { "min": 0, "max": 7, "texto": "función diastólica normal" },
+      "gradoI": { "min": 8, "max": 14, "texto": "disfunción diastólica grado I (alteración de la relajación)" },
+      "gradoII_III": { "min": 15, "max": 999, "texto": "disfunción diastólica grado II-III (presiones de llenado elevadas)" }
+    },
+    "mitral_relEA": {
+      "alteracionRelajacion": { "min": 0, "max": 0.99, "texto": "patrón de alteración de la relajación" },
+      "normal": { "min": 1, "max": 2, "texto": "patrón normal de llenado" },
+      "restrictivo": { "min": 2.01, "max": 999, "texto": "patrón restrictivo" }
+    }
+  },
+  
+  "dopplerModoMColor": {
+    "vpOndaE": {
+      "normal": { "min": 46, "max": 999, "texto": "normal" },
+      "disminuida": { "min": 0, "max": 45, "texto": "disminuida, sugiere disfunción diastólica" }
+    }
+  },
+  
+  "venasPulmonares": {
+    "relSD": {
+      "normal": { "min": 1, "max": 999, "texto": "con patrón normal (S≥D)" },
+      "anormal": { "min": 0, "max": 0.99, "texto": "con patrón anormal (S<D), sugiere disfunción diastólica" }
+    }
+  },
+  
+  "aorta": {
+    "rao": {
+      "normal": { "min": 0, "max": 39, "texto": "de dimensiones normales" },
+      "dilatada": { "min": 40, "max": 999, "texto": "dilatada" }
+    },
+    "unionST": {
+      "normal": { "min": 0, "max": 35, "texto": "sin dilatación" }
+    },
+    "cayado": {
+      "normal": { "min": 0, "max": 35, "texto": "sin dilatación" }
+    },
+    "aoDesc": {
+      "normal": { "min": 0, "max": 25, "texto": "sin dilatación" }
+    },
+    "aoAbd": {
+      "normal": { "min": 0, "max": 20, "texto": "sin dilatación" }
+    },
+    "vmax": {
+      "normal": { "min": 0, "max": 2.5, "texto": "sin estenosis significativa" },
+      "leve": { "min": 2.6, "max": 3.0, "texto": "estenosis leve" },
+      "moderada": { "min": 3.01, "max": 4.0, "texto": "estenosis moderada" },
+      "severa": { "min": 4.01, "max": 999, "texto": "estenosis severa" }
+    },
+    "avac": {
+      "normal": { "min": 1.51, "max": 999, "texto": "área normal" },
+      "moderada": { "min": 1.0, "max": 1.5, "texto": "área moderadamente reducida" },
+      "severa": { "min": 0, "max": 0.99, "texto": "área severamente reducida" }
+    }
+  },
+  
+  "arteriasPulmonares": {
+    "pmap": {
+      "normal": { "min": 0, "max": 25, "texto": "presiones normales" },
+      "leve": { "min": 26, "max": 40, "texto": "hipertensión pulmonar leve" },
+      "significativa": { "min": 41, "max": 999, "texto": "hipertensión pulmonar significativa" }
+    }
+  },
+  
+  "tricuspide": {
+    "psvd": {
+      "baja": { "min": 0, "max": 34, "texto": "baja probabilidad de hipertensión pulmonar" },
+      "intermedia": { "min": 35, "max": 50, "texto": "probabilidad intermedia de hipertensión pulmonar" },
+      "alta": { "min": 51, "max": 999, "texto": "alta probabilidad de hipertensión pulmonar" }
+    }
+  },
+  
+  "vci": {
+    "normal": {
+      "dt": { "min": 0, "max": 21 },
+      "colapso": { "min": 50, "max": 100 },
+      "texto": "normal"
+    },
+    "dilatadaColapsoPreservado": {
+      "dt": { "min": 22, "max": 999 },
+      "colapso": { "min": 50, "max": 100 },
+      "texto": "dilatada con colapso preservado"
+    },
+    "dilatadaColapsoDisminuido": {
+      "dt": { "min": 22, "max": 999 },
+      "colapso": { "min": 0, "max": 49 },
+      "texto": "dilatada con colapso disminuido"
+    }
+  }
+}

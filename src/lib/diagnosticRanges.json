@@ -195,6 +195,59 @@
     }
   },
 
+  "valvulas": {
+    "mitral": {
+      "vc": {
+        "normal": { "min": 0, "max": 6, "texto": "con vena contracta mitral normal" },
+        "moderada": { "min": 6.1, "max": 8, "texto": "con vena contracta mitral moderada" },
+        "severa": { "min": 8.1, "max": 999, "texto": "con vena contracta mitral severa" }
+      },
+      "ero": {
+        "normal": { "min": 0, "max": 20, "texto": "con orificio regurgitante efectivo normal" },
+        "moderada": { "min": 20.1, "max": 40, "texto": "con orificio regurgitante efectivo moderado" },
+        "severa": { "min": 40.1, "max": 999, "texto": "con orificio regurgitante efectivo severo" }
+      },
+      "avm": {
+        "normal": { "min": 4, "max": 999, "texto": "con área valvular mitral normal" },
+        "moderada": { "min": 1.5, "max": 3.9, "texto": "con reducción moderada del área valvular mitral" },
+        "severa": { "min": 0, "max": 1.4, "texto": "con reducción severa del área valvular mitral" }
+      }
+    },
+    "aorta": {
+      "vc": {
+        "normal": { "min": 0, "max": 6, "texto": "con vena contracta aórtica normal" },
+        "moderada": { "min": 6.1, "max": 8, "texto": "con vena contracta aórtica moderada" },
+        "severa": { "min": 8.1, "max": 999, "texto": "con vena contracta aórtica severa" }
+      },
+      "pht": {
+        "normal": { "min": 0, "max": 999, "texto": "con tiempo de media presión normal" }
+      },
+      "diametroTsvi": {
+        "normal": { "min": 0, "max": 25, "texto": "de diámetro TSVI normal" }
+      },
+      "itvTsvi": {
+        "normal": { "min": 0, "max": 999, "texto": "de ITV TSVI dentro de límites normales" }
+      },
+      "itvAorta": {
+        "normal": { "min": 0, "max": 999, "texto": "de ITV aórtica dentro de límites normales" }
+      }
+    },
+    "pulmonar": {
+      "vc": {
+        "normal": { "min": 0, "max": 6, "texto": "con vena contracta pulmonar normal" },
+        "moderada": { "min": 6.1, "max": 8, "texto": "con vena contracta pulmonar moderada" },
+        "severa": { "min": 8.1, "max": 999, "texto": "con vena contracta pulmonar severa" }
+      },
+      "tam": {
+        "normal": { "min": 0, "max": 999, "texto": "con tiempo de aceleración máxima normal" }
+      },
+      "pdvd": {
+        "normal": { "min": 0, "max": 20, "texto": "con presión diastólica del ventrículo derecho normal" },
+        "elevada": { "min": 21, "max": 999, "texto": "con presión diastólica del ventrículo derecho elevada" }
+      }
+    }
+  },
+
   "aorta": {
     "rao": {
       "normal": { "min": 0, "max": 39, "texto": "de raíz aórtica de dimensiones normales" },

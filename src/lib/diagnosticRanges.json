@@ -2,260 +2,260 @@
   "diametrosVI": {
     "ddfvi": {
       "mujer": {
-        "normal": { "min": 39, "max": 53, "texto": "normales" },
-        "leve": { "min": 54, "max": 57, "texto": "levemente aumentados" },
-        "moderado": { "min": 58, "max": 61, "texto": "moderadamente aumentados" },
-        "severo": { "min": 62, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 39, "max": 53, "texto": "de diámetros telediastólicos dentro de límites normales" },
+        "leve": { "min": 54, "max": 57, "texto": "con discreto aumento del diámetro telediastólico" },
+        "moderado": { "min": 58, "max": 61, "texto": "con moderada dilatación del ventrículo izquierdo" },
+        "severo": { "min": 62, "max": 999, "texto": "con marcada dilatación del ventrículo izquierdo" }
       },
       "hombre": {
-        "normal": { "min": 42, "max": 59, "texto": "normales" },
-        "leve": { "min": 60, "max": 63, "texto": "levemente aumentados" },
-        "moderado": { "min": 64, "max": 68, "texto": "moderadamente aumentados" },
-        "severo": { "min": 69, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 42, "max": 59, "texto": "de dimensiones telediastólicas dentro de rangos normales" },
+        "leve": { "min": 60, "max": 63, "texto": "con leve incremento del diámetro telediastólico" },
+        "moderado": { "min": 64, "max": 68, "texto": "con moderada dilatación del ventrículo izquierdo" },
+        "severo": { "min": 69, "max": 999, "texto": "con dilatación severa del ventrículo izquierdo" }
       }
     },
     "dsfvi": {
-      "normal": { "min": 28, "max": 38, "texto": "normales" }
+      "normal": { "min": 28, "max": 38, "texto": "de diámetro telesistólico dentro del rango normal" }
     }
   },
-  
+
   "volumenesVI": {
     "vsfSimpson": {
       "mujer": {
-        "normal": { "min": 19, "max": 49, "texto": "normales" },
-        "leve": { "min": 50, "max": 59, "texto": "levemente aumentados" },
-        "moderado": { "min": 60, "max": 69, "texto": "moderadamente aumentados" },
-        "severo": { "min": 70, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 19, "max": 49, "texto": "de volumen telesistólico dentro de límites normales" },
+        "leve": { "min": 50, "max": 59, "texto": "con leve incremento del volumen telesistólico" },
+        "moderado": { "min": 60, "max": 69, "texto": "con moderada dilatación telesistólica" },
+        "severo": { "min": 70, "max": 999, "texto": "con marcada dilatación telesistólica" }
       },
       "hombre": {
-        "normal": { "min": 22, "max": 58, "texto": "normales" },
-        "leve": { "min": 59, "max": 70, "texto": "levemente aumentados" },
-        "moderado": { "min": 71, "max": 82, "texto": "moderadamente aumentados" },
-        "severo": { "min": 83, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 22, "max": 58, "texto": "de volumen telesistólico dentro de límites normales" },
+        "leve": { "min": 59, "max": 70, "texto": "con discreto incremento del volumen telesistólico" },
+        "moderado": { "min": 71, "max": 82, "texto": "con moderada dilatación telesistólica" },
+        "severo": { "min": 83, "max": 999, "texto": "con importante dilatación telesistólica" }
       }
     },
     "vdfSimpson": {
       "mujer": {
-        "normal": { "min": 56, "max": 104, "texto": "normales" },
-        "leve": { "min": 105, "max": 117, "texto": "levemente aumentados" },
-        "moderado": { "min": 118, "max": 130, "texto": "moderadamente aumentados" },
-        "severo": { "min": 131, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 56, "max": 104, "texto": "de volumen telediastólico dentro de límites normales" },
+        "leve": { "min": 105, "max": 117, "texto": "con leve incremento del volumen telediastólico" },
+        "moderado": { "min": 118, "max": 130, "texto": "con moderado aumento del volumen telediastólico" },
+        "severo": { "min": 131, "max": 999, "texto": "con marcada dilatación telediastólica" }
       },
       "hombre": {
-        "normal": { "min": 57, "max": 155, "texto": "normales" },
-        "leve": { "min": 156, "max": 178, "texto": "levemente aumentados" },
-        "moderado": { "min": 179, "max": 201, "texto": "moderadamente aumentados" },
-        "severo": { "min": 202, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 57, "max": 155, "texto": "de volumen telediastólico dentro de límites normales" },
+        "leve": { "min": 156, "max": 178, "texto": "con discreto incremento del volumen telediastólico" },
+        "moderado": { "min": 179, "max": 201, "texto": "con moderada dilatación del ventrículo izquierdo" },
+        "severo": { "min": 202, "max": 999, "texto": "con dilatación severa del ventrículo izquierdo" }
       }
     }
   },
-  
+
   "grosoresPared": {
     "gdsept": {
       "mujer": {
-        "normal": { "min": 6, "max": 9, "texto": "normal" },
-        "leve": { "min": 10, "max": 12, "texto": "levemente aumentado" },
-        "moderado": { "min": 13, "max": 15, "texto": "moderadamente aumentado" },
-        "severo": { "min": 16, "max": 999, "texto": "severamente aumentado" }
+        "normal": { "min": 6, "max": 9, "texto": "de grosor septal dentro de límites normales" },
+        "leve": { "min": 10, "max": 12, "texto": "con discreto engrosamiento septal" },
+        "moderado": { "min": 13, "max": 15, "texto": "con moderado aumento del grosor septal" },
+        "severo": { "min": 16, "max": 999, "texto": "con severo engrosamiento septal" }
       },
       "hombre": {
-        "normal": { "min": 6, "max": 10, "texto": "normal" },
-        "leve": { "min": 11, "max": 13, "texto": "levemente aumentado" },
-        "moderado": { "min": 14, "max": 16, "texto": "moderadamente aumentado" },
-        "severo": { "min": 17, "max": 999, "texto": "severamente aumentado" }
+        "normal": { "min": 6, "max": 10, "texto": "de grosor septal dentro de límites normales" },
+        "leve": { "min": 11, "max": 13, "texto": "con leve engrosamiento septal" },
+        "moderado": { "min": 14, "max": 16, "texto": "con moderado engrosamiento del septum interventricular" },
+        "severo": { "min": 17, "max": 999, "texto": "con marcado engrosamiento septal" }
       }
     },
     "gdpil": {
       "mujer": {
-        "normal": { "min": 6, "max": 9, "texto": "normal" },
-        "leve": { "min": 10, "max": 12, "texto": "levemente aumentado" },
-        "moderado": { "min": 13, "max": 15, "texto": "moderadamente aumentado" },
-        "severo": { "min": 16, "max": 999, "texto": "severamente aumentado" }
+        "normal": { "min": 6, "max": 9, "texto": "de grosor parietal dentro de límites normales" },
+        "leve": { "min": 10, "max": 12, "texto": "con leve engrosamiento de la pared inferolateral" },
+        "moderado": { "min": 13, "max": 15, "texto": "con moderado aumento del grosor de la pared inferolateral" },
+        "severo": { "min": 16, "max": 999, "texto": "con severo engrosamiento parietal" }
       },
       "hombre": {
-        "normal": { "min": 6, "max": 10, "texto": "normal" },
-        "leve": { "min": 11, "max": 13, "texto": "levemente aumentado" },
-        "moderado": { "min": 14, "max": 16, "texto": "moderadamente aumentado" },
-        "severo": { "min": 17, "max": 999, "texto": "severamente aumentado" }
+        "normal": { "min": 6, "max": 10, "texto": "de grosor parietal dentro de límites normales" },
+        "leve": { "min": 11, "max": 13, "texto": "con leve engrosamiento de la pared inferolateral" },
+        "moderado": { "min": 14, "max": 16, "texto": "con moderado aumento del grosor de la pared inferolateral" },
+        "severo": { "min": 17, "max": 999, "texto": "con severo engrosamiento parietal" }
       }
     }
   },
-  
+
   "funcionVI": {
     "feSimpson": {
-      "normal": { "min": 55, "max": 100, "texto": "normal" },
-      "leve": { "min": 45, "max": 54, "texto": "levemente deprimida" },
-      "moderado": { "min": 30, "max": 44, "texto": "moderadamente deprimida" },
-      "severo": { "min": 0, "max": 29, "texto": "severamente deprimida" }
+      "normal": { "min": 55, "max": 100, "texto": "con función sistólica global normal" },
+      "leve": { "min": 45, "max": 54, "texto": "con leve depresión de la función sistólica" },
+      "moderado": { "min": 30, "max": 44, "texto": "con moderada disfunción sistólica" },
+      "severo": { "min": 0, "max": 29, "texto": "con severa depresión de la función ventricular izquierda" }
     },
     "fa": {
-      "normal": { "min": 27, "max": 45, "texto": "normal" },
-      "leve": { "min": 22, "max": 26, "texto": "levemente disminuida" },
-      "moderado": { "min": 17, "max": 21, "texto": "moderadamente disminuida" },
-      "severo": { "min": 0, "max": 16, "texto": "severamente disminuida" }
+      "normal": { "min": 27, "max": 45, "texto": "con fracción de acortamiento dentro del rango normal" },
+      "leve": { "min": 22, "max": 26, "texto": "con leve disminución de la fracción de acortamiento" },
+      "moderado": { "min": 17, "max": 21, "texto": "con moderada reducción de la fracción de acortamiento" },
+      "severo": { "min": 0, "max": 16, "texto": "con marcada disminución de la fracción de acortamiento" }
     }
   },
-  
+
   "masaVI": {
     "imvi": {
       "mujer": {
-        "normal": { "min": 0, "max": 95, "texto": "normal" },
-        "aumentado": { "min": 96, "max": 999, "texto": "aumentado" }
+        "normal": { "min": 0, "max": 95, "texto": "con índice de masa ventricular dentro del rango normal" },
+        "aumentado": { "min": 96, "max": 999, "texto": "con aumento del índice de masa ventricular izquierda" }
       },
       "hombre": {
-        "normal": { "min": 0, "max": 115, "texto": "normal" },
-        "aumentado": { "min": 116, "max": 999, "texto": "aumentado" }
+        "normal": { "min": 0, "max": 115, "texto": "con índice de masa ventricular dentro de límites normales" },
+        "aumentado": { "min": 116, "max": 999, "texto": "con incremento del índice de masa ventricular izquierda" }
       }
     },
     "grp": {
-      "bajo": { "min": 0, "max": 0.31, "texto": "bajo" },
-      "normal": { "min": 0.32, "max": 0.42, "texto": "normal" },
-      "alto": { "min": 0.43, "max": 999, "texto": "alto" }
+      "bajo": { "min": 0, "max": 0.31, "texto": "con grosor relativo de pared bajo (geometría excéntrica)" },
+      "normal": { "min": 0.32, "max": 0.42, "texto": "con grosor relativo de pared dentro de límites normales" },
+      "alto": { "min": 0.43, "max": 999, "texto": "con grosor relativo de pared elevado (geometría concéntrica)" }
     }
   },
-  
+
   "auriculaIzquierda": {
     "dai": {
       "mujer": {
-        "normal": { "min": 27, "max": 38, "texto": "normales" },
-        "leve": { "min": 39, "max": 42, "texto": "levemente aumentados" },
-        "moderado": { "min": 43, "max": 46, "texto": "moderadamente aumentados" },
-        "severo": { "min": 47, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 27, "max": 38, "texto": "de dimensiones dentro del rango normal" },
+        "leve": { "min": 39, "max": 42, "texto": "con leve dilatación auricular izquierda" },
+        "moderado": { "min": 43, "max": 46, "texto": "con moderada dilatación auricular izquierda" },
+        "severo": { "min": 47, "max": 999, "texto": "con severa dilatación auricular izquierda" }
       },
       "hombre": {
-        "normal": { "min": 30, "max": 40, "texto": "normales" },
-        "leve": { "min": 41, "max": 46, "texto": "levemente aumentados" },
-        "moderado": { "min": 47, "max": 52, "texto": "moderadamente aumentados" },
-        "severo": { "min": 53, "max": 999, "texto": "severamente aumentados" }
+        "normal": { "min": 30, "max": 40, "texto": "de tamaño dentro del rango normal" },
+        "leve": { "min": 41, "max": 46, "texto": "con leve dilatación de la aurícula izquierda" },
+        "moderado": { "min": 47, "max": 52, "texto": "con moderada dilatación auricular izquierda" },
+        "severo": { "min": 53, "max": 999, "texto": "con marcada dilatación auricular izquierda" }
       }
     },
     "areaAi": {
-      "normal": { "min": 0, "max": 20, "texto": "normal" },
-      "leve": { "min": 21, "max": 30, "texto": "levemente aumentada" },
-      "moderado": { "min": 31, "max": 40, "texto": "moderadamente aumentada" },
-      "severo": { "min": 41, "max": 999, "texto": "severamente aumentada" }
+      "normal": { "min": 0, "max": 20, "texto": "de área auricular dentro de límites normales" },
+      "leve": { "min": 21, "max": 30, "texto": "con leve aumento del área auricular izquierda" },
+      "moderado": { "min": 31, "max": 40, "texto": "con moderado aumento del área auricular" },
+      "severo": { "min": 41, "max": 999, "texto": "con marcada dilatación auricular" }
     },
     "volIndexAi": {
-      "normal": { "min": 0, "max": 28, "texto": "normal" },
-      "leve": { "min": 29, "max": 33, "texto": "levemente aumentado" },
-      "moderado": { "min": 34, "max": 39, "texto": "moderadamente aumentado" },
-      "severo": { "min": 40, "max": 999, "texto": "severamente aumentado" }
+      "normal": { "min": 0, "max": 28, "texto": "de volumen indexado normal" },
+      "leve": { "min": 29, "max": 33, "texto": "con leve incremento del volumen auricular indexado" },
+      "moderado": { "min": 34, "max": 39, "texto": "con moderado aumento del volumen auricular" },
+      "severo": { "min": 40, "max": 999, "texto": "con severa dilatación auricular" }
     }
   },
-  
+
   "auriculaDerecha": {
     "dmAd": {
-      "normal": { "min": 29, "max": 45, "texto": "normales" },
-      "leve": { "min": 46, "max": 49, "texto": "levemente aumentados" },
-      "moderado": { "min": 50, "max": 54, "texto": "moderadamente aumentados" },
-      "severo": { "min": 55, "max": 999, "texto": "severamente aumentados" }
+      "normal": { "min": 29, "max": 45, "texto": "de tamaño auricular derecho dentro del rango normal" },
+      "leve": { "min": 46, "max": 49, "texto": "con discreta dilatación de la aurícula derecha" },
+      "moderado": { "min": 50, "max": 54, "texto": "con moderada dilatación auricular derecha" },
+      "severo": { "min": 55, "max": 999, "texto": "con severa dilatación auricular derecha" }
     },
     "areaAd": {
-      "normal": { "min": 0, "max": 18, "texto": "normal" }
+      "normal": { "min": 0, "max": 18, "texto": "de área auricular dentro del rango normal" }
     }
   },
-  
+
   "ventriculoDerecho": {
     "basal": {
-      "normal": { "min": 20, "max": 28, "texto": "normales" },
-      "leve": { "min": 29, "max": 33, "texto": "levemente dilatado" },
-      "moderado": { "min": 34, "max": 38, "texto": "moderadamente dilatado" },
-      "severo": { "min": 39, "max": 999, "texto": "severamente dilatado" }
+      "normal": { "min": 20, "max": 28, "texto": "de dimensiones basales dentro del rango normal" },
+      "leve": { "min": 29, "max": 33, "texto": "con leve dilatación del ventrículo derecho" },
+      "moderado": { "min": 34, "max": 38, "texto": "con moderada dilatación ventricular derecha" },
+      "severo": { "min": 39, "max": 999, "texto": "con severa dilatación ventricular derecha" }
     },
     "tapse": {
-      "normal": { "min": 18, "max": 999, "texto": "función sistólica preservada" },
-      "deprimida": { "min": 0, "max": 17, "texto": "función sistólica deprimida" }
+      "normal": { "min": 18, "max": 999, "texto": "con función sistólica del ventrículo derecho preservada" },
+      "deprimida": { "min": 0, "max": 17, "texto": "con disfunción sistólica del ventrículo derecho" }
     }
   },
-  
+
   "disfuncionDiastolica": {
     "relEePrime": {
-      "normal": { "min": 0, "max": 7, "texto": "función diastólica normal" },
-      "gradoI": { "min": 8, "max": 14, "texto": "disfunción diastólica grado I (alteración de la relajación)" },
-      "gradoII_III": { "min": 15, "max": 999, "texto": "disfunción diastólica grado II-III (presiones de llenado elevadas)" }
+      "normal": { "min": 0, "max": 7, "texto": "con función diastólica normal" },
+      "gradoI": { "min": 8, "max": 14, "texto": "con disfunción diastólica grado I (alteración de la relajación)" },
+      "gradoII_III": { "min": 15, "max": 999, "texto": "con disfunción diastólica grado II-III (presiones de llenado elevadas)" }
     },
     "mitral_relEA": {
-      "alteracionRelajacion": { "min": 0, "max": 0.99, "texto": "patrón de alteración de la relajación" },
-      "normal": { "min": 1, "max": 2, "texto": "patrón normal de llenado" },
-      "restrictivo": { "min": 2.01, "max": 999, "texto": "patrón restrictivo" }
+      "alteracionRelajacion": { "min": 0, "max": 0.99, "texto": "con patrón de alteración de la relajación" },
+      "normal": { "min": 1, "max": 2, "texto": "con patrón normal de llenado" },
+      "restrictivo": { "min": 2.01, "max": 999, "texto": "con patrón restrictivo de llenado ventricular" }
     }
   },
-  
+
   "dopplerModoMColor": {
     "vpOndaE": {
-      "normal": { "min": 46, "max": 999, "texto": "normal" },
-      "disminuida": { "min": 0, "max": 45, "texto": "disminuida, sugiere disfunción diastólica" }
+      "normal": { "min": 46, "max": 999, "texto": "de velocidad de propagación normal" },
+      "disminuida": { "min": 0, "max": 45, "texto": "con velocidad de propagación disminuida, sugiere disfunción diastólica" }
     }
   },
-  
+
   "venasPulmonares": {
     "relSD": {
-      "normal": { "min": 1, "max": 999, "texto": "con patrón normal (S≥D)" },
-      "anormal": { "min": 0, "max": 0.99, "texto": "con patrón anormal (S<D), sugiere disfunción diastólica" }
+      "normal": { "min": 1, "max": 999, "texto": "con patrón de flujo venoso pulmonar normal (S≥D)" },
+      "anormal": { "min": 0, "max": 0.99, "texto": "con patrón anormal (S<D), compatible con disfunción diastólica" }
     }
   },
-  
+
   "aorta": {
     "rao": {
-      "normal": { "min": 0, "max": 39, "texto": "de dimensiones normales" },
-      "dilatada": { "min": 40, "max": 999, "texto": "dilatada" }
+      "normal": { "min": 0, "max": 39, "texto": "de raíz aórtica de dimensiones normales" },
+      "dilatada": { "min": 40, "max": 999, "texto": "con dilatación de la raíz aórtica" }
     },
     "unionST": {
-      "normal": { "min": 0, "max": 35, "texto": "sin dilatación" }
+      "normal": { "min": 0, "max": 35, "texto": "de unión sinotubular sin dilatación" }
     },
     "cayado": {
-      "normal": { "min": 0, "max": 35, "texto": "sin dilatación" }
+      "normal": { "min": 0, "max": 35, "texto": "de cayado aórtico sin dilatación" }
     },
     "aoDesc": {
-      "normal": { "min": 0, "max": 25, "texto": "sin dilatación" }
+      "normal": { "min": 0, "max": 25, "texto": "de aorta descendente sin dilatación" }
     },
     "aoAbd": {
-      "normal": { "min": 0, "max": 20, "texto": "sin dilatación" }
+      "normal": { "min": 0, "max": 20, "texto": "de aorta abdominal de calibre normal" }
     },
     "vmax": {
-      "normal": { "min": 0, "max": 2.5, "texto": "sin estenosis significativa" },
-      "leve": { "min": 2.6, "max": 3.0, "texto": "estenosis leve" },
-      "moderada": { "min": 3.01, "max": 4.0, "texto": "estenosis moderada" },
-      "severa": { "min": 4.01, "max": 999, "texto": "estenosis severa" }
+      "normal": { "min": 0, "max": 2.5, "texto": "sin estenosis significativa a nivel valvular aórtico" },
+      "leve": { "min": 2.6, "max": 3.0, "texto": "con estenosis aórtica leve" },
+      "moderada": { "min": 3.01, "max": 4.0, "texto": "con estenosis aórtica moderada" },
+      "severa": { "min": 4.01, "max": 999, "texto": "con estenosis aórtica severa" }
     },
     "avac": {
-      "normal": { "min": 1.51, "max": 999, "texto": "área normal" },
-      "moderada": { "min": 1.0, "max": 1.5, "texto": "área moderadamente reducida" },
-      "severa": { "min": 0, "max": 0.99, "texto": "área severamente reducida" }
+      "normal": { "min": 1.51, "max": 999, "texto": "con área valvular aórtica normal" },
+      "moderada": { "min": 1.0, "max": 1.5, "texto": "con reducción moderada del área valvular aórtica" },
+      "severa": { "min": 0, "max": 0.99, "texto": "con reducción severa del área valvular aórtica" }
     }
   },
-  
+
   "arteriasPulmonares": {
     "pmap": {
-      "normal": { "min": 0, "max": 25, "texto": "presiones normales" },
-      "leve": { "min": 26, "max": 40, "texto": "hipertensión pulmonar leve" },
-      "significativa": { "min": 41, "max": 999, "texto": "hipertensión pulmonar significativa" }
+      "normal": { "min": 0, "max": 25, "texto": "con presiones pulmonares dentro del rango normal" },
+      "leve": { "min": 26, "max": 40, "texto": "con hipertensión pulmonar leve" },
+      "significativa": { "min": 41, "max": 999, "texto": "con hipertensión pulmonar significativa" }
     }
   },
-  
+
   "tricuspide": {
     "psvd": {
-      "baja": { "min": 0, "max": 34, "texto": "baja probabilidad de hipertensión pulmonar" },
-      "intermedia": { "min": 35, "max": 50, "texto": "probabilidad intermedia de hipertensión pulmonar" },
-      "alta": { "min": 51, "max": 999, "texto": "alta probabilidad de hipertensión pulmonar" }
+      "baja": { "min": 0, "max": 34, "texto": "con baja probabilidad de hipertensión pulmonar" },
+      "intermedia": { "min": 35, "max": 50, "texto": "con probabilidad intermedia de hipertensión pulmonar" },
+      "alta": { "min": 51, "max": 999, "texto": "con alta probabilidad de hipertensión pulmonar" }
     }
   },
-  
+
   "vci": {
     "normal": {
       "dt": { "min": 0, "max": 21 },
       "colapso": { "min": 50, "max": 100 },
-      "texto": "normal"
+      "texto": "vena cava inferior de calibre normal, con colapso inspiratorio conservado"
     },
     "dilatadaColapsoPreservado": {
       "dt": { "min": 22, "max": 999 },
       "colapso": { "min": 50, "max": 100 },
-      "texto": "dilatada con colapso preservado"
+      "texto": "vena cava inferior dilatada con colapso inspiratorio conservado"
     },
     "dilatadaColapsoDisminuido": {
       "dt": { "min": 22, "max": 999 },
       "colapso": { "min": 0, "max": 49 },
-      "texto": "dilatada con colapso disminuido"
+      "texto": "vena cava inferior dilatada con colapso inspiratorio disminuido, sugiere elevación de presiones auriculares derechas"
     }
   }
 }
